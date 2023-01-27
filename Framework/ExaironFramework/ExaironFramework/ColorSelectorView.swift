@@ -6,30 +6,33 @@
 //
 
 import SwiftUI
+import AVKit
 
 public struct ColorSelectorView: View {
-    
-    @Binding var selectedColor: Color
-    
-    let colors: [Color] = [.red, .purple, .green, .yellow, .blue]
-    
-    public init(selectedColor: Binding<Color>){
-        self._selectedColor = selectedColor
-    }
+    @ObservedObject var chatViewModel = ChatViewModel()
+    let channelId: String
     
     public var body: some View {
         HStack {
-            ForEach(colors, id: \.self) {
-                color in Image(systemName: selectedColor == color ? "record.circle.fill" : "circle.fill").foregroundColor(color).onTapGesture {
-                    selectedColor = color
+            Text(Exairon.shared.channelId ?? "nil")
+            Button(action: {
+                chatViewModel.getWidgetSettings(){result in
+                    if(result.status == "success") {
+                        print(result.data.color.botMessageBackColor)
+                    }
+                    else {
+                        print("errorr")
+                    }
                 }
+            }) {
+                Image("chat")
+                .renderingMode(Image.TemplateRenderingMode?.init(Image.TemplateRenderingMode.original)).resizable()
+                .frame(width: 32.0, height: 32.0)
             }
         }
     }
-}
-
-struct ColorSelectorView_Previews: PreviewProvider {
-    static var previews: some View {
-        ColorSelectorView(selectedColor: .constant(.blue))
+    
+    public init(_channelId: String) {
+        channelId = _channelId
     }
 }
