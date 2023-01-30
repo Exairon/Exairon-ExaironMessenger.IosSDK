@@ -11,7 +11,7 @@ class ApiService{
     let preferences = UserDefaults.standard
 
     func getWidgetSettingsApiCall(completion: @escaping (Result<WidgetSettings, ApiErrors>)->Void) {
-        guard let url = URL(string: "\(Exairon.shared.src ?? "")/api/v1/channels/widgetSettings/\(Exairon.shared.channelId ?? "")") else{
+        guard let url = URL(string: "\(Exairon.shared.src)/api/v1/channels/widgetSettings/\(Exairon.shared.channelId)") else{
             return
         }
         var urlRequest = URLRequest(url: url)
