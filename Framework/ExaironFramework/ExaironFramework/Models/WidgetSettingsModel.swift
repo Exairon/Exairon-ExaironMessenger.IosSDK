@@ -17,7 +17,7 @@ struct WidgetSettings: Codable {
 
 // MARK: - DataClass
 struct DataClass: Codable {
-    let color: Color
+    let color: WidgetColor
     let formFields: FormFields
     let id: String
     let showUserForm, showSurvey, whiteLabelWidget, showAttachments: Bool
@@ -41,8 +41,8 @@ struct DataClass: Codable {
     }
 }
 
-// MARK: - Color
-struct Color: Codable {
+// MARK: - WidgetColor
+struct WidgetColor: Codable {
     let headerColor, headerFontColor, botMessageBackColor, botMessageFontColor: String
     let userMessageBackColor, userMessageFontColor, buttonBackColor, buttonFontColor: String
 }
