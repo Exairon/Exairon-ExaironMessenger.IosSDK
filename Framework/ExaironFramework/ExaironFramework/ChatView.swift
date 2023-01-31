@@ -11,101 +11,115 @@ import AVKit
 public struct ChatView: View {
     @ObservedObject var chatViewModel = ChatViewModel()
     @State private var avatarUrl: String? = nil
+    @State private var loading = true
+    @State private var widgetColor: WidgetColor? = nil
+    @State private var message: WidgetMessage? = nil
 
     public var body: some View {
-        switch (chatViewModel.widgetSettings?.status){
-            case "success":
-                VStack {
-                    HStack {
-                        AsyncImage(url: URL(string: avatarUrl ?? ""),
-                            content: { image in
-                                image.resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(maxWidth: 40, maxHeight: 40)
-                            },
-                            placeholder: {
-                                ProgressView()
-                            })
-                            .padding(.trailing, 15)
-                        VStack(alignment: .leading) {
-                            Text(chatViewModel.widgetSettings?.data.messages[0].headerTitle ?? "Chat")
-                                .bold()
-                                .foregroundColor(Color(hex: "007AFF"))
-                                .font(.system(size: 26))
-                            Text(chatViewModel.widgetSettings?.data.messages[0].headerMessage ?? "Chat")
-                        }
-                        Spacer()
-                        Image(systemName: "xmark.circle").font(.system(size: 30))
-                    }
-                    
-                    ScrollView {
-                        ForEach(chatViewModel.messages, id: \.self) { message in
-                            if message.contains("[USER]") {
-                                let newMessage = message.replacingOccurrences(of: "[USER]", with: "")
-                                HStack {
-                                    Spacer()
-                                    Text(newMessage)
-                                        .padding()
-                                        .foregroundColor(.black)
-                                        .background(.gray.opacity(0.16))
-                                        .cornerRadius(10)
-                                        .padding(.horizontal, 16)
-                                        .padding(.bottom, 10)
-                                }
-                            } else {
-                                HStack {
-                                    Text(message)
-                                        .padding()
-                                        .background(.gray.opacity(0.15))
-                                        .cornerRadius(10)
-                                        .padding(.horizontal, 16)
-                                        .padding(.bottom, 10)
-                                    Spacer()
-                                }
-                            }
-                        }.rotationEffect(.degrees(180))
-                    }.rotationEffect(.degrees(180))
-                    
-                    HStack {
-                        TextField("Type something", text: $chatViewModel.messageText)
-                            .padding()
-                            .background(.gray.opacity(0.1))
-                            .cornerRadius(10)
-                            .onSubmit {
-                                chatViewModel.sendMessage(message: chatViewModel.messageText)
-                            }
-                        Spacer()
-                        Button {
-                            chatViewModel.sendMessage(message: chatViewModel.messageText)
-                        } label: {
-                            Image(systemName: "arrow.up.circle.fill").font(.system(size: 40))
-                        }
+        if(!loading) {
+            VStack {
+                HStack {
+                    AsyncImage(url: URL(string: avatarUrl ?? ""),
+                               content: { image in
+                        image.resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(maxWidth: 40, maxHeight: 40)
+                    },
+                        placeholder: {
+                            ProgressView()
+                    })
+                    .padding(.trailing, 15)
+                    VStack(alignment: .leading) {
+                        Text(message?.headerTitle ?? "Chat")
+                            .bold()
+                            .foregroundColor(Color(hex: widgetColor?.headerFontColor ?? "000000"))
                             .font(.system(size: 26))
-                            .padding(.horizontal, 10)
+                        Text(message?.headerMessage ?? "Chat")
+                            .foregroundColor(Color(hex: widgetColor?.headerFontColor ?? "000000"))
                     }
-                    .padding()
+                    Spacer()
+                    Image(systemName: "xmark.circle")
+                        .font(.system(size: 30))
+                        .foregroundColor(Color(hex: widgetColor?.headerFontColor ?? "000000"))
                 }
                 .padding()
-                .frame(
-                    minWidth: 0,
-                    maxWidth: .infinity,
-                    minHeight: 0,
-                    maxHeight: .infinity,
-                    alignment: .topLeading
-               )
-            case nil:
-                ProgressView().onAppear(perform: getWidgetSettings)
-            default:
-                Text("error")
+                .background(Color(hex: widgetColor?.headerColor ?? "FFFFFF"))
+                
+                ScrollView {
+                    ForEach(chatViewModel.messageArray, id: \.self) { message in
+                        if message.type.contains("user_uttered") {
+                            HStack {
+                                Spacer()
+                                Text(message.text ?? "")
+                                    .padding()
+                                    .foregroundColor(Color(hex: widgetColor?.userMessageFontColor ?? "000000"))
+                                    .background(Color(hex: widgetColor?.userMessageBackColor ?? "FFFFFF"))
+                                    .cornerRadius(10)
+                                    .padding(.horizontal, 16)
+                                    .padding(.bottom, 10)
+                            }
+                        } else {
+                            HStack {
+                                Text(message.text ?? "")
+                                    .padding()
+                                    .foregroundColor(Color(hex: widgetColor?.botMessageFontColor ?? "000000"))
+                                    .background(Color(hex: widgetColor?.botMessageBackColor ?? "FFFFFF"))
+                                    .cornerRadius(10)
+                                    .padding(.horizontal, 16)
+                                    .padding(.bottom, 10)
+                                Spacer()
+                            }
+                        }
+                    }.rotationEffect(.degrees(180))
+                }.rotationEffect(.degrees(180))
+                
+                HStack {
+                    TextField(message?.placeholder ?? "Type a message",
+                              text: $chatViewModel.messageText)
+                        .padding()
+                        .background(.gray.opacity(0.1))
+                        .cornerRadius(10)
+                        .onSubmit {
+                            chatViewModel.sendMessage(message: chatViewModel.messageText)
+                        }
+                    Spacer()
+                    Button {
+                        chatViewModel.sendMessage(message: chatViewModel.messageText)
+                    } label: {
+                        Image(systemName: "arrow.up.circle.fill").font(.system(size: 40))
+                    }
+                    .font(.system(size: 26))
+                    .padding(.horizontal, 10)
+                }
+                .padding()
+            }
+            .frame(
+                minWidth: 0,
+                maxWidth: .infinity,
+                minHeight: 0,
+                maxHeight: .infinity,
+                alignment: .topLeading
+            )
+        } else {
+            ProgressView().onAppear(perform: getWidgetSettings)
         }
-        
     }
     
     private func getWidgetSettings(){
+        chatViewModel.readMessage()
         chatViewModel.getWidgetSettings(){result in
             if(result.status == "success") {
-                print(result.data.color.botMessageBackColor)
                 self.avatarUrl = Exairon.shared.src + "/uploads/channels/" + result.data.avatar
+                self.widgetColor = result.data.color
+                for _message in result.data.messages {
+                    if(_message.lang == Exairon.shared.language) {
+                        message = _message
+                    }
+                }
+                if (message == nil) {
+                    message = result.data.messages[0]
+                }
+                loading = false
             }
             else {
                 print("errorr")
@@ -116,38 +130,8 @@ public struct ChatView: View {
     public init() {}
 }
 
-extension Color {
-    init?(hex: String) {
-        var hexSanitized = hex.trimmingCharacters(in: .whitespacesAndNewlines)
-        hexSanitized = hexSanitized.replacingOccurrences(of: "#", with: "")
-
-        var rgb: UInt64 = 0
-
-        var r: CGFloat = 0.0
-        var g: CGFloat = 0.0
-        var b: CGFloat = 0.0
-        var a: CGFloat = 1.0
-
-        let length = hexSanitized.count
-
-        guard Scanner(string: hexSanitized).scanHexInt64(&rgb) else { return nil }
-
-        if length == 6 {
-            r = CGFloat((rgb & 0xFF0000) >> 16) / 255.0
-            g = CGFloat((rgb & 0x00FF00) >> 8) / 255.0
-            b = CGFloat(rgb & 0x0000FF) / 255.0
-
-        } else if length == 8 {
-            r = CGFloat((rgb & 0xFF000000) >> 24) / 255.0
-            g = CGFloat((rgb & 0x00FF0000) >> 16) / 255.0
-            b = CGFloat((rgb & 0x0000FF00) >> 8) / 255.0
-            a = CGFloat(rgb & 0x000000FF) / 255.0
-
-        } else {
-            return nil
-        }
-
-        self.init(red: r, green: g, blue: b, opacity: a)
+struct ChatView_Previews: PreviewProvider {
+    static var previews: some View {
+        ChatView()
     }
 }
-

@@ -26,7 +26,7 @@ struct DataClass: Codable {
     let mobilePosition, position: String
     let editable, deleted: Bool
     let name, font: String
-    let messages: [Message]
+    let messages: [WidgetMessage]
     let avatar, icon, created, licenseAgreementLink: String
     let lastUpdated: String
     let v: Int
@@ -54,7 +54,7 @@ struct FormFields: Codable {
 }
 
 // MARK: - Message
-struct Message: Codable {
+struct WidgetMessage: Codable {
     let isPopupIntent: Bool
     let popUpMessageDelay: Int
     let id, lang, headerTitle, headerMessage: String
