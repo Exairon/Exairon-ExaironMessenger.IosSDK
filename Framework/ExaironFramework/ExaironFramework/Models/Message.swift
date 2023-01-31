@@ -16,5 +16,6 @@ struct Messages: Codable {
 struct Message: Codable, Hashable {
     var text: String? = nil
     let type: String
+    let messageType: String
     let time: Int64
 }

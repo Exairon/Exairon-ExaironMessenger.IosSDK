@@ -47,29 +47,7 @@ public struct ChatView: View {
                 
                 ScrollView {
                     ForEach(chatViewModel.messageArray, id: \.self) { message in
-                        if message.type.contains("user_uttered") {
-                            HStack {
-                                Spacer()
-                                Text(message.text ?? "")
-                                    .padding()
-                                    .foregroundColor(Color(hex: widgetColor?.userMessageFontColor ?? "000000"))
-                                    .background(Color(hex: widgetColor?.userMessageBackColor ?? "FFFFFF"))
-                                    .cornerRadius(10)
-                                    .padding(.horizontal, 16)
-                                    .padding(.bottom, 10)
-                            }
-                        } else {
-                            HStack {
-                                Text(message.text ?? "")
-                                    .padding()
-                                    .foregroundColor(Color(hex: widgetColor?.botMessageFontColor ?? "000000"))
-                                    .background(Color(hex: widgetColor?.botMessageBackColor ?? "FFFFFF"))
-                                    .cornerRadius(10)
-                                    .padding(.horizontal, 16)
-                                    .padding(.bottom, 10)
-                                Spacer()
-                            }
-                        }
+                        MessageView(message: message, widgetSettings: chatViewModel.widgetSettings!)
                     }.rotationEffect(.degrees(180))
                 }.rotationEffect(.degrees(180))
                 

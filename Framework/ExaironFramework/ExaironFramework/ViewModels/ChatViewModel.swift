@@ -78,13 +78,13 @@ class ChatViewModel: ObservableObject {
     func sendMessage(message: String) {
         withAnimation {
             self.messageText = ""
-            let newMessage = Message(text: message, type: "user_uttered", time: Int64(NSDate().timeIntervalSince1970 * 1000))
+            let newMessage = Message(text: message, type: "user_uttered", messageType: "text", time: Int64(NSDate().timeIntervalSince1970 * 1000))
             self.messageArray.append(newMessage)
         }
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             withAnimation {
-                let newMessage = Message(text: self.getBotResponse(message: message), type: "bot_uttered", time: Int64(NSDate().timeIntervalSince1970 * 1000))
+                let newMessage = Message(text: self.getBotResponse(message: message), type: "bot_uttered", messageType: "text", time: Int64(NSDate().timeIntervalSince1970 * 1000))
                 self.messageArray.append(newMessage)
                 self.writeMessage(messages: self.messageArray)
             }
