@@ -20,6 +20,8 @@ struct MessageView: View {
                 ImageMessageView(message: message)
             case "button":
                 ButtonMessageView(message: message, widgetSettings: widgetSettings)
+            case "video":
+                VideoMessageView(message: message)
             default:
                 Text("Unsupported Message")
             }
