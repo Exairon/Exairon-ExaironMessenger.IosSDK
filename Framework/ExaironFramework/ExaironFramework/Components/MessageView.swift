@@ -22,6 +22,8 @@ struct MessageView: View {
                 ButtonMessageView(message: message, widgetSettings: widgetSettings)
             case "video":
                 VideoMessageView(message: message)
+            case "audio":
+                AudioMessage(message: message)
             default:
                 Text("Unsupported Message")
             }

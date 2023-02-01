@@ -19,6 +19,7 @@ struct Message: Codable, Hashable {
     let time: Int64
     var text: String? = nil
     var attachment: Attachment? = nil
+    var custom: Custom? = nil
     var quick_replies: [QuickReply]? = nil
 }
 
@@ -49,6 +50,16 @@ struct QuickReply: Codable, Hashable {
     var title: String? = nil
     var type: String? = nil
     var url: String? = nil
+}
+
+// MARK: - Custom
+struct Custom: Codable, Hashable {
+    var data: CustomData? = nil
+}
+
+// MARK: -CustomData
+struct CustomData: Codable, Hashable {
+    var attachment: Attachment? = nil
 }
 
 
