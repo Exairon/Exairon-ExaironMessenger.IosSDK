@@ -21,7 +21,6 @@ struct TextMessageView: View {
                     .background(Color(hex: widgetSettings.data.color.userMessageBackColor))
                     .cornerRadius(10)
                     .padding(.horizontal, 16)
-                    .padding(.bottom, 10)
             }
         } else {
             HStack {
@@ -31,7 +30,6 @@ struct TextMessageView: View {
                     .background(Color(hex: widgetSettings.data.color.botMessageBackColor))
                     .cornerRadius(10)
                     .padding(.horizontal, 16)
-                    .padding(.bottom, 10)
                 Spacer()
             }
         }

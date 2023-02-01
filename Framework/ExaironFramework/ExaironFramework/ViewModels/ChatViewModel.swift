@@ -28,15 +28,18 @@ class ChatViewModel: ObservableObject {
         }
     }
     
-    func getBotResponse(message: String) -> String {
-        let tempMessage = message.lowercased()
+    func getBotResponse(type: String) -> Message {
+        let time = Int64(NSDate().timeIntervalSince1970 * 1000)
         
-        if tempMessage.contains("hello") {
-            return "Hey there!"
-        } else if tempMessage.contains("goodbye"){
-            return "Bye"
-        } else {
-            return "I don't understand bro"
+        switch type {
+        case "text":
+            return Message(type: "bot_uttered", messageType: "text", time: time, text: "text cevap")
+        case "image":
+            let payload = Payload(src: "https://test.services.exairon.com/uploads/actions/action-1672863218209-sdk3.png")
+            let attachment = Attachment(payload: payload)
+            return Message(type: "bot_uttered", messageType: "image", time: time, attachment: attachment)
+        default:
+            return Message(type: "bot_uttered", messageType: "text", time: time, text: "Unsupported")
         }
     }
     
@@ -78,14 +81,16 @@ class ChatViewModel: ObservableObject {
     func sendMessage(message: String) {
         withAnimation {
             self.messageText = ""
-            let newMessage = Message(text: message, type: "user_uttered", messageType: "text", time: Int64(NSDate().timeIntervalSince1970 * 1000))
+            let newMessage = Message(type: "user_uttered", messageType: "text", time: Int64(NSDate().timeIntervalSince1970 * 1000), text: message)
             self.messageArray.append(newMessage)
         }
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             withAnimation {
-                let newMessage = Message(text: self.getBotResponse(message: message), type: "bot_uttered", messageType: "text", time: Int64(NSDate().timeIntervalSince1970 * 1000))
-                self.messageArray.append(newMessage)
+                let messageType = message.lowercased()
+                let botMessage = self.getBotResponse(type: messageType)
+                
+                self.messageArray.append(botMessage)
                 self.writeMessage(messages: self.messageArray)
             }
         }

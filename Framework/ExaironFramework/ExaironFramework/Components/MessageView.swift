@@ -12,11 +12,16 @@ struct MessageView: View {
     @State var widgetSettings: WidgetSettings
     
     var body: some View {
-        switch message.messageType {
-        case "text":
-            TextMessageView(message: message, widgetSettings: widgetSettings)
-        default:
-            Text("Unsupported Message")
+        VStack {
+            switch message.messageType {
+            case "text":
+                TextMessageView(message: message, widgetSettings: widgetSettings)
+            case "image":
+                ImageMessageView(message: message)
+            default:
+                Text("Unsupported Message")
+            }
+            MessageTimeView(message: message)
         }
     }
     
