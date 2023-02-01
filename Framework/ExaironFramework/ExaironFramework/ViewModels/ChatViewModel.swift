@@ -45,8 +45,12 @@ class ChatViewModel: ObservableObject {
             let quickReply4 = QuickReply(title: "Button4Button4", type: "postback")
             let quickReply5 = QuickReply(title: "Button5", type: "postback")
             return Message(type: "bot_uttered", messageType: "button", time: time, text: "Button Message", quick_replies: [quickReply, quickReply2, quickReply3, quickReply4,quickReply5])
-        case "video":
+        case "local":
             let payload = Payload(src: "https://test.services.exairon.com/uploads/actions/action-1669969050848-whatsapp_video_2022-12-02_at_11.16.30.mp4", videoType: "local")
+            let attachment = Attachment(payload: payload)
+            return Message(type: "bot_uttered", messageType: "video", time: time, attachment: attachment)
+        case "youtube":
+            let payload = Payload(src: "https://youtu.be/F4neLJQC1_E", videoType: "youtube")
             let attachment = Attachment(payload: payload)
             return Message(type: "bot_uttered", messageType: "video", time: time, attachment: attachment)
         default:

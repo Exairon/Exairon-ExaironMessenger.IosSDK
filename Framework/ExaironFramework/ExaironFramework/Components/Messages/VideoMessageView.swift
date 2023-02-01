@@ -16,6 +16,8 @@ struct VideoMessageView: View {
             switch message.attachment?.payload?.videoType {
             case "local":
                 LocalVideoMessageView(src: message.attachment?.payload?.src ?? "")
+            case "youtube":
+                YoutubeVideoMessageView(src: message.attachment?.payload?.src ?? "")
             default:
                 Text("Unsupported Video Type")
             }
