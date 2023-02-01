@@ -59,6 +59,12 @@ class ChatViewModel: ObservableObject {
             let customData = CustomData(attachment: attachment)
             let custom = Custom(data: customData)
             return Message(type: "bot_uttered", messageType: "audio", time: time, custom: custom)
+        case "document":
+            let payload = Payload(src: "https://test.services.exairon.com/uploads/chat/chat-1675281774491-ddd.pdf", originalname: "test.pdf")
+            let attachment = Attachment(payload: payload)
+            let customData = CustomData(attachment: attachment)
+            let custom = Custom(data: customData)
+            return Message(type: "bot_uttered", messageType: "document", time: time, custom: custom)
         default:
             return Message(type: "bot_uttered", messageType: "text", time: time, text: "Unsupported")
         }

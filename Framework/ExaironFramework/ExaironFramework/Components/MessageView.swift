@@ -24,6 +24,8 @@ struct MessageView: View {
                 VideoMessageView(message: message)
             case "audio":
                 AudioMessageView(message: message)
+            case "document":
+                DocumentMessageView(message: message)
             default:
                 Text("Unsupported Message")
             }
