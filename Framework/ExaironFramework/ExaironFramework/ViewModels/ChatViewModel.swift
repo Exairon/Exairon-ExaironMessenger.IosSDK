@@ -30,7 +30,7 @@ class ChatViewModel: ObservableObject {
     
     func getBotResponse(type: String) -> Message {
         let time = Int64(NSDate().timeIntervalSince1970 * 1000)
-        
+
         switch type {
         case "text":
             return Message(type: "bot_uttered", messageType: "text", time: time, text: "text cevap")
@@ -38,6 +38,13 @@ class ChatViewModel: ObservableObject {
             let payload = Payload(src: "https://test.services.exairon.com/uploads/actions/action-1672863218209-sdk3.png")
             let attachment = Attachment(payload: payload)
             return Message(type: "bot_uttered", messageType: "image", time: time, attachment: attachment)
+        case "button":
+            let quickReply = QuickReply(title: "Button1", type: "postback")
+            let quickReply2 = QuickReply(title: "Button2Button2Button2", type: "postback")
+            let quickReply3 = QuickReply(title: "Button3", type: "postback")
+            let quickReply4 = QuickReply(title: "Button4Button4", type: "postback")
+            let quickReply5 = QuickReply(title: "Button5", type: "postback")
+            return Message(type: "bot_uttered", messageType: "button", time: time, text: "Button Message", quick_replies: [quickReply, quickReply2, quickReply3, quickReply4,quickReply5])
         default:
             return Message(type: "bot_uttered", messageType: "text", time: time, text: "Unsupported")
         }
@@ -49,7 +56,6 @@ class ChatViewModel: ObservableObject {
             let encoder = JSONEncoder()
 
             // Encode Note
-            print(messages.count)
             let messagesss = Messages(messages: messages)
             let data = try encoder.encode(messagesss)
             UserDefaults.standard.set(data, forKey: "messages")

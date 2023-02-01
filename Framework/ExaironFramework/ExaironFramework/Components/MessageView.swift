@@ -18,6 +18,8 @@ struct MessageView: View {
                 TextMessageView(message: message, widgetSettings: widgetSettings)
             case "image":
                 ImageMessageView(message: message)
+            case "button":
+                ButtonMessageView(message: message, widgetSettings: widgetSettings)
             default:
                 Text("Unsupported Message")
             }

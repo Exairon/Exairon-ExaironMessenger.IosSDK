@@ -11,12 +11,11 @@ struct ImageMessageView: View {
     @State var message: Message
 
     var body: some View {
-        //AsyncImage(url: URL(string: message.attachment?.payload?.src ?? ""),
         HStack {
             if (message.type.contains("user_uttered")) {
                 Spacer()
             }
-            AsyncImage(url: URL(string: "https://test.services.exairon.com/uploads/chat/chat-1675236396606-screenshot_1667311544.png"),
+            AsyncImage(url: URL(string: message.attachment?.payload?.src ?? ""),
                        content: { image in
                 image.resizable()
                     .aspectRatio(contentMode: .fit)
