@@ -35,12 +35,15 @@ struct Payload: Codable, Hashable {
     var videoType: String? = nil
     var mimeType: String? = nil
     var originalname: String? = nil
-    var elements: [Elemenet]? = nil
+    var elements: [Element]? = nil
 }
 
-// MARK: - Elemenet
-struct Elemenet: Codable, Hashable {
+// MARK: - Element
+struct Element: Codable, Hashable {
     var image_url: String? = nil
+    var subtitle: String? = nil
+    var title: String? = nil
+    var buttons: [QuickReply]? = nil
 }
 
 // MARK: - QuickReply

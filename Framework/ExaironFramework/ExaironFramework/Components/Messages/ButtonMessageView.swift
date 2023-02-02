@@ -29,10 +29,10 @@ struct ButtonMessageView: View {
             LazyVGrid(columns: adaptiveColumns, spacing: 20) {
                 ForEach(message.quick_replies ?? [], id: \.self) { quickReply in
                     LargeButton(title: quickReply.title ?? "",
-                                backgroundColor: Color(hex: widgetSettings.data.color.buttonBackColor) ?? Color.black,
-                                foregroundColor: Color(hex: widgetSettings.data.color.buttonFontColor) ?? Color.white) {
-                                            print("Hello World")
-                                        }
+                        backgroundColor: Color(hex: widgetSettings.data.color.buttonBackColor) ?? Color.black,
+                        foregroundColor: Color(hex: widgetSettings.data.color.buttonFontColor) ?? Color.white) {
+                                    print("Click")
+                                }
                 }
             }
         }

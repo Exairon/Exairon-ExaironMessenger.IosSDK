@@ -8,7 +8,7 @@
 import SwiftUI
 import AVKit
 
-class SoundManager : ObservableObject {
+class SoundManagerObject : ObservableObject {
     var audioPlayer: AVPlayer?
 
     func playSound(sound: String){
@@ -22,7 +22,7 @@ class SoundManager : ObservableObject {
 struct AudioMessage: View {
     @State var message: Message
     @State var song1 = false
-    @StateObject private var soundManager = SoundManager()
+    @StateObject private var soundManager = SoundManagerObject()
     
     var body: some View {
         HStack {

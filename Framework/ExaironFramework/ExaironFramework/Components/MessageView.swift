@@ -26,6 +26,8 @@ struct MessageView: View {
                 AudioMessageView(message: message)
             case "document":
                 DocumentMessageView(message: message)
+            case "carousel":
+                CarouselMessageView(message: message, widgetSettings: widgetSettings)
             default:
                 Text("Unsupported Message")
             }

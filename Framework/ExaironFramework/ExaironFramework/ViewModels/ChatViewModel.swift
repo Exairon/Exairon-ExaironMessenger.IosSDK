@@ -65,6 +65,18 @@ class ChatViewModel: ObservableObject {
             let customData = CustomData(attachment: attachment)
             let custom = Custom(data: customData)
             return Message(type: "bot_uttered", messageType: "document", time: time, custom: custom)
+        case "carousel":
+            let quickReply = QuickReply(title: "Button1", type: "postback")
+            let quickReply2 = QuickReply(title: "Button2Button2Button2", type: "postback")
+            let quickReply3 = QuickReply(title: "Button3", type: "postback")
+            let quickReply4 = QuickReply(title: "Button4Button4", type: "postback")
+            let quickReply5 = QuickReply(title: "Button5", type: "postback")
+            let element = Element(image_url: "https://test.services.exairon.com/uploads/actions/action-1672863218209-sdk3.png", subtitle: "subTitle1", title: "Title1", buttons: [quickReply, quickReply2])
+            let element1 = Element(image_url: "https://test.services.exairon.com/uploads/actions/action-1672863218209-sdk3.png", subtitle: "subTitle2", title: "Title2", buttons: [quickReply3, quickReply4])
+            let element2 = Element(image_url: "https://test.services.exairon.com/uploads/actions/action-1672863218209-sdk3.png", subtitle: "subTitle3", title: "Title3", buttons: [quickReply5])
+            let payload = Payload(elements: [element, element1, element2])
+            let attachment = Attachment(payload: payload)
+            return Message(type: "bot_uttered", messageType: "carousel", time: time, attachment: attachment)
         default:
             return Message(type: "bot_uttered", messageType: "text", time: time, text: "Unsupported")
         }
