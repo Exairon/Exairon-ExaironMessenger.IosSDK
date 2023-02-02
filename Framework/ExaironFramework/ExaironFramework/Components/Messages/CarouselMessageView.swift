@@ -17,10 +17,10 @@ struct CarouselMessageView: View {
     @State private var draggingItem = 0.0
         
     var body: some View {
-            
+        VStack {
             ZStack {
                 ForEach(elements.indices, id: \.self) { i in
-                    CarouselCardView(element: self.elements[i], widgetColor: widgetSettings.data.color)
+                    CarouselCardView(element: self.elements[elements.count - i - 1], widgetColor: widgetSettings.data.color)
                         .frame(width: 200)
                         .background(Color(hex: "E4E4E7"))
                         .cornerRadius(10)
@@ -39,16 +39,30 @@ struct CarouselMessageView: View {
                     }
                     .onEnded { value in
                         withAnimation {
-                            print(snappedItem)
-                            print(draggingItem)
-
                             draggingItem = snappedItem + value.predictedEndTranslation.width / 100
                             draggingItem = round(draggingItem).remainder(dividingBy: Double(elements.count))
                             snappedItem = draggingItem
+                            if Int(snappedItem) == 0 {
+                                index = 0
+                            } else if Int(snappedItem) < 0 {
+                                index = elements.count - (Int(snappedItem) + elements.count)
+                            } else {
+                                index = elements.count - Int(snappedItem)
+                            }
                         }
                     }
             )
+            HStack(spacing: 2) {
+                ForEach((0..<elements.count), id: \.self) { index in
+                    Circle()
+                        .fill(index == self.index ? Color.gray : Color.gray.opacity(0.5))
+                        .frame(width: 20, height: 20)
+
+                }
+            }
         }
+            
+    }
     
     func distance(_ item: Int) -> Double {
         return (draggingItem - Double(item)).remainder(dividingBy: Double(elements.count))

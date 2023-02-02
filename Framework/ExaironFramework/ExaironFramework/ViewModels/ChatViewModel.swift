@@ -74,7 +74,10 @@ class ChatViewModel: ObservableObject {
             let element = Element(image_url: "https://test.services.exairon.com/uploads/actions/action-1672863218209-sdk3.png", subtitle: "subTitle1", title: "Title1", buttons: [quickReply, quickReply2])
             let element1 = Element(image_url: "https://test.services.exairon.com/uploads/actions/action-1672863218209-sdk3.png", subtitle: "subTitle2", title: "Title2", buttons: [quickReply3, quickReply4])
             let element2 = Element(image_url: "https://test.services.exairon.com/uploads/actions/action-1672863218209-sdk3.png", subtitle: "subTitle3", title: "Title3", buttons: [quickReply5])
-            let payload = Payload(elements: [element, element1, element2])
+            let element3 = Element(image_url: "https://test.services.exairon.com/uploads/actions/action-1672863218209-sdk3.png", subtitle: "subTitle4", title: "Title4", buttons: [quickReply5])
+            let element4 = Element(image_url: "https://test.services.exairon.com/uploads/actions/action-1672863218209-sdk3.png", subtitle: "subTitle5", title: "Title5", buttons: [quickReply5])
+            let element5 = Element(image_url: "https://test.services.exairon.com/uploads/actions/action-1672863218209-sdk3.png", subtitle: "subTitle6", title: "Title6", buttons: [quickReply5])
+            let payload = Payload(elements: [element, element1, element2, element3, element4, element5])
             let attachment = Attachment(payload: payload)
             return Message(type: "bot_uttered", messageType: "carousel", time: time, attachment: attachment)
         default:
