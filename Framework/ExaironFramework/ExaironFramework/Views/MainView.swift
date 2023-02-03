@@ -17,7 +17,7 @@ public struct MainView: View {
             case .splashView:
                 SplashView(chatViewModel: chatViewModel)
             case .formView:
-                Text("form")
+                FormView(chatViewModel: chatViewModel)
             case .chatView:
                 ChatView(chatViewModel: chatViewModel)
             }
