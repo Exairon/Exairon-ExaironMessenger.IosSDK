@@ -10,13 +10,12 @@ import SwiftUI
 
 class ChatViewModel: ObservableObject {
     let apiService = ApiService()
+    @ObservedObject var viewRouter = ViewRouter()
     @Published var messageText = ""
     @Published var widgetSettings: WidgetSettings? = nil
     @Published var messageArray: [Message] = []
     @Published var avatarUrl: String? = nil
-    @Published var loading = true
     @Published var message: WidgetMessage? = nil
-
     
     func getWidgetSettings(completion: @escaping(_ widgetSettings: WidgetSettings) -> Void) {
         readMessage()
@@ -36,11 +35,23 @@ class ChatViewModel: ObservableObject {
                         if (self.message == nil) {
                             self.message = data.data.messages[0]
                         }
-                        self.loading = false
+                        if (!data.data.showUserForm || self.checkCustomerValues(formFields: data.data.formFields)) {
+                            self.viewRouter.currentPage = .chatView
+                        } else {
+                            self.viewRouter.currentPage = .formView
+                        }
                     }
                     completion(data)
             }
         }
+    }
+    
+    func checkCustomerValues(formFields: FormFields) -> Bool {
+        let checkName = !formFields.showNameField || !(Exairon.shared.name == nil || Exairon.shared.name == "")
+        let checkSurname = !formFields.showSurnameField || !(Exairon.shared.surname == nil || Exairon.shared.surname == "")
+        let checkEmail = !formFields.showEmailField || !(Exairon.shared.email == nil || Exairon.shared.email == "")
+        let checkPhone = !formFields.showPhoneField || !(Exairon.shared.phone == nil || Exairon.shared.phone == "")
+        return checkName && checkSurname && checkEmail && checkPhone
     }
 
     func getBotResponse(type: String) -> Message {

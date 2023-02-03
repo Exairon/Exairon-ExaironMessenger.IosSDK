@@ -12,13 +12,14 @@ public struct MainView: View {
     @ObservedObject var chatViewModel = ChatViewModel()
 
     public var body: some View {
-        if(!chatViewModel.loading) {
-            ZStack {
+        ZStack {
+            switch chatViewModel.viewRouter.currentPage {
+            case .splashView:
+                SplashView(chatViewModel: chatViewModel)
+            case .formView:
+                Text("form")
+            case .chatView:
                 ChatView(chatViewModel: chatViewModel)
-            }
-        } else {
-            ProgressView().onAppear{
-                chatViewModel.getWidgetSettings(){widgetSettings in }
             }
         }
     }
