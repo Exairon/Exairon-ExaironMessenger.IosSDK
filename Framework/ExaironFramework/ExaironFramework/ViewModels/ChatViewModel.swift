@@ -13,8 +13,13 @@ class ChatViewModel: ObservableObject {
     @Published var messageText = ""
     @Published var widgetSettings: WidgetSettings? = nil
     @Published var messageArray: [Message] = []
+    @Published var avatarUrl: String? = nil
+    @Published var loading = true
+    @Published var message: WidgetMessage? = nil
+
     
     func getWidgetSettings(completion: @escaping(_ widgetSettings: WidgetSettings) -> Void) {
+        readMessage()
         apiService.getWidgetSettingsApiCall() { result in
             switch result {
                 case .failure(let error):
@@ -22,6 +27,16 @@ class ChatViewModel: ObservableObject {
                 case .success(let data):
                     DispatchQueue.main.async {
                         self.widgetSettings = data
+                        self.avatarUrl = Exairon.shared.src + "/uploads/channels/" + data.data.avatar
+                        for _message in data.data.messages {
+                            if(_message.lang == Exairon.shared.language) {
+                                self.message = _message
+                            }
+                        }
+                        if (self.message == nil) {
+                            self.message = data.data.messages[0]
+                        }
+                        self.loading = false
                     }
                     completion(data)
             }
