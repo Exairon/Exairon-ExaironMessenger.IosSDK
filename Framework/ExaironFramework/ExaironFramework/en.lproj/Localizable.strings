@@ -1,0 +1,12 @@
+/* 
+  Localizable.strings
+  ExaironFramework
+
+  Created by Exairon on 3.02.2023.
+  
+*/
+
+"howWasYourExp" = "How was your experience?";
+"surveyHint" = "Please tell us about your opinion...";
+"submit" = "Submit";
+

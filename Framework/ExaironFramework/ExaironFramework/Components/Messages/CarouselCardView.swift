@@ -33,7 +33,7 @@ struct CarouselCardView: View {
             Text(element.subtitle ?? "")
             VStack {
                 ForEach(element.buttons ?? [], id: \.self) {button in
-                    LargeButton(title: button.title ?? "",
+                    LargeButton(title:  AnyView(Text(button.title ?? "")),
                         backgroundColor: Color(hex: widgetColor.buttonBackColor) ?? Color.black,
                         foregroundColor: Color(hex: widgetColor.buttonFontColor) ?? Color.white)  {
                                     print("Click")

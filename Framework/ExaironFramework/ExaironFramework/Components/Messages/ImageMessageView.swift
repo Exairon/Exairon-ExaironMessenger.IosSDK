@@ -31,8 +31,4 @@ struct ImageMessageView: View {
             }
         }
     }
-    
-    init(message: Message) {
-        self.message = message
-    }
 }

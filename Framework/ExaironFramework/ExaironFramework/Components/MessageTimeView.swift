@@ -40,10 +40,6 @@ struct MessageTimeView: View {
             return dateFormatterPrint.string(from: messageDate)
         }
     }
-    
-    init(message: Message) {
-        self.message = message
-    }
 }
 
 extension Date {

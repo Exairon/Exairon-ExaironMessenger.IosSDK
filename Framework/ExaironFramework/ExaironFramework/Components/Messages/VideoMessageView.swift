@@ -25,8 +25,4 @@ struct VideoMessageView: View {
         }
             .padding(.horizontal, 16)
     }
-    
-    init(message: Message) {
-        self.message = message
-    }
 }

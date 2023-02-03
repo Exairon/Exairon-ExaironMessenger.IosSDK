@@ -34,9 +34,4 @@ struct TextMessageView: View {
             }
         }
     }
-    
-    init(message: Message, widgetSettings: WidgetSettings) {
-        self.message = message
-        self.widgetSettings = widgetSettings
-    }
 }

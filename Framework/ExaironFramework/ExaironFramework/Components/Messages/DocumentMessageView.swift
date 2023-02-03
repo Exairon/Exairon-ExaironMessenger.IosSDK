@@ -62,8 +62,4 @@ struct DocumentMessageView: View {
         }
         task.resume()
     }
-    
-    init(message: Message) {
-        self.message = message
-    }
 }

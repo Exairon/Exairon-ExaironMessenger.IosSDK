@@ -28,7 +28,7 @@ struct ButtonMessageView: View {
             }
             LazyVGrid(columns: adaptiveColumns, spacing: 20) {
                 ForEach(message.quick_replies ?? [], id: \.self) { quickReply in
-                    LargeButton(title: quickReply.title ?? "",
+                    LargeButton(title: AnyView(Text(quickReply.title ?? "")),
                         backgroundColor: Color(hex: widgetSettings.data.color.buttonBackColor) ?? Color.black,
                         foregroundColor: Color(hex: widgetSettings.data.color.buttonFontColor) ?? Color.white) {
                                     print("Click")
@@ -37,10 +37,5 @@ struct ButtonMessageView: View {
             }
         }
         
-    }
-    
-    init(message: Message, widgetSettings: WidgetSettings) {
-        self.message = message
-        self.widgetSettings = widgetSettings
     }
 }

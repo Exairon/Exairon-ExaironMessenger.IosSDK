@@ -28,16 +28,12 @@ struct MessageView: View {
                 DocumentMessageView(message: message)
             case "carousel":
                 CarouselMessageView(message: message, widgetSettings: widgetSettings)
+            case "survey":
+                SurveyView(message: message, widgetSettings: widgetSettings)
             default:
                 Text("Unsupported Message")
             }
             MessageTimeView(message: message)
         }
-    }
-    
-    init(message: Message, widgetSettings: WidgetSettings) {
-        self.message = message
-        self.widgetSettings = widgetSettings
-    }
-    
+    }    
 }

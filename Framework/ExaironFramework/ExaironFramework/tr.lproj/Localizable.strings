@@ -1,0 +1,12 @@
+/* 
+  Localizable.strings
+  ExaironFramework
+
+  Created by Exairon on 3.02.2023.
+  
+*/
+
+"howWasYourExp" = "Deneyimin Nasıldı?";
+"surveyHint" = "Lütfen bize görüşlerinizi bildirin...";
+"submit" = "Gönder";
+

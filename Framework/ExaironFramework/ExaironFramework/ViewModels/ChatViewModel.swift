@@ -80,6 +80,8 @@ class ChatViewModel: ObservableObject {
             let payload = Payload(elements: [element, element1, element2, element3, element4, element5])
             let attachment = Attachment(payload: payload)
             return Message(type: "bot_uttered", messageType: "carousel", time: time, attachment: attachment)
+        case "survey":
+            return Message(type: "bot_uttered", messageType: "survey", time: time)
         default:
             return Message(type: "bot_uttered", messageType: "text", time: time, text: "Unsupported")
         }

@@ -16,8 +16,4 @@ struct LocalVideoMessageView: View {
             .frame(width: UIScreen.main.bounds.width * 0.8, height: 200)
             .cornerRadius(10)
     }
-    
-    init(src: String) {
-        self.src = src
-    }
 }

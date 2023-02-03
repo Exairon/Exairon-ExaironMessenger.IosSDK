@@ -39,13 +39,13 @@ struct LargeButton: View {
     var backgroundColor: Color
     var foregroundColor: Color
     
-    private let title: String
+    private let title: AnyView
     private let action: () -> Void
     
     // It would be nice to make this into a binding.
     private let disabled: Bool
     
-    init(title: String,
+    init(title: AnyView,
          disabled: Bool = false,
          backgroundColor: Color = Color.green,
          foregroundColor: Color = Color.white,
@@ -61,7 +61,7 @@ struct LargeButton: View {
         HStack {
             Spacer(minLength: LargeButton.buttonHorizontalMargins)
             Button(action:self.action) {
-                Text(self.title)
+                self.title
             }
             .buttonStyle(LargeButtonStyle(backgroundColor: backgroundColor,
                                           foregroundColor: foregroundColor,
