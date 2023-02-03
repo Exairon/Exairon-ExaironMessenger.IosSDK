@@ -15,7 +15,7 @@ struct SurveyView: View {
     
     var body: some View {
         VStack {
-            Text("howWasYourExp")
+            Text(Localization.init().locale(key: "howWasYourExp"))
                 .foregroundColor(.gray)
                 .font(.system(size: 20))
             HStack {
@@ -61,7 +61,7 @@ struct SurveyView: View {
             }
             .padding(.vertical, 5)
             .padding(.horizontal, 30)
-            TextField("surveyHint",
+            TextField(Localization.init().locale(key: "surveyHint"),
                       text: $comment, axis: .vertical)
                 .lineLimit(5, reservesSpace: true)
                 //.background(.gray.opacity(0.1))
@@ -70,7 +70,7 @@ struct SurveyView: View {
                 .onSubmit {
                     sendSurvey()
                 }
-            LargeButton(title: AnyView(Text("submit")),
+            LargeButton(title: AnyView(Text(Localization.init().locale(key: "submit"))),
                 backgroundColor: Color(hex: widgetSettings.data.color.buttonBackColor) ?? Color.black,
                 foregroundColor: Color(hex: widgetSettings.data.color.buttonFontColor) ?? Color.white)  {
                     sendSurvey()

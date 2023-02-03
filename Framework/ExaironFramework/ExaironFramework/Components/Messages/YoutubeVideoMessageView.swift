@@ -32,6 +32,5 @@ struct YoutubeVideoMessageView: View {
     init(src: String) {
         let array = src.components(separatedBy: "/")
         self.videoId = array[array.count - 1]
-        print(self.videoId)
     }
 }

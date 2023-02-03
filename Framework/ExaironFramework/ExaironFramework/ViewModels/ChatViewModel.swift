@@ -110,11 +110,6 @@ class ChatViewModel: ObservableObject {
                 // Decode Note
                 let note = try decoder.decode(Messages.self, from: data)
                 self.messageArray = note.messages
-                for __message in note.messages {
-                    print(__message.text ?? "")
-                }
-            
-
             } catch {
                 print("Unable to Decode Note (\(error))")
             }
