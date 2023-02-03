@@ -27,7 +27,7 @@ class ChatViewModel: ObservableObject {
             }
         }
     }
-    
+
     func getBotResponse(type: String) -> Message {
         let time = Int64(NSDate().timeIntervalSince1970 * 1000)
 
