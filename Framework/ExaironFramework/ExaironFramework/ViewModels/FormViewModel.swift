@@ -11,6 +11,13 @@ class FormViewModel: ObservableObject {
     @Published var invalidFormFields: [String] = []
     @Published var customer: CustomerForm = CustomerForm()
     
+    func isValidEmail(_ email: String) -> Bool {
+        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+
+        let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
+        return emailPred.evaluate(with: email)
+    }
+    
     func startSession(formFields: FormFields) {
         invalidFormFields = []
         if formFields.nameFieldRequired && customer.name == "" {
@@ -19,7 +26,7 @@ class FormViewModel: ObservableObject {
         if formFields.surnameFieldRequired && customer.surname == "" {
             invalidFormFields.append("surname")
         }
-        if formFields.emailFieldRequired && customer.email == "" {
+        if (formFields.emailFieldRequired && customer.email == "") || (customer.email.count > 0 && !isValidEmail(customer.email)) {
             invalidFormFields.append("email")
         }
         if formFields.phoneFieldRequired && customer.phone == "" {
