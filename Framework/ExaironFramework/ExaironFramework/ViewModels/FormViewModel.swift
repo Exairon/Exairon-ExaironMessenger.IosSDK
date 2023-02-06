@@ -9,7 +9,7 @@ import Foundation
 
 class FormViewModel: ObservableObject {
     @Published var invalidFormFields: [String] = []
-    @Published var customer: CustomerForm = CustomerForm()
+    @Published var customer: CustomerForm = CustomerForm(name: Exairon.shared.name ?? "", surname: Exairon.shared.surname ?? "", email: Exairon.shared.email ?? "", phone: Exairon.shared.phone ?? "")
     
     func isValidEmail(_ email: String) -> Bool {
         let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
