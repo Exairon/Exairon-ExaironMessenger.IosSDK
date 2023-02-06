@@ -18,6 +18,8 @@ struct VideoMessageView: View {
                 LocalVideoMessageView(src: message.attachment?.payload?.src ?? "")
             case "youtube":
                 YoutubeVideoMessageView(src: message.attachment?.payload?.src ?? "")
+            case "vimeo":
+                VimeoVideoMessageView(src: message.attachment?.payload?.src ?? "")
             default:
                 Text("Unsupported Video Type")
             }

@@ -79,6 +79,10 @@ class ChatViewModel: ObservableObject {
             let payload = Payload(src: "https://youtu.be/F4neLJQC1_E", videoType: "youtube")
             let attachment = Attachment(payload: payload)
             return Message(type: "bot_uttered", messageType: "video", time: time, attachment: attachment)
+        case "vimeo":
+            let payload = Payload(src: "https://vimeo.com/718558198", videoType: "vimeo")
+            let attachment = Attachment(payload: payload)
+            return Message(type: "bot_uttered", messageType: "video", time: time, attachment: attachment)
         case "audio":
             let payload = Payload(src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3")
             let attachment = Attachment(payload: payload)
