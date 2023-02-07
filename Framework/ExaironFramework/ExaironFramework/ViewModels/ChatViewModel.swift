@@ -147,17 +147,18 @@ class ChatViewModel: ObservableObject {
             do {
                 // Create JSON Decoder
                 let decoder = JSONDecoder()
+                var newMessageArray: [Message] = []
 
                 // Decode data
                 var data = try decoder.decode(Messages.self, from: data)
                 
                 if (data.messages.count > 0) {
                     getNewMessages(timestamp: "", conversationId: "") { newMessages in
-                        data.messages += newMessages.messages
+                        newMessageArray = newMessages.messages
                     }
                 }
                 
-                self.messageArray = data.messages
+                self.messageArray = data.messages + newMessageArray
             } catch {
                 print("Unable to Decode Note (\(error))")
             }
