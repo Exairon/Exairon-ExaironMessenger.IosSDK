@@ -41,6 +41,11 @@ struct AudioMessageView: View {
                         soundManager.playSound(sound: message.custom?.data?.attachment?.payload?.src ?? "")
                         soundManager.audioPlayer?.addPeriodicTimeObserver(forInterval: CMTime(value: CMTimeValue(1), timescale: 2), queue: DispatchQueue.main) { progressTime in
                             currentTime = Double(progressTime.seconds)
+                            if Int(currentTime) == Int(duration) {
+                                song1 = false
+                                soundManager.audioPlayer?.pause()
+                                soundManager.audioPlayer?.seek(to: CMTime(seconds: 0, preferredTimescale: CMTimeScale(NSEC_PER_SEC)))
+                            }
                             let durationMinutes = Int(currentTime / 60)
                             let durationSeconds = Int(currentTime) % 60 < 10 ? "0\(Int(currentTime) % 60)" : "\(Int(currentTime) % 60)"
                             currentDurationString = "\(durationMinutes):\(durationSeconds)"

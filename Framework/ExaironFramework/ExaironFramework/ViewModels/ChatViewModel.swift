@@ -150,7 +150,7 @@ class ChatViewModel: ObservableObject {
                 var newMessageArray: [Message] = []
 
                 // Decode data
-                var data = try decoder.decode(Messages.self, from: data)
+                let data = try decoder.decode(Messages.self, from: data)
                 
                 if (data.messages.count > 0) {
                     getNewMessages(timestamp: "", conversationId: "") { newMessages in
