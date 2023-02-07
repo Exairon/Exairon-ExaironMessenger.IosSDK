@@ -9,7 +9,7 @@ import Foundation
 
 // MARK: - Messages
 struct Messages: Codable {
-    let messages: [Message]
+    var messages: [Message]
 }
 
 // MARK: - Message
@@ -64,7 +64,3 @@ struct Custom: Codable, Hashable {
 struct CustomData: Codable, Hashable {
     var attachment: Attachment? = nil
 }
-
-
-
-

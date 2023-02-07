@@ -46,6 +46,17 @@ class ChatViewModel: ObservableObject {
         }
     }
     
+    func getNewMessages(timestamp: String, conversationId: String, completion: @escaping(_ messages: Messages) -> Void) {
+        apiService.getNewMessagesApiCall(timestamp: timestamp, conversationId: conversationId) { result in
+            switch result {
+            case .failure(let error):
+                print(error)
+            case .success(let data):
+                completion(data)
+            }
+        }
+    }
+    
     func checkCustomerValues(formFields: FormFields) -> Bool {
         let checkName = !formFields.showNameField || !(Exairon.shared.name == nil || Exairon.shared.name == "")
         let checkSurname = !formFields.showSurnameField || !(Exairon.shared.surname == nil || Exairon.shared.surname == "")
@@ -137,9 +148,16 @@ class ChatViewModel: ObservableObject {
                 // Create JSON Decoder
                 let decoder = JSONDecoder()
 
-                // Decode Note
-                let note = try decoder.decode(Messages.self, from: data)
-                self.messageArray = note.messages
+                // Decode data
+                var data = try decoder.decode(Messages.self, from: data)
+                
+                if (data.messages.count > 0) {
+                    getNewMessages(timestamp: "", conversationId: "") { newMessages in
+                        data.messages += newMessages.messages
+                    }
+                }
+                
+                self.messageArray = data.messages
             } catch {
                 print("Unable to Decode Note (\(error))")
             }
