@@ -12,6 +12,7 @@ struct SurveyView: View {
     @State var widgetSettings: WidgetSettings
     @State var value: Int? = nil
     @State var comment: String = ""
+    @State var disabled: Bool = true
     
     var body: some View {
         VStack {
@@ -21,6 +22,7 @@ struct SurveyView: View {
             HStack {
                 Button {
                     value = 1
+                    changeButtonDisabled()
                 } label: {
                     Text("😠")
                         .opacity(value == 1 ? 1 : 0.5)
@@ -29,6 +31,7 @@ struct SurveyView: View {
                 Spacer()
                 Button {
                     value = 2
+                    changeButtonDisabled()
                 } label: {
                     Text("🙁")
                         .opacity(value == 2 ? 1 : 0.5)
@@ -37,6 +40,7 @@ struct SurveyView: View {
                 Spacer()
                 Button {
                     value = 3
+                    changeButtonDisabled()
                 } label: {
                     Text("😐")
                         .opacity(value == 3 ? 1 : 0.5)
@@ -45,6 +49,7 @@ struct SurveyView: View {
                 Spacer()
                 Button {
                     value = 4
+                    changeButtonDisabled()
                 } label: {
                     Text("😁")
                         .opacity(value == 4 ? 1 : 0.5)
@@ -53,6 +58,7 @@ struct SurveyView: View {
                 Spacer()
                 Button {
                     value = 5
+                    changeButtonDisabled()
                 } label: {
                     Text("😍")
                         .opacity(value == 5 ? 1 : 0.5)
@@ -67,14 +73,27 @@ struct SurveyView: View {
                 //.background(.gray.opacity(0.1))
                 .padding(.horizontal, 30)
                 .textFieldStyle(.roundedBorder)
+                .onChange(of: comment) {
+                    print($0)
+                    changeButtonDisabled()
+                }
                 .onSubmit {
                     sendSurvey()
                 }
             LargeButton(title: AnyView(Text(Localization.init().locale(key: "submit"))),
+                        disabled: disabled,
                 backgroundColor: Color(hex: widgetSettings.data.color.buttonBackColor) ?? Color.black,
                 foregroundColor: Color(hex: widgetSettings.data.color.buttonFontColor) ?? Color.white)  {
                     sendSurvey()
                 }
+        }
+    }
+    
+    func changeButtonDisabled() {
+        if (comment.count > 0 && value != nil) {
+            disabled = false
+        } else {
+            disabled = true
         }
     }
     
