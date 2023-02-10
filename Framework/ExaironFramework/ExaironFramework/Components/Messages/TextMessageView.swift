@@ -12,7 +12,7 @@ struct TextMessageView: View {
     @State var widgetSettings: WidgetSettings
     
     var body: some View {
-        if message.type.contains("user_uttered") {
+        if message.sender.contains("user_uttered") {
             HStack {
                 Spacer()
                 Text(message.text ?? "")

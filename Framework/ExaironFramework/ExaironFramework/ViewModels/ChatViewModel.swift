@@ -10,12 +10,64 @@ import SwiftUI
 
 class ChatViewModel: ObservableObject {
     let apiService = ApiService()
+    let socketService = SocketService()
     @ObservedObject var viewRouter = ViewRouter()
     @Published var messageText = ""
     @Published var widgetSettings: WidgetSettings? = nil
     @Published var messageArray: [Message] = []
     @Published var avatarUrl: String? = nil
     @Published var message: WidgetMessage? = nil
+    
+    func socketConnection(completion: @escaping (_ success: Bool) -> Void) {
+        socketService.connect() { result in
+            if result {
+                completion(true)
+            }
+        }
+    }
+    
+    func sessionRequest(completion: @escaping (_ success: String) -> Void) {
+        let conversationId = readStringStorage(key: "conversationId")
+        let sessionRequestObj = SessionRequest(session_id: conversationId, channelId: Exairon.shared.channelId)
+        socketService.socketEmit(eventName: "session_request", object: sessionRequestObj)
+        let socket = socketService.getSocket()
+        socket.on("session_confirm") {data, ack in
+            guard let socketResponse = data[0] as? String else {
+                return
+            }
+            completion(socketResponse)
+        }
+    }
+    
+    func readStringStorage(key: String) -> String? {
+        return UserDefaults.standard.string(forKey: key)
+    }
+    
+    func writeStringStorage(value: String, key: String) {
+        UserDefaults.standard.set(value, forKey: key)
+    }
+    
+    func listenNewMessages() {
+        let socket = socketService.getSocket()
+        socket.on("bot_uttered") {data, ack in
+            do {
+                let dat = try JSONSerialization.data(withJSONObject:data)
+                let res = try JSONDecoder().decode([Message].self,from:dat)
+                var botMessage = res[0]
+                botMessage.timeStamp = Int64(NSDate().timeIntervalSince1970 * 1000)
+                botMessage.sender = "bot_uttered"
+     
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    withAnimation {
+                        self.messageArray.append(botMessage)
+                    }
+                }
+              }
+              catch {
+                    print(error)
+              }
+        }
+    }
     
     func getWidgetSettings(completion: @escaping(_ widgetSettings: WidgetSettings) -> Void) {
         readMessage()
@@ -24,6 +76,7 @@ class ChatViewModel: ObservableObject {
                 case .failure(let error):
                     print(error)
                 case .success(let data):
+                self.sessionRequest() { socketResponse in
                     DispatchQueue.main.async {
                         self.widgetSettings = data
                         self.avatarUrl = Exairon.shared.src + "/uploads/channels/" + data.data.avatar
@@ -35,13 +88,18 @@ class ChatViewModel: ObservableObject {
                         if (self.message == nil) {
                             self.message = data.data.messages[0]
                         }
-                        if (!data.data.showUserForm || self.checkCustomerValues(formFields: data.data.formFields)) {
-                            self.viewRouter.currentPage = .chatView
-                        } else {
-                            self.viewRouter.currentPage = .formView
+                            if (!data.data.showUserForm || self.checkCustomerValues(formFields: data.data.formFields)) {
+                                let userToken: String = self.readStringStorage(key: "userToken") ?? UUID().uuidString
+                                self.writeStringStorage(value: socketResponse, key: "conversationId")
+                                self.writeStringStorage(value: userToken, key: "userToken")
+                                
+                                self.viewRouter.currentPage = .chatView
+                            } else {
+                                self.viewRouter.currentPage = .formView
+                            }
                         }
-                    }
                     completion(data)
+                }
             }
         }
     }
@@ -70,42 +128,42 @@ class ChatViewModel: ObservableObject {
 
         switch type {
         case "text":
-            return Message(type: "bot_uttered", messageType: "text", time: time, text: "text cevap")
+            return Message(sender: "bot_uttered", type: "text", timeStamp: time, text: "text cevap")
         case "image":
             let payload = Payload(src: "https://test.services.exairon.com/uploads/actions/action-1672863218209-sdk3.png")
             let attachment = Attachment(payload: payload)
-            return Message(type: "bot_uttered", messageType: "image", time: time, attachment: attachment)
+            return Message(sender: "bot_uttered", type: "image", timeStamp: time, attachment: attachment)
         case "button":
             let quickReply = QuickReply(title: "Button1", type: "postback")
             let quickReply2 = QuickReply(title: "Button2Button2Button2", type: "postback")
             let quickReply3 = QuickReply(title: "Button3", type: "postback")
             let quickReply4 = QuickReply(title: "Button4Button4", type: "postback")
             let quickReply5 = QuickReply(title: "Button5", type: "postback")
-            return Message(type: "bot_uttered", messageType: "button", time: time, text: "Button Message", quick_replies: [quickReply, quickReply2, quickReply3, quickReply4,quickReply5])
+            return Message(sender: "bot_uttered", type: "button", timeStamp: time, text: "Button Message", quick_replies: [quickReply, quickReply2, quickReply3, quickReply4,quickReply5])
         case "local":
             let payload = Payload(src: "https://test.services.exairon.com/uploads/actions/action-1669969050848-whatsapp_video_2022-12-02_at_11.16.30.mp4", videoType: "local")
             let attachment = Attachment(payload: payload)
-            return Message(type: "bot_uttered", messageType: "video", time: time, attachment: attachment)
+            return Message(sender: "bot_uttered", type: "video", timeStamp: time, attachment: attachment)
         case "youtube":
             let payload = Payload(src: "https://youtu.be/F4neLJQC1_E", videoType: "youtube")
             let attachment = Attachment(payload: payload)
-            return Message(type: "bot_uttered", messageType: "video", time: time, attachment: attachment)
+            return Message(sender: "bot_uttered", type: "video", timeStamp: time, attachment: attachment)
         case "vimeo":
             let payload = Payload(src: "https://vimeo.com/718558198", videoType: "vimeo")
             let attachment = Attachment(payload: payload)
-            return Message(type: "bot_uttered", messageType: "video", time: time, attachment: attachment)
+            return Message(sender: "bot_uttered", type: "video", timeStamp: time, attachment: attachment)
         case "audio":
             let payload = Payload(src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3")
             let attachment = Attachment(payload: payload)
             let customData = CustomData(attachment: attachment)
             let custom = Custom(data: customData)
-            return Message(type: "bot_uttered", messageType: "audio", time: time, custom: custom)
+            return Message(sender: "bot_uttered", type: "audio", timeStamp: time, custom: custom)
         case "document":
             let payload = Payload(src: "https://test.services.exairon.com/uploads/chat/chat-1675281774491-ddd.pdf", originalname: "test.pdf")
             let attachment = Attachment(payload: payload)
             let customData = CustomData(attachment: attachment)
             let custom = Custom(data: customData)
-            return Message(type: "bot_uttered", messageType: "document", time: time, custom: custom)
+            return Message(sender: "bot_uttered", type: "document", timeStamp: time, custom: custom)
         case "carousel":
             let quickReply = QuickReply(title: "Button1", type: "postback")
             let quickReply2 = QuickReply(title: "Button2Button2Button2", type: "postback")
@@ -120,11 +178,11 @@ class ChatViewModel: ObservableObject {
             let element5 = Element(image_url: "https://test.services.exairon.com/uploads/actions/action-1672863218209-sdk3.png", subtitle: "subTitle6", title: "Title6", buttons: [quickReply5])
             let payload = Payload(elements: [element, element1, element2, element3, element4, element5])
             let attachment = Attachment(payload: payload)
-            return Message(type: "bot_uttered", messageType: "carousel", time: time, attachment: attachment)
+            return Message(sender: "bot_uttered", type: "carousel", timeStamp: time, attachment: attachment)
         case "survey":
-            return Message(type: "bot_uttered", messageType: "survey", time: time)
+            return Message(sender: "bot_uttered", type: "survey", timeStamp: time)
         default:
-            return Message(type: "bot_uttered", messageType: "text", time: time, text: "Unsupported")
+            return Message(sender: "bot_uttered", type: "text", timeStamp: time, text: "Unsupported")
         }
     }
     
@@ -153,7 +211,7 @@ class ChatViewModel: ObservableObject {
                 let data = try decoder.decode(Messages.self, from: data)
                 
                 if (data.messages.count > 0) {
-                    getNewMessages(timestamp: "", conversationId: "") { newMessages in
+                    getNewMessages(timestamp: String(Int64(NSDate().timeIntervalSince1970 * 1000)), conversationId: "-") { newMessages in
                         newMessageArray = newMessages.messages
                     }
                 }
@@ -168,11 +226,13 @@ class ChatViewModel: ObservableObject {
     func sendMessage(message: String) {
         withAnimation {
             self.messageText = ""
-            let newMessage = Message(type: "user_uttered", messageType: "text", time: Int64(NSDate().timeIntervalSince1970 * 1000), text: message)
+            let newMessage = Message(sender: "user_uttered", type: "text", timeStamp: Int64(NSDate().timeIntervalSince1970 * 1000), text: message)
             self.messageArray.append(newMessage)
         }
+        let sendMessageModel = SocketMessage(channel_id: Exairon.shared.channelId, message: message, session_id: self.readStringStorage(key: "conversationId") ?? "", userToken: self.readStringStorage(key: "userToken") ?? "")
+        socketService.socketEmit(eventName: "user_uttered", object: sendMessageModel)
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+        /*DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             withAnimation {
                 let messageType = message.lowercased()
                 let botMessage = self.getBotResponse(type: messageType)
@@ -180,6 +240,6 @@ class ChatViewModel: ObservableObject {
                 self.messageArray.append(botMessage)
                 self.writeMessage(messages: self.messageArray)
             }
-        }
+        }*/
     }
 }

@@ -12,15 +12,15 @@ struct MessageTimeView: View {
     
     var body: some View {
         HStack {
-            if (message.type.contains("user_uttered")) {
+            if message.sender.contains("user_uttered") {
                 Spacer()
             }
-            Text(dateFormatter(time: message.time))
+            Text(dateFormatter(time: message.timeStamp!))
                 .padding(.horizontal, 16)
                 .padding(.bottom, 10)
                 .foregroundColor(Color(hex: "6C6D6F"))
                 .font(.system(size: 12))
-            if (message.type.contains("bot_uttered")) {
+            if message.sender.contains("bot_uttered") {
                 Spacer()
             }
         }

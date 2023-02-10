@@ -22,7 +22,6 @@ struct SplashView: View {
             .scaleEffect(scale)
             .onReceive(timer) { input in
                 scale += scaleSize
-                print(scale)
                 if Double(round(100 * scale) / 100) == 2.0 {
                     scaleSize = -0.05
                 } else if Double(round(100 * scale) / 100) == 1.0  {
@@ -30,7 +29,9 @@ struct SplashView: View {
                 }
             }
             .onAppear{
-                chatViewModel.getWidgetSettings(){widgetSettings in }
+                chatViewModel.socketConnection { data in
+                    chatViewModel.getWidgetSettings(){widgetSettings in }
+                }
             }
     }
 }

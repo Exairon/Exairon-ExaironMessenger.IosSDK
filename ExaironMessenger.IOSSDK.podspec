@@ -14,4 +14,7 @@ Pod::Spec.new do |spec|
 
   spec.source_files  = "Framework/**/*.{swift}"
   spec.swift_versions = "5.0"
+  
+  spec.dependency 'Socket.IO-Client-Swift', '~> 16.0.1'
+
 end

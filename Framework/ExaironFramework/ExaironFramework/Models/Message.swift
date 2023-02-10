@@ -14,13 +14,18 @@ struct Messages: Codable {
 
 // MARK: - Message
 struct Message: Codable, Hashable {
+    var sender: String
     let type: String
-    let messageType: String
-    let time: Int64
+    var timeStamp: Int64? = nil
     var text: String? = nil
     var attachment: Attachment? = nil
     var custom: Custom? = nil
     var quick_replies: [QuickReply]? = nil
+}
+
+// MARK: - Time
+struct Time: Codable, Hashable {
+    var timestamp: Int64
 }
 
 // MARK: - Attachment

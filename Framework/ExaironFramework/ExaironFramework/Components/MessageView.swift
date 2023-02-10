@@ -13,7 +13,7 @@ struct MessageView: View {
     
     var body: some View {
         VStack {
-            switch message.messageType {
+            switch message.type {
             case "text":
                 TextMessageView(message: message, widgetSettings: widgetSettings)
             case "image":

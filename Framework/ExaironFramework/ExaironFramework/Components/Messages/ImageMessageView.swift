@@ -11,8 +11,8 @@ struct ImageMessageView: View {
     @State var message: Message
 
     var body: some View {
-        HStack {
-            if (message.type.contains("user_uttered")) {
+    HStack {
+            if message.sender.contains("user_uttered") {
                 Spacer()
             }
             AsyncImage(url: URL(string: message.attachment?.payload?.src ?? ""),
@@ -26,7 +26,7 @@ struct ImageMessageView: View {
                     ProgressView()
             })
                 .padding(.horizontal, 16)
-            if (message.type.contains("bot_uttered")) {
+            if message.sender.contains("bot_uttered") {
                 Spacer()
             }
         }
