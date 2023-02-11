@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct CarouselCardView: View {
-    var element: Element
-    var widgetColor: WidgetColor
+    @State var element: Element
+    @State var widgetColor: WidgetColor
+    @State var chatViewModel: ChatViewModel
     
     var body: some View {
         VStack {
@@ -36,8 +37,10 @@ struct CarouselCardView: View {
                     LargeButton(title:  AnyView(Text(button.title ?? "")),
                         backgroundColor: Color(hex: widgetColor.buttonBackColor) ?? Color.black,
                         foregroundColor: Color(hex: widgetColor.buttonFontColor) ?? Color.white)  {
-                                    print("Click")
-                                }
+                            if button.type == "postback" {
+                                chatViewModel.sendMessage(message: button.title ?? "", payload: button.payload)
+                            }
+                        }
                 }
             }
         }

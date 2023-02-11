@@ -10,6 +10,7 @@ import SwiftUI
 struct MessageView: View {
     @State var message: Message
     @State var widgetSettings: WidgetSettings
+    @State var chatViewModel: ChatViewModel
     
     var body: some View {
         VStack {
@@ -19,7 +20,7 @@ struct MessageView: View {
             case "image":
                 ImageMessageView(message: message)
             case "button":
-                ButtonMessageView(message: message, widgetSettings: widgetSettings)
+                ButtonMessageView(message: message, widgetSettings: widgetSettings, chatViewModel: chatViewModel)
             case "video":
                 VideoMessageView(message: message)
             case "audio":
@@ -27,7 +28,7 @@ struct MessageView: View {
             case "document":
                 DocumentMessageView(message: message)
             case "carousel":
-                CarouselMessageView(message: message, widgetSettings: widgetSettings)
+                CarouselMessageView(message: message, widgetSettings: widgetSettings, chatViewModel: chatViewModel)
             case "survey":
                 SurveyView(message: message, widgetSettings: widgetSettings)
             default:

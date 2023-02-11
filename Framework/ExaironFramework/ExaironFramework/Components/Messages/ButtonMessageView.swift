@@ -10,6 +10,7 @@ import SwiftUI
 struct ButtonMessageView: View {
     @State var message: Message
     @State var widgetSettings: WidgetSettings
+    @State var chatViewModel: ChatViewModel
     
     private let adaptiveColumns = [
         GridItem(.adaptive(minimum: 170))
@@ -31,8 +32,10 @@ struct ButtonMessageView: View {
                     LargeButton(title: AnyView(Text(quickReply.title ?? "")),
                         backgroundColor: Color(hex: widgetSettings.data.color.buttonBackColor) ?? Color.black,
                         foregroundColor: Color(hex: widgetSettings.data.color.buttonFontColor) ?? Color.white) {
-                                    print("Click")
-                                }
+                            if quickReply.type == "postback" {
+                                chatViewModel.sendMessage(message: quickReply.title ?? "", payload: quickReply.payload)
+                            }
+                        }
                 }
             }
         }

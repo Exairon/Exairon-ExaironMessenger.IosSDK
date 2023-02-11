@@ -11,6 +11,7 @@ struct CarouselMessageView: View {
     
     @State var elements: [Element]
     @State var widgetSettings: WidgetSettings
+    @State var chatViewModel: ChatViewModel
     @State private var index = 0
     
     @State private var snappedItem = 0.0
@@ -20,7 +21,7 @@ struct CarouselMessageView: View {
         VStack {
             ZStack {
                 ForEach(elements.indices, id: \.self) { i in
-                    CarouselCardView(element: self.elements[elements.count - i - 1], widgetColor: widgetSettings.data.color)
+                    CarouselCardView(element: self.elements[elements.count - i - 1], widgetColor: widgetSettings.data.color, chatViewModel: chatViewModel)
                         .frame(width: 200)
                         .background(Color(hex: "E4E4E7"))
                         .cornerRadius(10)
@@ -73,8 +74,9 @@ struct CarouselMessageView: View {
         return sin(angle) * 200
     }
     
-    init(message: Message, widgetSettings: WidgetSettings) {
+    init(message: Message, widgetSettings: WidgetSettings, chatViewModel: ChatViewModel) {
         self.elements = message.attachment?.payload?.elements ?? []
         self.widgetSettings = widgetSettings
+        self.chatViewModel = chatViewModel
     }
 }

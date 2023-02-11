@@ -16,7 +16,7 @@ struct ChatView: View {
 
             ScrollView {
                 ForEach(chatViewModel.messageArray, id: \.self) { message in
-                    MessageView(message: message, widgetSettings: chatViewModel.widgetSettings!)
+                    MessageView(message: message, widgetSettings: chatViewModel.widgetSettings!, chatViewModel: chatViewModel)
                 }.rotationEffect(.degrees(180))
             }.rotationEffect(.degrees(180))
             

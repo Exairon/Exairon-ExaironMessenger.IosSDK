@@ -236,7 +236,7 @@ class ChatViewModel: ObservableObject {
         }
     }
     
-    func sendMessage(message: String) {
+    func sendMessage(message: String, payload: String? = nil) {
         withAnimation {
             self.messageText = ""
             let newMessage = Message(sender: "user_uttered", type: "text", timeStamp: Int64(NSDate().timeIntervalSince1970 * 1000), text: message)
@@ -246,7 +246,8 @@ class ChatViewModel: ObservableObject {
                           "surname": User.shared.surname ?? "",
                           "email": User.shared.email ?? "",
                           "phone": User.shared.phone ?? ""]
-        let sendMessageModel = SocketMessage(channel_id: Exairon.shared.channelId, message: message, session_id: self.readStringStorage(key: "conversationId") ?? "", userToken: self.readStringStorage(key: "userToken") ?? "", user: user)
+        let messageString: String = payload ?? message
+        let sendMessageModel = SocketMessage(channel_id: Exairon.shared.channelId, message: messageString, session_id: self.readStringStorage(key: "conversationId") ?? "", userToken: self.readStringStorage(key: "userToken") ?? "", user: user)
         socketService.socketEmit(eventName: "user_uttered", object: sendMessageModel)
         
         /*DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
