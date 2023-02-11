@@ -41,6 +41,7 @@ struct ChatView: View {
             .padding()
         }
         .onAppear{
+            chatViewModel.readMessage()
             chatViewModel.listenNewMessages()
         }
         .frame(

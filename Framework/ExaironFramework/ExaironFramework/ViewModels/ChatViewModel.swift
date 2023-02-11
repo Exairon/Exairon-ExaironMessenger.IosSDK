@@ -57,10 +57,10 @@ class ChatViewModel: ObservableObject {
                 var botMessage = res[0]
                 botMessage.timeStamp = Int64(NSDate().timeIntervalSince1970 * 1000)
                 botMessage.sender = "bot_uttered"
-     
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                     withAnimation {
                         self.messageArray.append(botMessage)
+                        self.writeMessage(messages: self.messageArray)
                     }
                 }
               }
@@ -71,7 +71,6 @@ class ChatViewModel: ObservableObject {
     }
     
     func getWidgetSettings(completion: @escaping(_ widgetSettings: WidgetSettings) -> Void) {
-        readMessage()
         apiService.getWidgetSettingsApiCall() { result in
             switch result {
                 case .failure(let error):
@@ -204,10 +203,11 @@ class ChatViewModel: ObservableObject {
         do {
             // Create JSON Encoder
             let encoder = JSONEncoder()
-
+            print(messages)
             // Encode Note
             let messagesss = Messages(messages: messages)
             let data = try encoder.encode(messagesss)
+            print(data)
             UserDefaults.standard.set(data, forKey: "messages")
         } catch {
             print("Unable to Encode Note (\(error))")
@@ -250,15 +250,6 @@ class ChatViewModel: ObservableObject {
         let messageString: String = payload ?? message
         let sendMessageModel = SocketMessage(channel_id: Exairon.shared.channelId, message: messageString, session_id: self.readStringStorage(key: "conversationId") ?? "", userToken: self.readStringStorage(key: "userToken") ?? "", user: user)
         socketService.socketEmit(eventName: "user_uttered", object: sendMessageModel)
-        
-        /*DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            withAnimation {
-                let messageType = message.lowercased()
-                let botMessage = self.getBotResponse(type: messageType)
-                
-                self.messageArray.append(botMessage)
-                self.writeMessage(messages: self.messageArray)
-            }
-        }*/
+        self.writeMessage(messages: self.messageArray)
     }
 }
