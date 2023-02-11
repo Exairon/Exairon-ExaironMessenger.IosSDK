@@ -31,7 +31,7 @@ class ChatViewModel: ObservableObject {
         let sessionRequestObj = SessionRequest(session_id: conversationId, channelId: Exairon.shared.channelId)
         socketService.socketEmit(eventName: "session_request", object: sessionRequestObj)
         let socket = socketService.getSocket()
-        socket.on("session_confirm") {data, ack in
+        socket.once("session_confirm") {data, ack in
             guard let socketResponse = data[0] as? String else {
                 return
             }
@@ -49,7 +49,8 @@ class ChatViewModel: ObservableObject {
     
     func listenNewMessages() {
         let socket = socketService.getSocket()
-        socket.once("bot_uttered") {data, ack in
+        socket.off("bot_uttered")
+        socket.on("bot_uttered") {data, ack in
             do {
                 let dat = try JSONSerialization.data(withJSONObject:data)
                 let res = try JSONDecoder().decode([Message].self,from:dat)
