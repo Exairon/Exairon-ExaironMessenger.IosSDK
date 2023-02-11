@@ -49,7 +49,7 @@ class ChatViewModel: ObservableObject {
     
     func listenNewMessages() {
         let socket = socketService.getSocket()
-        socket.on("bot_uttered") {data, ack in
+        socket.once("bot_uttered") {data, ack in
             do {
                 let dat = try JSONSerialization.data(withJSONObject:data)
                 let res = try JSONDecoder().decode([Message].self,from:dat)
@@ -88,6 +88,10 @@ class ChatViewModel: ObservableObject {
                         if (self.message == nil) {
                             self.message = data.data.messages[0]
                         }
+                        let oldConversationId = self.readStringStorage(key: "conversationId")
+                        if (oldConversationId == socketResponse) {
+                            self.viewRouter.currentPage = .chatView
+                        } else {
                             if (!data.data.showUserForm || self.checkCustomerValues(formFields: data.data.formFields)) {
                                 let userToken: String = self.readStringStorage(key: "userToken") ?? UUID().uuidString
                                 self.writeStringStorage(value: socketResponse, key: "conversationId")
@@ -98,6 +102,7 @@ class ChatViewModel: ObservableObject {
                                 self.viewRouter.currentPage = .formView
                             }
                         }
+                    }
                     completion(data)
                 }
             }
