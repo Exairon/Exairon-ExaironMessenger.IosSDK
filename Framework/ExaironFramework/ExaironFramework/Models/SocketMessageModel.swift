@@ -13,8 +13,10 @@ struct SocketMessage : SocketData {
     let message: String
     let session_id: String
     let userToken: String
+    let user: Dictionary<String, String>
+    //let user: User
     
     func socketRepresentation() -> SocketData {
-        return ["channel_id": channel_id, "message": message, "session_id": session_id, "userToken": userToken]
+        return ["channel_id": channel_id, "message": message, "session_id": session_id, "userToken": userToken, "user": user]
     }
 }

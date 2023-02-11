@@ -90,13 +90,21 @@ class ChatViewModel: ObservableObject {
                         }
                         let oldConversationId = self.readStringStorage(key: "conversationId")
                         if (oldConversationId == socketResponse) {
+                            User.shared.name = Exairon.shared.name
+                            User.shared.surname = Exairon.shared.surname
+                            User.shared.email = Exairon.shared.email
+                            User.shared.phone = Exairon.shared.phone
                             self.viewRouter.currentPage = .chatView
                         } else {
                             if (!data.data.showUserForm || self.checkCustomerValues(formFields: data.data.formFields)) {
                                 let userToken: String = self.readStringStorage(key: "userToken") ?? UUID().uuidString
                                 self.writeStringStorage(value: socketResponse, key: "conversationId")
                                 self.writeStringStorage(value: userToken, key: "userToken")
-                                
+                                User.shared.name = Exairon.shared.name
+                                User.shared.surname = Exairon.shared.surname
+                                User.shared.email = Exairon.shared.email
+                                User.shared.phone = Exairon.shared.phone
+
                                 self.viewRouter.currentPage = .chatView
                             } else {
                                 self.viewRouter.currentPage = .formView
@@ -234,7 +242,11 @@ class ChatViewModel: ObservableObject {
             let newMessage = Message(sender: "user_uttered", type: "text", timeStamp: Int64(NSDate().timeIntervalSince1970 * 1000), text: message)
             self.messageArray.append(newMessage)
         }
-        let sendMessageModel = SocketMessage(channel_id: Exairon.shared.channelId, message: message, session_id: self.readStringStorage(key: "conversationId") ?? "", userToken: self.readStringStorage(key: "userToken") ?? "")
+        let user = ["name": User.shared.name ?? "",
+                          "surname": User.shared.surname ?? "",
+                          "email": User.shared.email ?? "",
+                          "phone": User.shared.phone ?? ""]
+        let sendMessageModel = SocketMessage(channel_id: Exairon.shared.channelId, message: message, session_id: self.readStringStorage(key: "conversationId") ?? "", userToken: self.readStringStorage(key: "userToken") ?? "", user: user)
         socketService.socketEmit(eventName: "user_uttered", object: sendMessageModel)
         
         /*DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
