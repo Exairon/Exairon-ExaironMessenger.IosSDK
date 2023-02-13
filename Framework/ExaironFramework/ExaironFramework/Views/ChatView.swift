@@ -31,7 +31,9 @@ struct ChatView: View {
                 }
                 Spacer()
                 Button {
-                    chatViewModel.sendMessage(message: chatViewModel.messageText)
+                    if chatViewModel.messageText.count > 0 {
+                        chatViewModel.sendMessage(message: chatViewModel.messageText)
+                    }
                 } label: {
                     Image(systemName: "arrow.up.circle.fill").font(.system(size: 40))
                 }

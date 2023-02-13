@@ -36,10 +36,24 @@ struct FormView: View {
             LargeButton(title: AnyView(Text(Localization.init().locale(key: "startSession"))),
                         backgroundColor: Color(hex: (chatViewModel.widgetSettings?.data.color.headerColor)!) ?? Color.black,
                         foregroundColor: Color(hex: (chatViewModel.widgetSettings?.data.color.headerFontColor)!) ?? Color.white) {
-                formViewModel.startSession(formFields: formFields)
-                        }
+                let isValid = formViewModel.isValid(formFields: formFields)
+                if (isValid) {
+                    startSession()
+                }
+            }
             Spacer()
         }
+    }
+    
+    func startSession() {
+        let userToken: String = chatViewModel.readStringStorage(key: "userToken") ?? UUID().uuidString
+        chatViewModel.writeStringStorage(value: userToken, key: "userToken")
+        User.shared.name = Exairon.shared.name
+        User.shared.surname = Exairon.shared.surname
+        User.shared.email = Exairon.shared.email
+        User.shared.phone = Exairon.shared.phone
+        print(chatViewModel.viewRouter.currentPage)
+        chatViewModel.changePage(page: .chatView)
     }
     
     init(chatViewModel: ChatViewModel) {

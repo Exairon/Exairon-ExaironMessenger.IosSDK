@@ -8,6 +8,7 @@
 import Foundation
 
 class FormViewModel: ObservableObject {
+    
     @Published var invalidFormFields: [String] = []
     @Published var customer: CustomerForm = CustomerForm(name: Exairon.shared.name ?? "", surname: Exairon.shared.surname ?? "", email: Exairon.shared.email ?? "", phone: Exairon.shared.phone ?? "")
     
@@ -18,7 +19,7 @@ class FormViewModel: ObservableObject {
         return emailPred.evaluate(with: email)
     }
     
-    func startSession(formFields: FormFields) {
+    func isValid(formFields: FormFields) -> Bool{
         invalidFormFields = []
         if formFields.nameFieldRequired && customer.name == "" {
             invalidFormFields.append("name")
@@ -33,9 +34,9 @@ class FormViewModel: ObservableObject {
             invalidFormFields.append("phone")
         }
         if invalidFormFields.count > 0 {
-            print("invalid")
+            return false
         } else {
-            print("valid")
+            return true
         }
     }
 }

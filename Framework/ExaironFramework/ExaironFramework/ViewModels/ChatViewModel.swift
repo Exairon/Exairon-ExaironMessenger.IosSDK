@@ -39,6 +39,10 @@ class ChatViewModel: ObservableObject {
         }
     }
     
+    func changePage(page: Page) {
+        self.viewRouter.currentPage = page
+    }
+    
     func readStringStorage(key: String) -> String? {
         return UserDefaults.standard.string(forKey: key)
     }
@@ -89,25 +93,24 @@ class ChatViewModel: ObservableObject {
                             self.message = data.data.messages[0]
                         }
                         let oldConversationId = self.readStringStorage(key: "conversationId")
+                        self.writeStringStorage(value: socketResponse, key: "conversationId")
                         if (oldConversationId == socketResponse) {
                             User.shared.name = Exairon.shared.name
                             User.shared.surname = Exairon.shared.surname
                             User.shared.email = Exairon.shared.email
                             User.shared.phone = Exairon.shared.phone
-                            self.viewRouter.currentPage = .chatView
+                            self.changePage(page: .chatView)
                         } else {
                             if (!data.data.showUserForm || self.checkCustomerValues(formFields: data.data.formFields)) {
                                 let userToken: String = self.readStringStorage(key: "userToken") ?? UUID().uuidString
-                                self.writeStringStorage(value: socketResponse, key: "conversationId")
                                 self.writeStringStorage(value: userToken, key: "userToken")
                                 User.shared.name = Exairon.shared.name
                                 User.shared.surname = Exairon.shared.surname
                                 User.shared.email = Exairon.shared.email
                                 User.shared.phone = Exairon.shared.phone
-
-                                self.viewRouter.currentPage = .chatView
+                                self.changePage(page: .chatView)
                             } else {
-                                self.viewRouter.currentPage = .formView
+                                self.changePage(page: .formView)
                             }
                         }
                     }

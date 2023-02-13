@@ -27,7 +27,7 @@ struct ButtonMessageView: View {
                     .padding(.horizontal, 16)
                 Spacer()
             }
-            LazyVGrid(columns: adaptiveColumns, spacing: 20) {
+            LazyVGrid(columns: adaptiveColumns, spacing: 5) {
                 ForEach(message.quick_replies ?? [], id: \.self) { quickReply in
                     LargeButton(title: AnyView(Text(quickReply.title ?? "")),
                         backgroundColor: Color(hex: widgetSettings.data.color.buttonBackColor) ?? Color.black,
