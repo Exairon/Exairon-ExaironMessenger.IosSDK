@@ -18,7 +18,7 @@ class ChatViewModel: ObservableObject {
     @Published var avatarUrl: String? = nil
     @Published var message: WidgetMessage? = nil
     @Published var showInputArea: Bool = true
-    
+
     func socketConnection(completion: @escaping (_ success: Bool) -> Void) {
         socketService.connect() { result in
             if result {
@@ -93,6 +93,7 @@ class ChatViewModel: ObservableObject {
             } else {
                 self.writeMessage(messages: [])
                 self.writeStringStorage(value: "", key: "conversationId")
+                self.showInputArea = false
             }
         }
     }
@@ -103,7 +104,9 @@ class ChatViewModel: ObservableObject {
         let surveyRequest = SurveyRequest(channelId: Exairon.shared.channelId, session_id: self.readStringStorage(key: "conversationId") ?? "", surveyResult: surveyResult)
         socketService.socketEmit(eventName: "send_survey_result", object: surveyRequest)
         self.writeMessage(messages: [])
+        self.messageArray = []
         self.writeStringStorage(value: "", key: "conversationId")
+        
     }
 
     func getWidgetSettings(completion: @escaping(_ widgetSettings: WidgetSettings) -> Void) {
@@ -281,7 +284,17 @@ class ChatViewModel: ObservableObject {
         self.listenNewMessages()
         self.listenFinishSession()
         let c_id = self.readStringStorage(key: "conversationId")
-        if c_id == nil || c_id == "" {
+        print(c_id ?? "nope")
+        let messageCount = self.messageArray.count
+        var lastMessage: Message?
+        if messageCount > 0 {
+            lastMessage = self.messageArray[messageCount-1]
+        } else {
+            lastMessage = nil
+        }
+        if c_id == nil || c_id == "" || lastMessage?.type == "survey" {
+            writeMessage(messages: [])
+            self.messageArray = []
             self.sessionRequest() { socketResponse in
                 DispatchQueue.main.async {
                     self.writeStringStorage(value: socketResponse, key: "conversationId")

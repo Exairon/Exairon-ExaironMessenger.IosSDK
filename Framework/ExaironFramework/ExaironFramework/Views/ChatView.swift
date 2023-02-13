@@ -9,7 +9,8 @@ import SwiftUI
 
 struct ChatView: View {
     @ObservedObject var chatViewModel: ChatViewModel
-    
+    @Environment(\.presentationMode) var mode: Binding<PresentationMode>
+
     var body: some View {
         VStack {
             HeaderView(chatViewModel: chatViewModel)
@@ -51,6 +52,11 @@ struct ChatView: View {
                     .padding(.horizontal, 10)
                 }
                 .padding(.horizontal)
+                .onDisappear {
+                    if chatViewModel.widgetSettings?.data.showSurvey == false {
+                        self.mode.wrappedValue.dismiss()
+                    }
+                }
             }
         }
         .onAppear{

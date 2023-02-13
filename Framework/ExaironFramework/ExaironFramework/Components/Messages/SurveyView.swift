@@ -14,6 +14,7 @@ struct SurveyView: View {
     @State var value: Int? = nil
     @State var comment: String = ""
     @State var disabled: Bool = true
+    @Environment(\.presentationMode) var mode: Binding<PresentationMode>
     
     var body: some View {
         VStack {
@@ -91,6 +92,9 @@ struct SurveyView: View {
                     chatViewModel.sendSurvey(value: value!, comment: comment)
                 }
                 }
+        }
+        .onDisappear {
+            self.mode.wrappedValue.dismiss()
         }
     }
     
