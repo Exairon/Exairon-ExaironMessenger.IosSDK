@@ -8,8 +8,7 @@
 import Foundation
 import SocketIO
 
-class SocketService{
-    //let manager = SocketManager(socketURL: URL(string: "http://localhost:3001")!, config: [.log(true), .path("/socket")])
+class SocketService {
     let manager = SocketManager(socketURL: URL(string: "https://test.services.exairon.com")!, config: [.log(false), .path("/socket")])
     func connect(completion: @escaping (_ success: Bool) -> Void) {
         let socket = manager.defaultSocket

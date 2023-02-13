@@ -34,6 +34,10 @@ struct ButtonMessageView: View {
                                  foregroundColor: Color(hex: widgetSettings.data.color.buttonFontColor) ?? Color.white) {
                                      if quickReply.type == "postback" {
                                          chatViewModel.sendMessage(message: quickReply.title ?? "", payload: quickReply.payload)
+                                     } else {
+                                         if let url = URL(string: quickReply.url ?? "") {
+                                             UIApplication.shared.open(url)
+                                         }
                                      }
                                  }
                 }
