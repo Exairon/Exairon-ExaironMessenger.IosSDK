@@ -62,11 +62,9 @@ class ChatViewModel: ObservableObject {
                 var botMessage = res[0]
                 botMessage.timeStamp = Int64(NSDate().timeIntervalSince1970 * 1000)
                 botMessage.sender = "bot_uttered"
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    withAnimation {
-                        self.messageArray.append(botMessage)
-                        self.writeMessage(messages: self.messageArray)
-                    }
+                withAnimation {
+                    self.messageArray.append(botMessage)
+                    self.writeMessage(messages: self.messageArray)
                 }
               }
               catch {
@@ -87,11 +85,9 @@ class ChatViewModel: ObservableObject {
             if self.widgetSettings?.data.showSurvey == true {
                 let time = Int64(NSDate().timeIntervalSince1970 * 1000)
                 let surveyMessage = Message(sender: "bot_uttered", type: "survey", timeStamp: time)
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    withAnimation {
-                        self.messageArray.append(surveyMessage)
-                        self.writeMessage(messages: self.messageArray)
-                    }
+                withAnimation {
+                    self.messageArray.append(surveyMessage)
+                    self.writeMessage(messages: self.messageArray)
                 }
                 self.showInputArea = false
             } else {

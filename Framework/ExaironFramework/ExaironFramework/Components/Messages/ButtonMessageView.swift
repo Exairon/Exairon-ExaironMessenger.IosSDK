@@ -27,17 +27,31 @@ struct ButtonMessageView: View {
                     .padding(.horizontal, 16)
                 Spacer()
             }
-            LazyVGrid(columns: adaptiveColumns, spacing: 5) {
-                ForEach(message.quick_replies ?? [], id: \.self) { quickReply in
+            WrappingHStack() {
+                ForEach(message.quick_replies ?? [], id: \.self) {quickReply in
                     LargeButton(title: AnyView(Text(quickReply.title ?? "")),
-                        backgroundColor: Color(hex: widgetSettings.data.color.buttonBackColor) ?? Color.black,
-                        foregroundColor: Color(hex: widgetSettings.data.color.buttonFontColor) ?? Color.white) {
-                            if quickReply.type == "postback" {
-                                chatViewModel.sendMessage(message: quickReply.title ?? "", payload: quickReply.payload)
-                            }
-                        }
+                                 backgroundColor: Color(hex: widgetSettings.data.color.buttonBackColor) ?? Color.black,
+                                 foregroundColor: Color(hex: widgetSettings.data.color.buttonFontColor) ?? Color.white) {
+                                     if quickReply.type == "postback" {
+                                         chatViewModel.sendMessage(message: quickReply.title ?? "", payload: quickReply.payload)
+                                     }
+                                 }
                 }
             }
+            .padding()
+            /*ScrollView(.horizontal, showsIndicators: false) {
+                LazyHStack {
+                    ForEach(message.quick_replies ?? [], id: \.self) { in quickReply
+                        LargeButton(title: AnyView(Text(quickReply.title ?? "")),
+                            backgroundColor: Color(hex: widgetSettings.data.color.buttonBackColor) ?? Color.black,
+                            foregroundColor: Color(hex: widgetSettings.data.color.buttonFontColor) ?? Color.white) {
+                                if quickReply.type == "postback" {
+                                    chatViewModel.sendMessage(message: quickReply.title ?? "", payload: quickReply.payload)
+                                }
+                            }
+                    }
+                }.padding(.horizontal)
+            }.frame(height: 56)*/
         }
         
     }

@@ -19,7 +19,7 @@ struct LargeButtonStyle: ButtonStyle {
     func makeBody(configuration: Self.Configuration) -> some View {
         let currentForegroundColor = isDisabled || configuration.isPressed ? foregroundColor.opacity(0.3) : foregroundColor
         return configuration.label
-            .padding()
+            .padding(10)
             .foregroundColor(currentForegroundColor)
             .background(isDisabled || configuration.isPressed ? backgroundColor.opacity(0.3) : backgroundColor)
             // This is the key part, we are using both an overlay as well as cornerRadius
@@ -28,13 +28,13 @@ struct LargeButtonStyle: ButtonStyle {
                 RoundedRectangle(cornerRadius: 6)
                     .stroke(currentForegroundColor, lineWidth: 1)
         )
-            .padding([.top, .bottom], 10)
+            .padding([.top, .bottom], 4)
     }
 }
 
 struct LargeButton: View {
     
-    private static let buttonHorizontalMargins: CGFloat = 20
+    private static let buttonHorizontalMargins: CGFloat = 3
     
     var backgroundColor: Color
     var foregroundColor: Color
@@ -59,17 +59,17 @@ struct LargeButton: View {
     
     var body: some View {
         HStack {
-            Spacer(minLength: LargeButton.buttonHorizontalMargins)
+            //Spacer(minLength: LargeButton.buttonHorizontalMargins)
             Button(action:self.action) {
-                self.title
+                self.title.font(.system(size: 12))
             }
             .buttonStyle(LargeButtonStyle(backgroundColor: backgroundColor,
                                           foregroundColor: foregroundColor,
                                           isDisabled: disabled))
                 .disabled(self.disabled)
-            Spacer(minLength: LargeButton.buttonHorizontalMargins)
+            //Spacer(minLength: LargeButton.buttonHorizontalMargins)
         }
-        .frame(maxWidth:.infinity)
+        //.frame(maxWidth:.infinity)
     }
 }
 
