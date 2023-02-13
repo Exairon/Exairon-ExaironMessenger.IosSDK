@@ -153,10 +153,11 @@ class ChatViewModel: ObservableObject {
         }
     }
     
-    func getNewMessages(timestamp: String, conversationId: String, completion: @escaping(_ messages: Messages) -> Void) {
+    func getNewMessages(timestamp: String, conversationId: String, completion: @escaping(_ messages: MissingMessageResponse) -> Void) {
         apiService.getNewMessagesApiCall(timestamp: timestamp, conversationId: conversationId) { result in
             switch result {
             case .failure(let error):
+                print("---")
                 print(error)
             case .success(let data):
                 completion(data)
@@ -253,18 +254,21 @@ class ChatViewModel: ObservableObject {
             do {
                 // Create JSON Decoder
                 let decoder = JSONDecoder()
-                var newMessageArray: [Message] = []
-
                 // Decode data
                 let data = try decoder.decode(Messages.self, from: data)
-                
+                self.messageArray = data.messages
+
                 if (data.messages.count > 0) {
-                    getNewMessages(timestamp: String(Int64(NSDate().timeIntervalSince1970 * 1000)), conversationId: "-") { newMessages in
-                        newMessageArray = newMessages.messages
+                    getNewMessages(timestamp: String(data.messages[data.messages.count-1].timeStamp ?? Int64(NSDate().timeIntervalSince1970 * 1000)), conversationId: self.readStringStorage(key: "conversationId") ?? "") { newMessages in
+                        DispatchQueue.main.async {
+                            withAnimation {
+                                self.messageArray += newMessages.data
+                            }
+                        }
+                        self.writeMessage(messages: data.messages + newMessages.data)
                     }
+                } else {
                 }
-                
-                self.messageArray = data.messages + newMessageArray
             } catch {
                 print("Unable to Decode Note (\(error))")
             }

@@ -23,7 +23,7 @@ class ApiService{
         }.resume()
     }
     
-    func getNewMessagesApiCall(timestamp: String, conversationId: String, completion: @escaping (Result<Messages, ApiErrors>)->Void) {
+    func getNewMessagesApiCall(timestamp: String, conversationId: String, completion: @escaping (Result<MissingMessageResponse, ApiErrors>)->Void) {
         guard let url = URL(string: "\(Exairon.shared.src)/api/v1/messages/getNewMessages/\(timestamp)/\(conversationId)") else{
             return
         }
@@ -31,8 +31,8 @@ class ApiService{
         urlRequest.httpMethod = "GET"
         URLSession.shared.dataTask(with: urlRequest) { data, response, error in
             guard let data = data, error == nil else { return completion(.failure(.NotFound)) }
-            guard let messages = try? JSONDecoder().decode(Messages.self, from: data) else { return completion(.failure(.DataNotProcessing)) }
-            completion(.success(messages))
+            guard let missingMessageRes = try? JSONDecoder().decode(MissingMessageResponse.self, from: data) else { return completion(.failure(.DataNotProcessing)) }
+            completion(.success(missingMessageRes))
         }.resume()
     }
 }
