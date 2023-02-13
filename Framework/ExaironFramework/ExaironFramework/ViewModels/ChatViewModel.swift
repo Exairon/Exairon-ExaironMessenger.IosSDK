@@ -75,6 +75,11 @@ class ChatViewModel: ObservableObject {
         }
     }
     
+    func finishSession() {
+        let sessionFinishRequest = SessionRequest(session_id: self.readStringStorage(key: "conversationId"), channelId: Exairon.shared.channelId)
+        socketService.socketEmit(eventName: "finish_session", object: sessionFinishRequest)
+    }
+    
     func listenFinishSession() {
         let socket = socketService.getSocket()
         socket.off("session_finished")

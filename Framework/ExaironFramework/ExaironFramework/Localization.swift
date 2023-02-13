@@ -25,6 +25,8 @@ fileprivate class Exairon_en {
         case "formDesc": return "Fields ending with * are required to be filled."
         case "formError": return "Please fill in the fields correctly."
         case "startSession": return "Start Session"
+        case "sessionFinishMessage": return "Do you really want to end the session?"
+        case "yes": return "Yes"
         default: return ""
         }
     }
@@ -48,6 +50,8 @@ fileprivate class Exairon_tr {
         case "formDesc": return "* ile biten alanların doldurulması zorunludur."
         case "formError": return "Lütfen alanları doğru şekilde doldurunuz."
         case "startSession": return "Oturumu Başlat"
+        case "sessionFinishMessage": return "Gerçekten oturumu bitirmek istiyor musunuz?"
+        case "yes": return "Evet"
         default: return ""
         }
     }
