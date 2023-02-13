@@ -10,6 +10,7 @@ import SwiftUI
 struct SurveyView: View {
     @State var message: Message
     @State var widgetSettings: WidgetSettings
+    @State var chatViewModel: ChatViewModel
     @State var value: Int? = nil
     @State var comment: String = ""
     @State var disabled: Bool = true
@@ -78,13 +79,17 @@ struct SurveyView: View {
                     changeButtonDisabled()
                 }
                 .onSubmit {
-                    sendSurvey()
+                    if value != nil {
+                        chatViewModel.sendSurvey(value: value!, comment: comment)
+                    }
                 }
             LargeButton(title: AnyView(Text(Localization.init().locale(key: "submit"))),
                         disabled: disabled,
                 backgroundColor: Color(hex: widgetSettings.data.color.buttonBackColor) ?? Color.black,
                 foregroundColor: Color(hex: widgetSettings.data.color.buttonFontColor) ?? Color.white)  {
-                    sendSurvey()
+                if value != nil {
+                    chatViewModel.sendSurvey(value: value!, comment: comment)
+                }
                 }
         }
     }
@@ -94,15 +99,6 @@ struct SurveyView: View {
             disabled = false
         } else {
             disabled = true
-        }
-    }
-    
-    func sendSurvey() {
-        if value == nil {
-            return
-        } else {
-            print(value ?? "")
-            print(comment)
         }
     }
 }

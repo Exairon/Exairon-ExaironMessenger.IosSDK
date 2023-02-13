@@ -20,31 +20,32 @@ struct ChatView: View {
                 }.rotationEffect(.degrees(180))
             }.rotationEffect(.degrees(180))
             
-            HStack {
-                TextField(chatViewModel.message?.placeholder ?? "Type a message",
-                          text: $chatViewModel.messageText)
-                .padding()
-                .background(.gray.opacity(0.1))
-                .cornerRadius(10)
-                .onSubmit {
-                    chatViewModel.sendMessage(message: chatViewModel.messageText)
-                }
-                Spacer()
-                Button {
-                    if chatViewModel.messageText.count > 0 {
+            if chatViewModel.showInputArea {
+                HStack {
+                    TextField(chatViewModel.message?.placeholder ?? "Type a message",
+                              text: $chatViewModel.messageText)
+                    .padding()
+                    .background(.gray.opacity(0.1))
+                    .cornerRadius(10)
+                    .onSubmit {
                         chatViewModel.sendMessage(message: chatViewModel.messageText)
                     }
-                } label: {
-                    Image(systemName: "arrow.up.circle.fill").font(.system(size: 40))
+                    Spacer()
+                    Button {
+                        if chatViewModel.messageText.count > 0 {
+                            chatViewModel.sendMessage(message: chatViewModel.messageText)
+                        }
+                    } label: {
+                        Image(systemName: "arrow.up.circle.fill").font(.system(size: 40))
+                    }
+                    .font(.system(size: 26))
+                    .padding(.horizontal, 10)
                 }
-                .font(.system(size: 26))
-                .padding(.horizontal, 10)
+                .padding()
             }
-            .padding()
         }
         .onAppear{
-            chatViewModel.readMessage()
-            chatViewModel.listenNewMessages()
+            chatViewModel.initializeChatView()
         }
         .frame(
             minWidth: 0,

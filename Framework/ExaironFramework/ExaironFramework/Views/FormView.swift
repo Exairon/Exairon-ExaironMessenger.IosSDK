@@ -52,7 +52,6 @@ struct FormView: View {
         User.shared.surname = Exairon.shared.surname
         User.shared.email = Exairon.shared.email
         User.shared.phone = Exairon.shared.phone
-        print(chatViewModel.viewRouter.currentPage)
         chatViewModel.changePage(page: .chatView)
     }
     

@@ -11,6 +11,7 @@
 		AC8B4D3F29963D12006DAB19 /* SocketMessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8B4D3E29963D12006DAB19 /* SocketMessageModel.swift */; };
 		AC8B4D4129963DB0006DAB19 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8B4D4029963DB0006DAB19 /* UserModel.swift */; };
 		AC8D45DA2996187900A13BF1 /* SessionRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8D45D92996187900A13BF1 /* SessionRequest.swift */; };
+		ACA5D96E299A20AE000FF2BA /* SurveyRequestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA5D96D299A20AE000FF2BA /* SurveyRequestModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -56,6 +57,7 @@
 		AC8B4D4029963DB0006DAB19 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		AC8D45D629952B0800A13BF1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		AC8D45D92996187900A13BF1 /* SessionRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionRequest.swift; sourceTree = "<group>"; };
+		ACA5D96D299A20AE000FF2BA /* SurveyRequestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyRequestModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +113,7 @@
 				AC8D45D92996187900A13BF1 /* SessionRequest.swift */,
 				AC8B4D3E29963D12006DAB19 /* SocketMessageModel.swift */,
 				AC8B4D4029963DB0006DAB19 /* UserModel.swift */,
+				ACA5D96D299A20AE000FF2BA /* SurveyRequestModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -271,6 +274,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ACA5D96E299A20AE000FF2BA /* SurveyRequestModel.swift in Sources */,
 				AC8B4D3F29963D12006DAB19 /* SocketMessageModel.swift in Sources */,
 				AC8D45DA2996187900A13BF1 /* SessionRequest.swift in Sources */,
 				AC8B4D4129963DB0006DAB19 /* UserModel.swift in Sources */,

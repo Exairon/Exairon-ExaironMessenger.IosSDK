@@ -17,6 +17,7 @@ class ChatViewModel: ObservableObject {
     @Published var messageArray: [Message] = []
     @Published var avatarUrl: String? = nil
     @Published var message: WidgetMessage? = nil
+    @Published var showInputArea: Bool = true
     
     func socketConnection(completion: @escaping (_ success: Bool) -> Void) {
         socketService.connect() { result in
@@ -74,6 +75,36 @@ class ChatViewModel: ObservableObject {
         }
     }
     
+    func listenFinishSession() {
+        let socket = socketService.getSocket()
+        socket.off("session_finished")
+        socket.on("session_finished") {data, ack in
+            if self.widgetSettings?.data.showSurvey == true {
+                let time = Int64(NSDate().timeIntervalSince1970 * 1000)
+                let surveyMessage = Message(sender: "bot_uttered", type: "survey", timeStamp: time)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    withAnimation {
+                        self.messageArray.append(surveyMessage)
+                        self.writeMessage(messages: self.messageArray)
+                    }
+                }
+                self.showInputArea = false
+            } else {
+                self.writeMessage(messages: [])
+                self.writeStringStorage(value: "", key: "conversationId")
+            }
+        }
+    }
+    
+    func sendSurvey(value: Int, comment: String) {
+        let surveyResult = ["value": value,
+                            "comment": comment] as [String : Any]
+        let surveyRequest = SurveyRequest(channelId: Exairon.shared.channelId, session_id: self.readStringStorage(key: "conversationId") ?? "", surveyResult: surveyResult)
+        socketService.socketEmit(eventName: "send_survey_result", object: surveyRequest)
+        self.writeMessage(messages: [])
+        self.writeStringStorage(value: "", key: "conversationId")
+    }
+
     func getWidgetSettings(completion: @escaping(_ widgetSettings: WidgetSettings) -> Void) {
         apiService.getWidgetSettingsApiCall() { result in
             switch result {
@@ -108,6 +139,7 @@ class ChatViewModel: ObservableObject {
                                 User.shared.surname = Exairon.shared.surname
                                 User.shared.email = Exairon.shared.email
                                 User.shared.phone = Exairon.shared.phone
+                                self.writeMessage(messages: [])
                                 self.changePage(page: .chatView)
                             } else {
                                 self.changePage(page: .formView)
@@ -206,11 +238,9 @@ class ChatViewModel: ObservableObject {
         do {
             // Create JSON Encoder
             let encoder = JSONEncoder()
-            print(messages)
             // Encode Note
             let messagesss = Messages(messages: messages)
             let data = try encoder.encode(messagesss)
-            print(data)
             UserDefaults.standard.set(data, forKey: "messages")
         } catch {
             print("Unable to Encode Note (\(error))")
@@ -236,6 +266,21 @@ class ChatViewModel: ObservableObject {
                 self.messageArray = data.messages + newMessageArray
             } catch {
                 print("Unable to Decode Note (\(error))")
+            }
+        }
+    }
+    
+    func initializeChatView() {
+        self.showInputArea = true
+        self.readMessage()
+        self.listenNewMessages()
+        self.listenFinishSession()
+        let c_id = self.readStringStorage(key: "conversationId")
+        if c_id == nil || c_id == "" {
+            self.sessionRequest() { socketResponse in
+                DispatchQueue.main.async {
+                    self.writeStringStorage(value: socketResponse, key: "conversationId")
+                }
             }
         }
     }

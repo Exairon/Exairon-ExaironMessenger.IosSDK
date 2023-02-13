@@ -30,7 +30,7 @@ struct MessageView: View {
             case "carousel":
                 CarouselMessageView(message: message, widgetSettings: widgetSettings, chatViewModel: chatViewModel)
             case "survey":
-                SurveyView(message: message, widgetSettings: widgetSettings)
+                SurveyView(message: message, widgetSettings: widgetSettings, chatViewModel: chatViewModel)
             default:
                 Text("Unsupported Message")
             }
