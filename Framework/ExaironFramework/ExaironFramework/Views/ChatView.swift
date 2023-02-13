@@ -20,6 +20,15 @@ struct ChatView: View {
                 }.rotationEffect(.degrees(180))
             }.rotationEffect(.degrees(180))
             
+            HStack {
+                Image("exa_logo")
+                    .resizable()
+                    .frame(width: 30, height: 30)
+                Text("We Run Exairon")
+                    .font(.system(size: 15))
+            }
+            .padding(0)
+            
             if chatViewModel.showInputArea {
                 HStack {
                     TextField(chatViewModel.message?.placeholder ?? "Type a message",
@@ -41,7 +50,7 @@ struct ChatView: View {
                     .font(.system(size: 26))
                     .padding(.horizontal, 10)
                 }
-                .padding()
+                .padding(.horizontal)
             }
         }
         .onAppear{
