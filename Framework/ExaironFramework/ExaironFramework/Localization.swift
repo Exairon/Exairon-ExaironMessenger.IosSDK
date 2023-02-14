@@ -27,6 +27,10 @@ fileprivate class Exairon_en {
         case "startSession": return "Start Session"
         case "sessionFinishMessage": return "Do you really want to end the session?"
         case "yes": return "Yes"
+        case "camera": return "Camera"
+        case "gallery": return "Gallery"
+        case "file": return "File"
+        case "location": return "Location"
         default: return ""
         }
     }
@@ -52,6 +56,10 @@ fileprivate class Exairon_tr {
         case "startSession": return "Oturumu Başlat"
         case "sessionFinishMessage": return "Gerçekten oturumu bitirmek istiyor musunuz?"
         case "yes": return "Evet"
+        case "camera": return "Kamera"
+        case "gallery": return "Galeri"
+        case "file": return "Dosya"
+        case "location": return "Konum"
         default: return ""
         }
     }
