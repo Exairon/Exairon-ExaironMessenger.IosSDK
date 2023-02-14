@@ -11,7 +11,6 @@ import SwiftUI
 class ChatViewModel: ObservableObject {
     let apiService = ApiService()
     let socketService = SocketService()
-    @ObservedObject var viewRouter = ViewRouter()
     @Published var messageText = ""
     @Published var widgetSettings: WidgetSettings? = nil
     @Published var messageArray: [Message] = []
@@ -40,8 +39,8 @@ class ChatViewModel: ObservableObject {
         }
     }
     
-    func changePage(page: Page) {
-        self.viewRouter.currentPage = page
+    func changePage(page: Page, viewRouter: ViewRouter) {
+        viewRouter.currentPage = page
     }
     
     func readStringStorage(key: String) -> String? {
@@ -109,7 +108,7 @@ class ChatViewModel: ObservableObject {
         
     }
 
-    func getWidgetSettings(completion: @escaping(_ widgetSettings: WidgetSettings) -> Void) {
+    func getWidgetSettings(viewRouter: ViewRouter, completion: @escaping(_ widgetSettings: WidgetSettings) -> Void) {
         apiService.getWidgetSettingsApiCall() { result in
             switch result {
                 case .failure(let error):
@@ -134,7 +133,7 @@ class ChatViewModel: ObservableObject {
                             User.shared.surname = Exairon.shared.surname
                             User.shared.email = Exairon.shared.email
                             User.shared.phone = Exairon.shared.phone
-                            self.changePage(page: .chatView)
+                            self.changePage(page: .chatView, viewRouter: viewRouter)
                         } else {
                             if (!data.data.showUserForm || self.checkCustomerValues(formFields: data.data.formFields)) {
                                 let userToken: String = self.readStringStorage(key: "userToken") ?? UUID().uuidString
@@ -144,9 +143,9 @@ class ChatViewModel: ObservableObject {
                                 User.shared.email = Exairon.shared.email
                                 User.shared.phone = Exairon.shared.phone
                                 self.writeMessage(messages: [])
-                                self.changePage(page: .chatView)
+                                self.changePage(page: .chatView, viewRouter: viewRouter)
                             } else {
-                                self.changePage(page: .formView)
+                                self.changePage(page: .formView, viewRouter: viewRouter)
                             }
                         }
                     }
@@ -160,7 +159,6 @@ class ChatViewModel: ObservableObject {
         apiService.getNewMessagesApiCall(timestamp: timestamp, conversationId: conversationId) { result in
             switch result {
             case .failure(let error):
-                print("---")
                 print(error)
             case .success(let data):
                 completion(data)

@@ -9,11 +9,12 @@ import SwiftUI
 
 struct ChatView: View {
     @ObservedObject var chatViewModel: ChatViewModel
+    @StateObject var viewRouter: ViewRouter
     @Environment(\.presentationMode) var mode: Binding<PresentationMode>
 
     var body: some View {
         VStack {
-            HeaderView(chatViewModel: chatViewModel)
+            HeaderView(chatViewModel: chatViewModel, viewRouter: viewRouter)
 
             ScrollView {
                 ForEach(chatViewModel.messageArray, id: \.self) { message in

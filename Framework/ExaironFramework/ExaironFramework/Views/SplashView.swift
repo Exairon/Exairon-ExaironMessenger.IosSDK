@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SplashView: View {
     @ObservedObject var chatViewModel: ChatViewModel
+    @StateObject var viewRouter: ViewRouter
     @State private var scale = 1.0
     @State private var scaleSize = 0.05
     @State private var scaleUp = true
@@ -30,7 +31,7 @@ struct SplashView: View {
             }
             .onAppear{
                 chatViewModel.socketConnection { data in
-                    chatViewModel.getWidgetSettings(){widgetSettings in }
+                    chatViewModel.getWidgetSettings(viewRouter: viewRouter){widgetSettings in }
                 }
             }
     }

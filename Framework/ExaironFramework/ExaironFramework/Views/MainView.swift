@@ -9,17 +9,18 @@ import SwiftUI
 import AVKit
 
 public struct MainView: View {
+    @StateObject var viewRouter = ViewRouter()
     @ObservedObject var chatViewModel = ChatViewModel()
 
     public var body: some View {
         ZStack {
-            switch chatViewModel.viewRouter.currentPage {
+            switch viewRouter.currentPage {
             case .splashView:
-                SplashView(chatViewModel: chatViewModel)
+                SplashView(chatViewModel: chatViewModel, viewRouter: viewRouter)
             case .formView:
-                FormView(chatViewModel: chatViewModel)
+                FormView(chatViewModel: chatViewModel, viewRouter: viewRouter)
             case .chatView:
-                ChatView(chatViewModel: chatViewModel)
+                ChatView(chatViewModel: chatViewModel, viewRouter: viewRouter)
             }
         }
     }

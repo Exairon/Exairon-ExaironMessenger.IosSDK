@@ -9,26 +9,27 @@ import SwiftUI
 
 struct FormView: View {
     @ObservedObject var chatViewModel: ChatViewModel
+    @StateObject var viewRouter: ViewRouter
     @ObservedObject var formViewModel =  FormViewModel()
-    @State var formFields: FormFields
+    //@State var formFields: FormFields
     
     var body: some View {
         VStack {
-            HeaderView(chatViewModel: chatViewModel)
+            HeaderView(chatViewModel: chatViewModel, viewRouter: viewRouter)
                 .padding(.bottom, 20)
             Text(Localization.init().locale(key: "formTitle"))
                 .font(.system(size: 10))
-            if formFields.showNameField {
-                FormFieldView(formViewModel: formViewModel, title: "name", placeholder: "namePlaceholder", required: formFields.nameFieldRequired)
+            if getFormFields().showNameField {
+                FormFieldView(formViewModel: formViewModel, title: "name", placeholder: "namePlaceholder", required: getFormFields().nameFieldRequired)
             }
-            if formFields.showSurnameField {
-                FormFieldView(formViewModel: formViewModel, title: "surname", placeholder: "surnamePlaceholder", required: formFields.surnameFieldRequired)
+            if getFormFields().showSurnameField {
+                FormFieldView(formViewModel: formViewModel, title: "surname", placeholder: "surnamePlaceholder", required: getFormFields().surnameFieldRequired)
             }
-            if formFields.showEmailField {
-                FormFieldView(formViewModel: formViewModel, title: "email", placeholder: "emailPlaceholder", required: formFields.emailFieldRequired)
+            if getFormFields().showEmailField {
+                FormFieldView(formViewModel: formViewModel, title: "email", placeholder: "emailPlaceholder", required: getFormFields().emailFieldRequired)
             }
-            if formFields.showPhoneField {
-                FormFieldView(formViewModel: formViewModel, title: "phone", placeholder: "phonePlaceholder", required: formFields.phoneFieldRequired)
+            if getFormFields().showPhoneField {
+                FormFieldView(formViewModel: formViewModel, title: "phone", placeholder: "phonePlaceholder", required: getFormFields().phoneFieldRequired)
             }
             Text(Localization.init().locale(key: "formDesc"))
                 .font(.system(size: 10))
@@ -36,7 +37,7 @@ struct FormView: View {
             LargeButton(title: AnyView(Text(Localization.init().locale(key: "startSession"))),
                         backgroundColor: Color(hex: (chatViewModel.widgetSettings?.data.color.headerColor)!) ?? Color.black,
                         foregroundColor: Color(hex: (chatViewModel.widgetSettings?.data.color.headerFontColor)!) ?? Color.white) {
-                let isValid = formViewModel.isValid(formFields: formFields)
+                let isValid = formViewModel.isValid(formFields: getFormFields())
                 if (isValid) {
                     startSession()
                 }
@@ -52,11 +53,11 @@ struct FormView: View {
         User.shared.surname = Exairon.shared.surname
         User.shared.email = Exairon.shared.email
         User.shared.phone = Exairon.shared.phone
-        chatViewModel.changePage(page: .chatView)
+        chatViewModel.changePage(page: .chatView, viewRouter: viewRouter)
     }
     
-    init(chatViewModel: ChatViewModel) {
-        self.chatViewModel = chatViewModel
-        self.formFields = chatViewModel.widgetSettings?.data.formFields ?? FormFields(emailFieldRequired: false, nameFieldRequired: false, phoneFieldRequired: false, showEmailField: false, showNameField: true, showPhoneField: false, showSurnameField: false, surnameFieldRequired: false)
+    func getFormFields() -> FormFields {
+        return chatViewModel.widgetSettings?.data.formFields ?? FormFields(emailFieldRequired: false, nameFieldRequired: false, phoneFieldRequired: false, showEmailField: false, showNameField: true, showPhoneField: false, showSurnameField: false, surnameFieldRequired: false)
     }
+
 }
