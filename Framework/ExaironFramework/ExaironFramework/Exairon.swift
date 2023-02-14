@@ -10,7 +10,7 @@ import Foundation
 public class Exairon {
     public static let shared = Exairon()
     public var channelId: String = ""
-    public var src: String = ""
+    public var src: String = "https://exairon.services.exairon.com"
     public var language: String = "tr"
     public var name: String? = nil
     public var surname: String? = nil
