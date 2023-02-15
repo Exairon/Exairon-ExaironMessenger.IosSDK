@@ -117,10 +117,24 @@ struct BottomSheetElementView: View {
                                     mapViewModel.checkIfLocationServicesIsEnabled()
                                 }
                         } else {
-                            Map(coordinateRegion: $mapViewModel.region, showsUserLocation: true)
-                                .onAppear {
-                                    mapViewModel.checkIfLocationServicesIsEnabled()
-                                }
+                            VStack {
+                                HStack {
+                                    Button {
+                                        self.showMapSheet.toggle()
+                                    } label: {
+                                        LargeButton(title: AnyView(Text(Localization.init().locale(key: "cancel"))),
+                                            backgroundColor: Color.white,
+                                            foregroundColor: Color.blue) {
+                                                self.showMapSheet.toggle()
+                                            }
+                                    }
+                                    Spacer()
+                                }.padding()
+                                Map(coordinateRegion: $mapViewModel.region, showsUserLocation: true)
+                                    .onAppear {
+                                        mapViewModel.checkIfLocationServicesIsEnabled()
+                                    }
+                            }
                         }
                         VStack {
                             Spacer()
