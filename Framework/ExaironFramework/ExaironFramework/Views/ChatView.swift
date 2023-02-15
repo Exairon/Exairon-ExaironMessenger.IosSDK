@@ -19,7 +19,7 @@ struct ChatView: View {
             Spacer()
             ScrollView {
                 ForEach(chatViewModel.messageArray, id: \.self) { message in
-                    MessageView(message: message, widgetSettings: chatViewModel.widgetSettings!, chatViewModel: chatViewModel)
+                    MessageView(message: message, widgetSettings: chatViewModel.widgetSettings!, chatViewModel: chatViewModel, viewRouter: viewRouter)
                 }.rotationEffect(.degrees(180))
             }.rotationEffect(.degrees(180))
             
@@ -74,6 +74,7 @@ struct ChatView: View {
                 .padding(.bottom)
                 .onDisappear {
                     if chatViewModel.widgetSettings?.data.showSurvey == false {
+                        chatViewModel.changePage(page: .splashView, viewRouter: viewRouter)
                         self.mode.wrappedValue.dismiss()
                     }
                 }

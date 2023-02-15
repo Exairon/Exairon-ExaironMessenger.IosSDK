@@ -9,13 +9,19 @@ import Foundation
 import SocketIO
 
 class SocketService {
+    var connected: Bool = false
     let manager = SocketManager(socketURL: URL(string: Exairon.shared.src)!, config: [.log(false), .path("/socket")])
     func connect(completion: @escaping (_ success: Bool) -> Void) {
-        let socket = manager.defaultSocket
-        socket.on(clientEvent: .connect) {data, ack in
+        if connected {
             completion(true)
+        } else {
+            let socket = manager.defaultSocket
+            socket.on(clientEvent: .connect) {data, ack in
+                self.connected = true
+                completion(true)
+            }
+            socket.connect()
         }
-        socket.connect()
     }
 
     func socketEmit(eventName: String, object: SocketData) {

@@ -11,6 +11,7 @@ struct SurveyView: View {
     @State var message: Message
     @State var widgetSettings: WidgetSettings
     @State var chatViewModel: ChatViewModel
+    @State var viewRouter: ViewRouter
     @State var value: Int? = nil
     @State var comment: String = ""
     @State var disabled: Bool = true
@@ -93,6 +94,7 @@ struct SurveyView: View {
                 }
         }
         .onDisappear {
+            chatViewModel.changePage(page: .splashView, viewRouter: viewRouter)
             self.mode.wrappedValue.dismiss()
         }
     }

@@ -11,6 +11,7 @@ struct MessageView: View {
     @State var message: Message
     @State var widgetSettings: WidgetSettings
     @State var chatViewModel: ChatViewModel
+    @State var viewRouter: ViewRouter
     
     var body: some View {
         VStack {
@@ -30,7 +31,7 @@ struct MessageView: View {
             case "carousel":
                 CarouselMessageView(message: message, widgetSettings: widgetSettings, chatViewModel: chatViewModel)
             case "survey":
-                SurveyView(message: message, widgetSettings: widgetSettings, chatViewModel: chatViewModel)
+                SurveyView(message: message, widgetSettings: widgetSettings, chatViewModel: chatViewModel, viewRouter: viewRouter)
             default:
                 Text("Unsupported Message")
             }
