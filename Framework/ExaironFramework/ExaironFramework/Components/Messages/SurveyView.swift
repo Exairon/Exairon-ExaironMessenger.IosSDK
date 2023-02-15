@@ -70,20 +70,37 @@ struct SurveyView: View {
             }
             .padding(.vertical, 5)
             .padding(.horizontal, 30)
-            TextField(Localization.init().locale(key: "surveyHint"),
-                      text: $comment)
-                //.background(.gray.opacity(0.1))
-                .padding(.horizontal, 30)
-                .textFieldStyle(.roundedBorder)
-                .onChange(of: comment) {
-                    print($0)
-                    changeButtonDisabled()
-                }
-                .onSubmit {
-                    if value != nil {
-                        chatViewModel.sendSurvey(value: value!, comment: comment)
+            if #available(iOS 16.0, *) {
+                TextField(Localization.init().locale(key: "surveyHint"),
+                          text: $comment)
+                    .padding(.horizontal, 30)
+                    .lineLimit(5, reservesSpace: true)
+                    .textFieldStyle(.roundedBorder)
+                    .onChange(of: comment) {
+                        print($0)
+                        changeButtonDisabled()
                     }
-                }
+                    .onSubmit {
+                        if value != nil {
+                            chatViewModel.sendSurvey(value: value!, comment: comment)
+                        }
+                    }
+            } else {
+                TextField(Localization.init().locale(key: "surveyHint"),
+                          text: $comment)
+                    .padding(.horizontal, 30)
+                    .textFieldStyle(.roundedBorder)
+                    .onChange(of: comment) {
+                        print($0)
+                        changeButtonDisabled()
+                    }
+                    .onSubmit {
+                        if value != nil {
+                            chatViewModel.sendSurvey(value: value!, comment: comment)
+                        }
+                    }
+            }
+            
             LargeButton(title: AnyView(Text(Localization.init().locale(key: "submit"))),
                         disabled: disabled,
                 backgroundColor: Color(hex: widgetSettings.data.color.buttonBackColor) ?? Color.black,

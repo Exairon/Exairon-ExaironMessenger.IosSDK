@@ -21,7 +21,7 @@ struct HeaderView: View {
                 } label: {
                     Image(systemName: "chevron.backward")
                         .font(.system(size: 30, weight: .bold, design: .default))
-                        .foregroundColor(.black)
+                        .foregroundColor(.white)
                 }
             }
             AsyncImage(url: URL(string: chatViewModel.avatarUrl ?? ""),
