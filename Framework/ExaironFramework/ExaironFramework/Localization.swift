@@ -32,6 +32,7 @@ fileprivate class Exairon_en {
         case "file": return "File"
         case "location": return "Location"
         case "cancel": return "Cancel"
+        case "back": return "Back"
         default: return ""
         }
     }
@@ -62,6 +63,7 @@ fileprivate class Exairon_tr {
         case "file": return "Dosya"
         case "location": return "Konum"
         case "cancel": return "İptal"
+        case "back": return "Geri"
         default: return ""
         }
     }

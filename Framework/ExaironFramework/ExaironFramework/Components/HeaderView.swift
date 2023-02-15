@@ -11,18 +11,28 @@ struct HeaderView: View {
     @ObservedObject var chatViewModel: ChatViewModel
     @StateObject var viewRouter: ViewRouter
     @State private var isPresentingConfirm: Bool = false
+    @Environment(\.presentationMode) var mode: Binding<PresentationMode>
 
     var body: some View {
         HStack {
+            if #unavailable(iOS 16.0) {
+                Button {
+                    self.mode.wrappedValue.dismiss()
+                } label: {
+                    Image(systemName: "chevron.backward")
+                        .font(.system(size: 30, weight: .bold, design: .default))
+                        .foregroundColor(.black)
+                }
+            }
             AsyncImage(url: URL(string: chatViewModel.avatarUrl ?? ""),
                        content: { image in
                 image.resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(maxWidth: 40, maxHeight: 40)
             },
-                       placeholder: {
-                ProgressView()
-            })
+                placeholder: {
+                    ProgressView()
+                })
             .padding(.trailing, 15)
             VStack(alignment: .leading) {
                 Text(chatViewModel.message?.headerTitle ?? "Chat")
@@ -51,7 +61,7 @@ struct HeaderView: View {
                     }
             }
         }
-        .padding()
-        .background(Color(hex: chatViewModel.widgetSettings?.data.color.headerColor ?? "FFFFFF"))
+            .padding()
+            .background(Color(hex: chatViewModel.widgetSettings?.data.color.headerColor ?? "#FFFFFF"))
     }
 }

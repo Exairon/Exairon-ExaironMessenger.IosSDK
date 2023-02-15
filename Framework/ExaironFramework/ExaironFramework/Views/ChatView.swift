@@ -15,8 +15,27 @@ struct ChatView: View {
 
     var body: some View {
         VStack {
-            HeaderView(chatViewModel: chatViewModel, viewRouter: viewRouter)
-            Spacer()
+            if #available(iOS 16.0, *) {
+                HStack {
+                    Button{
+                        self.mode.wrappedValue.dismiss()
+                    } label: {
+                        HStack {
+                            Image(systemName: "arrow.backward")
+                                .font(.system(size: 20))
+                            Text(Localization.init().locale(key: "back"))
+                                .font(.system(size: 20))
+                        }
+                    }
+                    Spacer()
+                }
+                .padding(.horizontal)
+               
+                HeaderView(chatViewModel: chatViewModel, viewRouter: viewRouter)
+            } else {
+                HeaderView(chatViewModel: chatViewModel, viewRouter: viewRouter)
+            }
+            
             ScrollView {
                 ForEach(chatViewModel.messageArray, id: \.self) { message in
                     MessageView(message: message, widgetSettings: chatViewModel.widgetSettings!, chatViewModel: chatViewModel, viewRouter: viewRouter)

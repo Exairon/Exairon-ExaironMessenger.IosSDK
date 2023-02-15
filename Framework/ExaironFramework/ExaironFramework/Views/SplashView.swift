@@ -14,7 +14,6 @@ struct SplashView: View {
     @State private var scaleSize = 0.05
     @State private var scaleUp = true
     let timer = Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()
-
     
     var body: some View {
         Image("exa_logo")

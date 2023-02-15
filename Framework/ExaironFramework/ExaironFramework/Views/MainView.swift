@@ -22,7 +22,7 @@ public struct MainView: View {
             case .chatView:
                 ChatView(chatViewModel: chatViewModel, viewRouter: viewRouter)
             }
-        }
+        }.navigationBarHidden(true)
     }
     
     public init() {}
