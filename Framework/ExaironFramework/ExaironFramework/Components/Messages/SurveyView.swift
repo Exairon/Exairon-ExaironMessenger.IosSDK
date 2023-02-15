@@ -70,8 +70,7 @@ struct SurveyView: View {
             .padding(.vertical, 5)
             .padding(.horizontal, 30)
             TextField(Localization.init().locale(key: "surveyHint"),
-                      text: $comment, axis: .vertical)
-                .lineLimit(5, reservesSpace: true)
+                      text: $comment)
                 //.background(.gray.opacity(0.1))
                 .padding(.horizontal, 30)
                 .textFieldStyle(.roundedBorder)

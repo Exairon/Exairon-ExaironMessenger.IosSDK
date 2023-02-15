@@ -8,7 +8,7 @@ Pod::Spec.new do |spec|
   spec.homepage     = "https://exairon.com"
   spec.license      = "MIT"
   spec.author       = { "Engin Ocal" => "engin.ocal@exairon.com" }
-  spec.platform     = :ios, "16.2"
+  spec.platform     = :ios, "15.0"
   spec.source       = { :git => "https://github.com/Exairon/Exairon-ExaironMessenger.IosSDK.git", :tag => spec.version.to_s }
 
 

@@ -49,8 +49,11 @@ struct BottomSheetView: View {
 }
 
 struct BottomSheetElementView: View {
+    //Image
+    @State private var showImagePicker: Bool = false
+    @State private var image: Image? = nil
     //Gallery
-    @State private var selectedItem: PhotosPickerItem? = nil
+    //@State private var selectedItem: PhotosPickerItem? = nil
     @State private var selectedImageData: Data? = nil
     //Document
     @State var showDocumentSheet = false
@@ -66,12 +69,16 @@ struct BottomSheetElementView: View {
             switch(element) {
             case .camera:
                 Button {
-                    print("click")
+                    self.showImagePicker.toggle()
                 } label: {
                     IconButtonView(text: "camera", icon: icon)
                 }
+                .sheet(isPresented: $showImagePicker) {
+                    PhotoCaptureView(showImagePicker: self.$showImagePicker, image: self.$image)
+                }
             case .gallery:
-                PhotosPicker(
+                Text("gallery")
+                /*PhotosPicker(
                     selection: $selectedItem,
                     matching: .images,
                     photoLibrary: .shared()) {
@@ -84,7 +91,7 @@ struct BottomSheetElementView: View {
                                 selectedImageData = data
                             }
                         }
-                    }
+                    }*/
             case .file:
                 Button {
                     self.showDocumentSheet.toggle()
@@ -102,12 +109,19 @@ struct BottomSheetElementView: View {
                 }
                 .sheet(isPresented: $showMapSheet) {
                     ZStack {
-                        Map(coordinateRegion: $mapViewModel.region, showsUserLocation: true)
-                            .ignoresSafeArea()
-                            .presentationDetents([.height(UIScreen.main.bounds.height * 0.7)])
-                            .onAppear {
-                                mapViewModel.checkIfLocationServicesIsEnabled()
-                            }
+                        if #available(iOS 16.0, *) {
+                            Map(coordinateRegion: $mapViewModel.region, showsUserLocation: true)
+                                .ignoresSafeArea()
+                                .presentationDetents([.height(UIScreen.main.bounds.height * 0.7)])
+                                .onAppear {
+                                    mapViewModel.checkIfLocationServicesIsEnabled()
+                                }
+                        } else {
+                            Map(coordinateRegion: $mapViewModel.region, showsUserLocation: true)
+                                .onAppear {
+                                    mapViewModel.checkIfLocationServicesIsEnabled()
+                                }
+                        }
                         VStack {
                             Spacer()
                             HStack {
@@ -155,34 +169,5 @@ struct IconButtonView: View {
             maxHeight: .infinity,
             alignment: .topLeading
         )
-    }
-}
-
-struct DocumentPicker: UIViewControllerRepresentable {
-    func makeCoordinator() -> Coordinator {
-        return DocumentPicker.Coordinator(parent1: self)
-    }
-    
-    
-    func makeUIViewController(context: UIViewControllerRepresentableContext<DocumentPicker>) -> UIDocumentPickerViewController {
-        let picker = UIDocumentPickerViewController(forOpeningContentTypes: [.pdf])
-        picker.allowsMultipleSelection = false
-        picker.delegate = context.coordinator
-        return picker
-    }
-
-    func updateUIViewController(_ uiViewController: DocumentPicker.UIViewControllerType, context: UIViewControllerRepresentableContext<DocumentPicker>) {
-    }
-    
-    class Coordinator: NSObject, UIDocumentPickerDelegate {
-        
-        var parent: DocumentPicker
-        
-        init(parent1: DocumentPicker) {
-            parent = parent1
-        }
-        func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
-            print(urls.first?.deletingPathExtension().lastPathComponent ?? "")
-        }
     }
 }

@@ -16,7 +16,7 @@ struct ChatView: View {
     var body: some View {
         VStack {
             HeaderView(chatViewModel: chatViewModel, viewRouter: viewRouter)
-
+            Spacer()
             ScrollView {
                 ForEach(chatViewModel.messageArray, id: \.self) { message in
                     MessageView(message: message, widgetSettings: chatViewModel.widgetSettings!, chatViewModel: chatViewModel)
@@ -42,8 +42,12 @@ struct ChatView: View {
                         .font(.system(size: 26))
                         .padding(.horizontal, 10)
                         .sheet(isPresented: $showingCredits) {
-                            BottomSheetView()
-                                .presentationDetents([.height(UIScreen.main.bounds.height * 0.3)])
+                            if #available(iOS 16.0, *) {
+                                BottomSheetView()
+                                    .presentationDetents([.height(UIScreen.main.bounds.height * 0.3)])
+                            } else {
+                                BottomSheetView()
+                            }
                         }
                     TextField(chatViewModel.message?.placeholder ?? "Type a message",
                               text: $chatViewModel.messageText)
@@ -51,7 +55,9 @@ struct ChatView: View {
                         .background(.gray.opacity(0.1))
                         .cornerRadius(10)
                         .onSubmit {
-                            chatViewModel.sendMessage(message: chatViewModel.messageText)
+                            if chatViewModel.messageText.count > 0 {
+                                chatViewModel.sendMessage(message: chatViewModel.messageText)
+                            }
                         }
                     Spacer()
                     Button {
@@ -65,6 +71,7 @@ struct ChatView: View {
                         .padding(.horizontal, 10)
                 }
                 .padding(.horizontal)
+                .padding(.bottom)
                 .onDisappear {
                     if chatViewModel.widgetSettings?.data.showSurvey == false {
                         self.mode.wrappedValue.dismiss()
