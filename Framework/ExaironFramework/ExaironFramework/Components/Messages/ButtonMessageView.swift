@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import WrappingHStack
 
 struct ButtonMessageView: View {
     @State var message: Message
@@ -27,35 +28,19 @@ struct ButtonMessageView: View {
                     .padding(.horizontal, 16)
                 Spacer()
             }
-            /*WrappingHStack() {
-                ForEach(message.quick_replies ?? [], id: \.self) {quickReply in
+            WrappingHStack {
+                WrappingHStack(message.quick_replies ?? [], id:\.self) {
+                    let quickReply = $0
                     LargeButton(title: AnyView(Text(quickReply.title ?? "")),
-                                 backgroundColor: Color(hex: widgetSettings.data.color.buttonBackColor) ?? Color.black,
-                                 foregroundColor: Color(hex: widgetSettings.data.color.buttonFontColor) ?? Color.white) {
-                                     if quickReply.type == "postback" {
-                                         chatViewModel.sendMessage(message: quickReply.title ?? "", payload: quickReply.payload)
-                                     } else {
-                                         if let url = URL(string: quickReply.url ?? "") {
-                                             UIApplication.shared.open(url)
-                                         }
-                                     }
-                                 }
-                }
-            }*/
-            .padding()
-            /*ScrollView(.horizontal, showsIndicators: false) {
-                LazyHStack {
-                    ForEach(message.quick_replies ?? [], id: \.self) { in quickReply
-                        LargeButton(title: AnyView(Text(quickReply.title ?? "")),
-                            backgroundColor: Color(hex: widgetSettings.data.color.buttonBackColor) ?? Color.black,
-                            foregroundColor: Color(hex: widgetSettings.data.color.buttonFontColor) ?? Color.white) {
-                                if quickReply.type == "postback" {
-                                    chatViewModel.sendMessage(message: quickReply.title ?? "", payload: quickReply.payload)
-                                }
+                        backgroundColor: Color(hex: widgetSettings.data.color.buttonBackColor) ?? Color.black,
+                        foregroundColor: Color(hex: widgetSettings.data.color.buttonFontColor) ?? Color.white) {
+                            if quickReply.type == "postback" {
+                                chatViewModel.sendMessage(message: quickReply.title ?? "", payload: quickReply.payload)
                             }
-                    }
-                }.padding(.horizontal)
-            }.frame(height: 56)*/
+                        }
+                }.frame(minWidth: 250)
+            }
+            .padding()
         }
         
     }
