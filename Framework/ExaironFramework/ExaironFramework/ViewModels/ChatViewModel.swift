@@ -31,7 +31,7 @@ class ChatViewModel: ObservableObject {
         let sessionRequestObj = SessionRequest(session_id: conversationId, channelId: Exairon.shared.channelId)
         socketService.socketEmit(eventName: "session_request", object: sessionRequestObj)
         let socket = socketService.getSocket()
-        socket.once("session_confirm") {data, ack in
+        socket?.once("session_confirm") {data, ack in
             guard let socketResponse = data[0] as? String else {
                 return
             }
@@ -53,8 +53,8 @@ class ChatViewModel: ObservableObject {
     
     func listenNewMessages() {
         let socket = socketService.getSocket()
-        socket.off("bot_uttered")
-        socket.on("bot_uttered") {data, ack in
+        socket?.off("bot_uttered")
+        socket?.on("bot_uttered") {data, ack in
             do {
                 let dat = try JSONSerialization.data(withJSONObject:data)
                 let res = try JSONDecoder().decode([Message].self,from:dat)
@@ -79,8 +79,8 @@ class ChatViewModel: ObservableObject {
     
     func listenFinishSession() {
         let socket = socketService.getSocket()
-        socket.off("session_finished")
-        socket.on("session_finished") {data, ack in
+        socket?.off("session_finished")
+        socket?.on("session_finished") {data, ack in
             if self.widgetSettings?.data.showSurvey == true {
                 let time = Int64(NSDate().timeIntervalSince1970 * 1000)
                 let surveyMessage = Message(sender: "bot_uttered", type: "survey", timeStamp: time)
