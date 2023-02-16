@@ -85,38 +85,25 @@ struct BottomSheetElementView: View {
                             chatViewModel.sendFileMessage(filename: "\(UUID().uuidString).jpeg", mimeType: "image/jpeg", fileData: data)
                         }
                     }
-                   
                 }) {
                     PhotoCaptureView(showImagePicker: self.$showImagePicker, image: self.$image)
                 }
             case .gallery:
-                /*Button {
-                    self.showDocumentSheet.toggle()
-                } label: {
-                    IconButtonView(text: "gallery", icon: icon)
-                }*/
                 Button {
                     self.showGalleryPicker.toggle()
                 } label: {
                     IconButtonView(text: "gallery", icon: icon)
                 }
-                .sheet(isPresented: $showGalleryPicker) {
+                .sheet(isPresented: $showGalleryPicker, onDismiss: {
+                    Task {
+                        if let data = galleryImage?.jpegData(compressionQuality: 0.1) {
+                            //imageDataProperties(data)
+                            chatViewModel.sendFileMessage(filename: "\(UUID().uuidString).jpeg", mimeType: "image/jpeg", fileData: data)
+                        }
+                    }
+                }) {
                     ImagePickerViewController(image: $galleryImage)
                 }
-                /*PhotosPicker(
-                    selection: $selectedItem,
-                    matching: .images,
-                    photoLibrary: .shared()) {
-                        IconButtonView(text: "gallery", icon: icon)
-                    }
-                    .onChange(of: selectedItem) { newItem in
-                        Task {
-                            // Retrieve selected asset in the form of Data
-                            if let data = try? await newItem?.loadTransferable(type: Data.self) {
-                                selectedImageData = data
-                            }
-                        }
-                    }*/
             case .file:
                 Button {
                     self.showDocumentSheet.toggle()
