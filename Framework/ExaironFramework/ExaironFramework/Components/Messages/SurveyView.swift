@@ -105,9 +105,9 @@ struct SurveyView: View {
                         disabled: disabled,
                 backgroundColor: Color(hex: widgetSettings.data.color.buttonBackColor) ?? Color.black,
                 foregroundColor: Color(hex: widgetSettings.data.color.buttonFontColor) ?? Color.white)  {
-                if value != nil {
-                    chatViewModel.sendSurvey(value: value!, comment: comment)
-                }
+                    if value != nil {
+                        chatViewModel.sendSurvey(value: value!, comment: comment)
+                    }
                 }
         }
         .onDisappear {

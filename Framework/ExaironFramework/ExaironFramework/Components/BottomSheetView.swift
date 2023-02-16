@@ -54,6 +54,8 @@ struct BottomSheetElementView: View {
     @State private var image: Image? = nil
     //Gallery
     //@State private var selectedItem: PhotosPickerItem? = nil
+    @State var galleryImage: UIImage? = nil
+    @State var showGalleryPicker: Bool = false
     @State private var selectedImageData: Data? = nil
     //Document
     @State var showDocumentSheet = false
@@ -73,11 +75,26 @@ struct BottomSheetElementView: View {
                 } label: {
                     IconButtonView(text: "camera", icon: icon)
                 }
-                .sheet(isPresented: $showImagePicker) {
+                .sheet(isPresented: $showImagePicker, onDismiss: {
+                    print("---")
+                    print(self.image ?? "nope")
+                }) {
                     PhotoCaptureView(showImagePicker: self.$showImagePicker, image: self.$image)
                 }
             case .gallery:
-                Text("gallery")
+                /*Button {
+                    self.showDocumentSheet.toggle()
+                } label: {
+                    IconButtonView(text: "gallery", icon: icon)
+                }*/
+                Button {
+                    self.showGalleryPicker.toggle()
+                } label: {
+                    IconButtonView(text: "gallery", icon: icon)
+                }
+                .sheet(isPresented: $showGalleryPicker) {
+                    ImagePickerViewController(image: $galleryImage)
+                }
                 /*PhotosPicker(
                     selection: $selectedItem,
                     matching: .images,

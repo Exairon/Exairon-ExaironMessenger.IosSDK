@@ -63,9 +63,10 @@ struct ChatView: View {
                         .sheet(isPresented: $showingCredits) {
                             if #available(iOS 16.0, *) {
                                 BottomSheetView()
-                                    .presentationDetents([.height(UIScreen.main.bounds.height * 0.3)])
+                                    .presentationDetents([.height(250)])
                             } else {
                                 BottomSheetView()
+                                    .frame(height: 250)
                             }
                         }
                     TextField(chatViewModel.message?.placeholder ?? "Type a message",
