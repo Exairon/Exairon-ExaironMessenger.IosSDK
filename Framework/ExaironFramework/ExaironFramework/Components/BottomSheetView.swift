@@ -81,7 +81,6 @@ struct BottomSheetElementView: View {
                 .sheet(isPresented: $showImagePicker, onDismiss: {
                     Task {
                         if let data = image?.jpegData(compressionQuality: 0.1) {
-                            //imageDataProperties(data)
                             chatViewModel.sendFileMessage(filename: "\(UUID().uuidString).jpeg", mimeType: "image/jpeg", fileData: data)
                         }
                     }
@@ -97,7 +96,6 @@ struct BottomSheetElementView: View {
                 .sheet(isPresented: $showGalleryPicker, onDismiss: {
                     Task {
                         if let data = galleryImage?.jpegData(compressionQuality: 0.1) {
-                            //imageDataProperties(data)
                             chatViewModel.sendFileMessage(filename: "\(UUID().uuidString).jpeg", mimeType: "image/jpeg", fileData: data)
                         }
                     }
@@ -153,7 +151,10 @@ struct BottomSheetElementView: View {
                             HStack {
                                 Spacer()
                                 Button {
-                                    print(mapViewModel.region)
+                                    showMapSheet.toggle()
+                                    let latitude = Double(mapViewModel.region.center.latitude)
+                                    let longitude = Double(mapViewModel.region.center.longitude)
+                                    chatViewModel.sendLocationMessage(latitude: latitude, longitude: longitude)
                                 } label: {
                                     Image(systemName: "arrow.up.circle.fill").font(.system(size: 40))
                                 }

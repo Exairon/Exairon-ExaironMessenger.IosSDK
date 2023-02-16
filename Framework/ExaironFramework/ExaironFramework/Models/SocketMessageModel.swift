@@ -31,3 +31,15 @@ struct SocketFileMessage : SocketData {
         return ["channel_id": channel_id, "message": message, "session_id": session_id, "userToken": userToken, "user": user]
     }
 }
+
+struct SocketLocationMessage : SocketData {
+    let channel_id: String
+    let message: Dictionary<String, Dictionary<String, Double>>
+    let session_id: String
+    let userToken: String
+    let user: Dictionary<String, String>
+    
+    func socketRepresentation() -> SocketData {
+        return ["channel_id": channel_id, "message": message, "session_id": session_id, "userToken": userToken, "user": user]
+    }
+}

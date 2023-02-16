@@ -301,16 +301,21 @@ class ChatViewModel: ObservableObject {
         }
     }
     
+    func getUserMap() -> Dictionary<String, String> {
+        return ["name": User.shared.name ?? "",
+                "surname": User.shared.surname ?? "",
+                "email": User.shared.email ?? "",
+                "phone": User.shared.phone ?? ""]
+    }
+    
+    
     func sendMessage(message: String, payload: String? = nil) {
         withAnimation {
             self.messageText = ""
             let newMessage = Message(sender: "user_uttered", type: "text", timeStamp: Int64(NSDate().timeIntervalSince1970 * 1000), text: message)
             self.messageArray.append(newMessage)
         }
-        let user = ["name": User.shared.name ?? "",
-                          "surname": User.shared.surname ?? "",
-                          "email": User.shared.email ?? "",
-                          "phone": User.shared.phone ?? ""]
+        let user = getUserMap()
         let messageString: String = payload ?? message
         let sendMessageModel = SocketMessage(channel_id: Exairon.shared.channelId, message: messageString, session_id: self.readStringStorage(key: "conversationId") ?? "", userToken: self.readStringStorage(key: "userToken") ?? "", user: user)
         socketService.socketEmit(eventName: "user_uttered", object: sendMessageModel)
@@ -327,13 +332,8 @@ class ChatViewModel: ObservableObject {
                 let file = ["document": data.data.url,
                             "mimeType": data.data.mimeType,
                             "originalname": data.data.originalname]
-                let user = ["name": User.shared.name ?? "",
-                                  "surname": User.shared.surname ?? "",
-                                  "email": User.shared.email ?? "",
-                                  "phone": User.shared.phone ?? ""]
+                let user = self.getUserMap()
                 let sendMessageModel = SocketFileMessage(channel_id: Exairon.shared.channelId, message: file, session_id: self.readStringStorage(key: "conversationId") ?? "", userToken: self.readStringStorage(key: "userToken") ?? "", user: user)
-                self.socketService.socketEmit(eventName: "user_uttered", object: sendMessageModel)
-                
                 var attachment: Attachment?
                 var custom: Custom?
                 var messageType = "image"
@@ -351,10 +351,28 @@ class ChatViewModel: ObservableObject {
                 }
                 
                 let newMessage = Message(sender: "user_uttered", type: messageType, timeStamp: timeStamp, attachment: attachment)
+                
+                self.socketService.socketEmit(eventName: "user_uttered", object: sendMessageModel)
+
                 withAnimation {
                     self.messageArray.append(newMessage)
                 }
             }
         }
+    }
+    
+    func sendLocationMessage(latitude: Double, longitude: Double) {
+        /*withAnimation {
+            let newMessage = Message(sender: "user_uttered", type: "location", timeStamp: Int64(NSDate().timeIntervalSince1970 * 1000), loca: message)
+            self.messageArray.append(newMessage)
+        }*/
+        let user = getUserMap()
+        let userToken = self.readStringStorage(key: "userToken") ?? ""
+        let conversationId = self.readStringStorage(key: "conversationId") ?? ""
+        let longLat = ["latitude": latitude, "longitude": longitude]
+        let locationMessage = ["location": longLat]
+        let sendMessageModel = SocketLocationMessage(channel_id: Exairon.shared.channelId, message: locationMessage, session_id: conversationId, userToken: userToken, user: user)
+        socketService.socketEmit(eventName: "user_uttered", object: sendMessageModel)
+        self.writeMessage(messages: self.messageArray)
     }
 }
