@@ -53,22 +53,24 @@ struct ChatView: View {
             
             if chatViewModel.showInputArea {
                 HStack {
-                    Button {
-                        showingCredits.toggle()
-                    } label: {
-                        Image(systemName: "plus").font(.system(size: 40))
-                    }
-                        .font(.system(size: 26))
-                        .padding(.horizontal, 10)
-                        .sheet(isPresented: $showingCredits) {
-                            if #available(iOS 16.0, *) {
-                                BottomSheetView()
-                                    .presentationDetents([.height(250)])
-                            } else {
-                                BottomSheetView()
-                                    .frame(height: 250)
-                            }
+                    if chatViewModel.widgetSettings?.data.showAttachments == true {
+                        Button {
+                            showingCredits.toggle()
+                        } label: {
+                            Image(systemName: "plus").font(.system(size: 40))
                         }
+                            .font(.system(size: 26))
+                            .padding(.horizontal, 10)
+                            .sheet(isPresented: $showingCredits) {
+                                if #available(iOS 16.0, *) {
+                                    BottomSheetView()
+                                        .presentationDetents([.height(250)])
+                                } else {
+                                    BottomSheetView()
+                                        .frame(height: 250)
+                                }
+                            }
+                    }
                     TextField(chatViewModel.message?.placeholder ?? "Type a message",
                               text: $chatViewModel.messageText)
                         .padding()
@@ -79,7 +81,6 @@ struct ChatView: View {
                                 chatViewModel.sendMessage(message: chatViewModel.messageText)
                             }
                         }
-                    Spacer()
                     Button {
                         if chatViewModel.messageText.count > 0 {
                             chatViewModel.sendMessage(message: chatViewModel.messageText)
