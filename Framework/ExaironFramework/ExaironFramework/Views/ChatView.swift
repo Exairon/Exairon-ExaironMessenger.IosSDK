@@ -63,10 +63,10 @@ struct ChatView: View {
                             .padding(.horizontal, 10)
                             .sheet(isPresented: $showingCredits) {
                                 if #available(iOS 16.0, *) {
-                                    BottomSheetView()
+                                    BottomSheetView(chatViewModel: chatViewModel)
                                         .presentationDetents([.height(250)])
                                 } else {
-                                    BottomSheetView()
+                                    BottomSheetView(chatViewModel: chatViewModel)
                                         .frame(height: 250)
                                 }
                             }

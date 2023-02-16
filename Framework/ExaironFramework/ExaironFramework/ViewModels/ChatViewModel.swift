@@ -316,4 +316,45 @@ class ChatViewModel: ObservableObject {
         socketService.socketEmit(eventName: "user_uttered", object: sendMessageModel)
         self.writeMessage(messages: self.messageArray)
     }
+    
+    func sendFileMessage(filename: String, mimeType: String, fileData: Data) {
+        let conversationId: String = self.readStringStorage(key: "conversationId") ?? ""
+        apiService.uploadFileApiCall(conversationId: conversationId, filename: filename, mimeType: mimeType, fileData: fileData) {result in
+            switch result {
+            case .failure(let error):
+                print(error)
+            case .success(let data):
+                let file = ["document": data.data.url,
+                            "mimeType": data.data.mimeType,
+                            "originalname": data.data.originalname]
+                let user = ["name": User.shared.name ?? "",
+                                  "surname": User.shared.surname ?? "",
+                                  "email": User.shared.email ?? "",
+                                  "phone": User.shared.phone ?? ""]
+                let sendMessageModel = SocketFileMessage(channel_id: Exairon.shared.channelId, message: file, session_id: self.readStringStorage(key: "conversationId") ?? "", userToken: self.readStringStorage(key: "userToken") ?? "", user: user)
+                self.socketService.socketEmit(eventName: "user_uttered", object: sendMessageModel)
+                
+                var attachment: Attachment?
+                var custom: Custom?
+                var messageType = "image"
+                let timeStamp = Int64(NSDate().timeIntervalSince1970 * 1000)
+                
+                if mimeType.contains("image") {
+                    let payload = Payload(src: data.data.url)
+                    attachment = Attachment(payload: payload)
+                } else {
+                    var payload = Payload(src: data.data.url, originalname: data.data.originalname)
+                    var documentAttachment = Attachment(payload: payload)
+                    var customData = CustomData(attachment: documentAttachment)
+                    custom = Custom(data: customData)
+                    messageType = "document"
+                }
+                
+                let newMessage = Message(sender: "user_uttered", type: messageType, timeStamp: timeStamp, attachment: attachment)
+                withAnimation {
+                    self.messageArray.append(newMessage)
+                }
+            }
+        }
+    }
 }

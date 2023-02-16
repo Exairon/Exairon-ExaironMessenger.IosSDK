@@ -19,16 +19,18 @@ enum MenuElement {
 }
 
 struct BottomSheetView: View {
+    let chatViewModel: ChatViewModel
+    
     var body: some View {
         HStack {
             VStack {
-                BottomSheetElementView(element: .camera, icon: "camera")
+                BottomSheetElementView(element: .camera, icon: "camera", chatViewModel: chatViewModel)
                 Divider()
-                BottomSheetElementView(element: .gallery, icon: "photo")
+                BottomSheetElementView(element: .gallery, icon: "photo", chatViewModel: chatViewModel)
                 Divider()
-                BottomSheetElementView(element: .file, icon: "doc")
+                BottomSheetElementView(element: .file, icon: "doc", chatViewModel: chatViewModel)
                 Divider()
-                BottomSheetElementView(element: .location, icon: "location")
+                BottomSheetElementView(element: .location, icon: "location", chatViewModel: chatViewModel)
             }
             /*VStack(alignment:.trailing) {
                 HStack {
@@ -49,9 +51,13 @@ struct BottomSheetView: View {
 }
 
 struct BottomSheetElementView: View {
+    var element: MenuElement
+    var icon: String
+    let chatViewModel: ChatViewModel
+
     //Image
     @State private var showImagePicker: Bool = false
-    @State private var image: Image? = nil
+    @State private var image: UIImage? = nil
     //Gallery
     //@State private var selectedItem: PhotosPickerItem? = nil
     @State var galleryImage: UIImage? = nil
@@ -63,9 +69,6 @@ struct BottomSheetElementView: View {
     @State var showMapSheet = false
     @StateObject private var mapViewModel = MapViewModel()
     
-    var element: MenuElement
-    var icon: String
-    
     var body: some View {
         VStack {
             switch(element) {
@@ -76,8 +79,13 @@ struct BottomSheetElementView: View {
                     IconButtonView(text: "camera", icon: icon)
                 }
                 .sheet(isPresented: $showImagePicker, onDismiss: {
-                    print("---")
-                    print(self.image ?? "nope")
+                    Task {
+                        if let data = image?.jpegData(compressionQuality: 0.1) {
+                            //imageDataProperties(data)
+                            chatViewModel.sendFileMessage(filename: "\(UUID().uuidString).jpeg", mimeType: "image/jpeg", fileData: data)
+                        }
+                    }
+                   
                 }) {
                     PhotoCaptureView(showImagePicker: self.$showImagePicker, image: self.$image)
                 }
