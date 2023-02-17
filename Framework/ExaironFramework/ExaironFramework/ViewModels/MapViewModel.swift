@@ -24,7 +24,6 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
     }
     
     func locationManager( _ _manager:CLLocationManager, didUpdateLocations locations: [CLLocation]){
-        print("enes")
         guard let latestLocation = locations.first else {
             // show an error
             return

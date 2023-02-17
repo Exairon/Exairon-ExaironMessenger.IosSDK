@@ -30,6 +30,8 @@ struct MessageView: View {
                 DocumentMessageView(message: message)
             case "carousel":
                 CarouselMessageView(message: message, widgetSettings: widgetSettings, chatViewModel: chatViewModel)
+            case "location":
+                LocationMessageView(message: message)
             case "survey":
                 SurveyView(message: message, widgetSettings: widgetSettings, chatViewModel: chatViewModel, viewRouter: viewRouter)
             default:

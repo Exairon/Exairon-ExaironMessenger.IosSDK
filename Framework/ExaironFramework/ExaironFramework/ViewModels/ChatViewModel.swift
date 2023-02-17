@@ -362,10 +362,11 @@ class ChatViewModel: ObservableObject {
     }
     
     func sendLocationMessage(latitude: Double, longitude: Double) {
-        /*withAnimation {
-            let newMessage = Message(sender: "user_uttered", type: "location", timeStamp: Int64(NSDate().timeIntervalSince1970 * 1000), loca: message)
+        withAnimation {
+            let location = Location(latitude: latitude, longitude: longitude)
+            let newMessage = Message(sender: "user_uttered", type: "location", timeStamp: Int64(NSDate().timeIntervalSince1970 * 1000), location: location)
             self.messageArray.append(newMessage)
-        }*/
+        }
         let user = getUserMap()
         let userToken = self.readStringStorage(key: "userToken") ?? ""
         let conversationId = self.readStringStorage(key: "conversationId") ?? ""

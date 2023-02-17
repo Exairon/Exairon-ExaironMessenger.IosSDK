@@ -17,10 +17,17 @@ struct Message: Codable, Hashable {
     var sender: String
     let type: String
     var timeStamp: Int64? = nil
+    var location: Location? = nil
     var text: String? = nil
     var attachment: Attachment? = nil
     var custom: Custom? = nil
     var quick_replies: [QuickReply]? = nil
+}
+
+// MARK: - Location
+struct Location: Codable, Hashable {
+    var latitude: Double
+    var longitude: Double
 }
 
 // MARK: - Time
