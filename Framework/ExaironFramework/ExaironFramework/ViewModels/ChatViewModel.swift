@@ -282,7 +282,6 @@ class ChatViewModel: ObservableObject {
         self.listenNewMessages()
         self.listenFinishSession()
         let c_id = self.readStringStorage(key: "conversationId")
-        print(c_id ?? "nope")
         let messageCount = self.messageArray.count
         var lastMessage: Message?
         if messageCount > 0 {
@@ -343,14 +342,14 @@ class ChatViewModel: ObservableObject {
                     let payload = Payload(src: data.data.url)
                     attachment = Attachment(payload: payload)
                 } else {
-                    var payload = Payload(src: data.data.url, originalname: data.data.originalname)
-                    var documentAttachment = Attachment(payload: payload)
-                    var customData = CustomData(attachment: documentAttachment)
+                    let payload = Payload(src: data.data.url, originalname: data.data.originalname)
+                    let documentAttachment = Attachment(payload: payload)
+                    let customData = CustomData(attachment: documentAttachment)
                     custom = Custom(data: customData)
                     messageType = "document"
                 }
                 
-                let newMessage = Message(sender: "user_uttered", type: messageType, timeStamp: timeStamp, attachment: attachment)
+                let newMessage = Message(sender: "user_uttered", type: messageType, timeStamp: timeStamp, attachment: attachment, custom: custom)
                 
                 self.socketService.socketEmit(eventName: "user_uttered", object: sendMessageModel)
 

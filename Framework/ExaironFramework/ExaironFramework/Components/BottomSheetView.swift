@@ -32,19 +32,6 @@ struct BottomSheetView: View {
                 Divider()
                 BottomSheetElementView(element: .location, icon: "location", chatViewModel: chatViewModel)
             }
-            /*VStack(alignment:.trailing) {
-                HStack {
-                    Spacer()
-                    Button {
-                        self.showingCredits.toggle()
-                    } label: {
-                        Image(systemName: "xmark.circle")
-                            .font(.system(size: 30))
-                            .foregroundColor(.gray)
-                    }
-                }
-                Spacer()
-            }*/
         }
         .padding()
     }
@@ -59,12 +46,12 @@ struct BottomSheetElementView: View {
     @State private var showImagePicker: Bool = false
     @State private var image: UIImage? = nil
     //Gallery
-    //@State private var selectedItem: PhotosPickerItem? = nil
     @State var galleryImage: UIImage? = nil
     @State var showGalleryPicker: Bool = false
     @State private var selectedImageData: Data? = nil
     //Document
     @State var showDocumentSheet = false
+    @State var fileUrl: URL? = nil
     //Location
     @State var showMapSheet = false
     @StateObject private var mapViewModel = MapViewModel()
@@ -108,8 +95,20 @@ struct BottomSheetElementView: View {
                 } label: {
                     IconButtonView(text: "file", icon: icon)
                 }
-                .sheet(isPresented: $showDocumentSheet) {
-                    DocumentPicker()
+                .sheet(isPresented: $showDocumentSheet, onDismiss: {
+                    Task {
+                        if fileUrl != nil {
+                            do {
+                                let fileData = try Data(contentsOf: fileUrl ?? URL(fileURLWithPath: ""))
+                                let mimeType = fileUrl?.relativeString.mimeType()
+                                chatViewModel.sendFileMessage(filename: fileUrl?.lastPathComponent ?? "", mimeType: mimeType ?? "", fileData: fileData)
+                            } catch {
+                                print(error)
+                            }
+                        }
+                    }
+                }) {
+                    DocumentPicker(fileUrl: $fileUrl)
                 }
             case .location:
                 Button {

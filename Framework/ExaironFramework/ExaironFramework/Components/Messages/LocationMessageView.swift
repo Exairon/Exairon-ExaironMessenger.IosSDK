@@ -27,6 +27,6 @@ struct LocationMessageView: View {
                     .cornerRadius(10)
                     .foregroundColor(.white)
             }
-        }.padding()
+        }.padding(.horizontal)
     }
 }

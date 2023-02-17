@@ -10,6 +10,8 @@ import UIKit
 import SwiftUI
 
 struct DocumentPicker: UIViewControllerRepresentable {
+    @Binding var fileUrl: URL?
+    
     func makeCoordinator() -> Coordinator {
         return DocumentPicker.Coordinator(parent1: self)
     }
@@ -32,7 +34,7 @@ struct DocumentPicker: UIViewControllerRepresentable {
             parent = parent1
         }
         func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
-            print(urls.first?.deletingPathExtension().lastPathComponent ?? "")
+            parent.fileUrl = urls.first
         }
     }
 }

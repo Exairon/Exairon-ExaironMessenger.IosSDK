@@ -62,9 +62,7 @@ struct AudioMessageView: View {
                         } else {
                             soundManager.audioPlayer?.pause()
                         }
-                        
                 }
-                
             }
             HStack {
                 Text(currentDurationString)

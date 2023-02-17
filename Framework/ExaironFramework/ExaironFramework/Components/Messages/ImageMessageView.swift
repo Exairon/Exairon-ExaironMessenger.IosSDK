@@ -11,7 +11,7 @@ struct ImageMessageView: View {
     @State var message: Message
 
     var body: some View {
-    HStack {
+        HStack {
             if message.sender.contains("user_uttered") {
                 Spacer()
             }
