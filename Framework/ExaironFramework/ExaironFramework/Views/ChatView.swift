@@ -46,7 +46,7 @@ struct ChatView: View {
                 Image("exa_logo")
                     .resizable()
                     .frame(width: 30, height: 30)
-                Text("We Run Exairon")
+                Text("We run on Exairon")
                     .font(.system(size: 15))
             }
             .padding(0)
