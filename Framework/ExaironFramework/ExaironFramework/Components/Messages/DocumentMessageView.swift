@@ -13,6 +13,9 @@ struct DocumentMessageView: View {
     
     var body: some View {
         HStack {
+            if message.sender.contains("user_uttered") {
+                Spacer()
+            }
             Button(action: downloadFile) {
                 HStack {
                     Image(systemName: "doc.fill")
@@ -23,7 +26,9 @@ struct DocumentMessageView: View {
                 .background(.gray)
                 .cornerRadius(10)
             }
-            Spacer()
+            if !message.sender.contains("user_uttered") {
+                Spacer()
+            }
         }
         .padding(.horizontal, 16)
     }
