@@ -53,9 +53,10 @@ struct HeaderView: View {
                 }
                 .confirmationDialog(Localization.init().locale(key: "sessionFinishMessage"),
                     isPresented: $isPresentingConfirm) {
-                    Button(Localization.init().locale(key: "yes"), role: .destructive) {
-                        chatViewModel.finishSession()
-                    }
+                        Button(Localization.init().locale(key: "yes"), role: .destructive) {
+                            chatViewModel.finishSession()
+                        }
+                        Button(Localization.init().locale(key: "cancel"), role: .cancel) { }
                     } message: {
                         Text(Localization.init().locale(key: "sessionFinishMessage"))
                     }

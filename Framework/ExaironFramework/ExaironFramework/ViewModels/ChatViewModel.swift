@@ -17,6 +17,7 @@ class ChatViewModel: ObservableObject {
     @Published var avatarUrl: String? = nil
     @Published var message: WidgetMessage? = nil
     @Published var showInputArea: Bool = true
+    @Published var showingCredits = false
 
     func socketConnection(completion: @escaping (_ success: Bool) -> Void) {
         socketService.connect() { result in
@@ -322,6 +323,7 @@ class ChatViewModel: ObservableObject {
     }
     
     func sendFileMessage(filename: String, mimeType: String, fileData: Data) {
+        showingCredits.toggle()
         let conversationId: String = self.readStringStorage(key: "conversationId") ?? ""
         apiService.uploadFileApiCall(conversationId: conversationId, filename: filename, mimeType: mimeType, fileData: fileData) {result in
             switch result {
@@ -361,6 +363,7 @@ class ChatViewModel: ObservableObject {
     }
     
     func sendLocationMessage(latitude: Double, longitude: Double) {
+        showingCredits.toggle()
         withAnimation {
             let location = Location(latitude: latitude, longitude: longitude)
             let newMessage = Message(sender: "user_uttered", type: "location", timeStamp: Int64(NSDate().timeIntervalSince1970 * 1000), location: location)

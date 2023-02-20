@@ -10,7 +10,6 @@ import SwiftUI
 struct ChatView: View {
     @ObservedObject var chatViewModel: ChatViewModel
     @StateObject var viewRouter: ViewRouter
-    @State private var showingCredits = false
     @Environment(\.presentationMode) var mode: Binding<PresentationMode>
 
     var body: some View {
@@ -35,10 +34,9 @@ struct ChatView: View {
             } else {
                 HeaderView(chatViewModel: chatViewModel, viewRouter: viewRouter)
             }
-            
             ScrollView {
                 ForEach(chatViewModel.messageArray, id: \.self) { message in
-                    MessageView(message: message, widgetSettings: chatViewModel.widgetSettings!, chatViewModel: chatViewModel, viewRouter: viewRouter)
+                    MessageView(message: message, widgetSettings: chatViewModel.widgetSettings!, chatViewModel:     chatViewModel, viewRouter: viewRouter)
                 }.rotationEffect(.degrees(180))
             }.rotationEffect(.degrees(180))
             
@@ -55,13 +53,13 @@ struct ChatView: View {
                 HStack {
                     if chatViewModel.widgetSettings?.data.showAttachments == true {
                         Button {
-                            showingCredits.toggle()
+                            chatViewModel.showingCredits.toggle()
                         } label: {
-                            Image(systemName: "plus").font(.system(size: 40))
+                            Image(systemName: "plus").font(.system(size: 30))
                         }
                             .font(.system(size: 26))
                             .padding(.horizontal, 10)
-                            .sheet(isPresented: $showingCredits) {
+                            .sheet(isPresented: $chatViewModel.showingCredits) {
                                 if #available(iOS 16.0, *) {
                                     BottomSheetView(chatViewModel: chatViewModel)
                                         .presentationDetents([.height(250)])
