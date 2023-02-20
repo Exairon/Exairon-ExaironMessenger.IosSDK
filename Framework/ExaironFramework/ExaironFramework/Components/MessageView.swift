@@ -36,6 +36,7 @@ struct MessageView: View {
                 SurveyView(message: message, widgetSettings: widgetSettings, chatViewModel: chatViewModel, viewRouter: viewRouter)
             default:
                 Text("Unsupported Message")
+                    .font(.custom("OpenSans", size: 18))
             }
             MessageTimeView(message: message)
         }

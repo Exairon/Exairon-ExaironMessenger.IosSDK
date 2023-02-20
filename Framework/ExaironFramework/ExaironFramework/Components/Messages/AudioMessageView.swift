@@ -65,11 +65,11 @@ struct AudioMessageView: View {
                 }
             }
             HStack {
-                Text(currentDurationString)
+                Text(currentDurationString).font(.custom("OpenSans", size: 18))
                 Slider(value: $currentTime, in: 0...Double(Int(duration))) { didChange in
                     soundManager.audioPlayer?.seek(to: CMTime(seconds: currentTime, preferredTimescale: CMTimeScale(NSEC_PER_SEC)))
                 }
-                Text(durationString)
+                Text(durationString).font(.custom("OpenSans", size: 18))
             }
             Spacer()
         }

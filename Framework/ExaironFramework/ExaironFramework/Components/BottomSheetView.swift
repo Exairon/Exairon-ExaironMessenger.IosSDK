@@ -131,7 +131,7 @@ struct BottomSheetElementView: View {
                                     Button {
                                         self.showMapSheet.toggle()
                                     } label: {
-                                        LargeButton(title: AnyView(Text(Localization.init().locale(key: "cancel"))),
+                                        LargeButton(title: AnyView(Text(Localization.init().locale(key: "cancel")).font(.custom("OpenSans", size: 18))),
                                             backgroundColor: Color.white,
                                             foregroundColor: Color.blue) {
                                                 self.showMapSheet.toggle()
@@ -185,7 +185,7 @@ struct IconButtonView: View {
                 .font(.system(size: 26))
                 .foregroundColor(Color(hex: "#2A516F"))
             Text(Localization.init().locale(key: text))
-                .font(.system(size: 24))
+                .font(.custom("OpenSans", size: 24))
                 .foregroundColor(Color(hex: "#2A516F"))
         }
         .frame(

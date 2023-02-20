@@ -17,6 +17,13 @@
 		ACA5D977299BCB6F000FF2BA /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA5D976299BCB6F000FF2BA /* MapViewModel.swift */; };
 		ACA5D97A299C286D000FF2BA /* DocumentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA5D979299C286D000FF2BA /* DocumentViewController.swift */; };
 		ACA5D97C299C28F5000FF2BA /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA5D97B299C28F5000FF2BA /* CameraViewController.swift */; };
+		ACA5D989299E0152000FF2BA /* GalleryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA5D988299E0152000FF2BA /* GalleryViewController.swift */; };
+		ACA5D98B299E1224000FF2BA /* FileUploadResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA5D98A299E1224000FF2BA /* FileUploadResponseModel.swift */; };
+		ACA5D98D299E1C25000FF2BA /* MultiPartRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA5D98C299E1C25000FF2BA /* MultiPartRequest.swift */; };
+		ACA5D98F299E86BF000FF2BA /* LocationMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA5D98E299E86BF000FF2BA /* LocationMessageView.swift */; };
+		ACA5D992299F73E3000FF2BA /* MimeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA5D991299F73E3000FF2BA /* MimeType.swift */; };
+		ACA5D99629A36A20000FF2BA /* OpenSans.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACA5D99429A36A20000FF2BA /* OpenSans.ttf */; };
+		ACA5D99729A36A20000FF2BA /* OpenSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACA5D99529A36A20000FF2BA /* OpenSans-Italic.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -68,6 +75,13 @@
 		ACA5D976299BCB6F000FF2BA /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
 		ACA5D979299C286D000FF2BA /* DocumentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentViewController.swift; sourceTree = "<group>"; };
 		ACA5D97B299C28F5000FF2BA /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
+		ACA5D988299E0152000FF2BA /* GalleryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryViewController.swift; sourceTree = "<group>"; };
+		ACA5D98A299E1224000FF2BA /* FileUploadResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileUploadResponseModel.swift; sourceTree = "<group>"; };
+		ACA5D98C299E1C25000FF2BA /* MultiPartRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiPartRequest.swift; sourceTree = "<group>"; };
+		ACA5D98E299E86BF000FF2BA /* LocationMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationMessageView.swift; sourceTree = "<group>"; };
+		ACA5D991299F73E3000FF2BA /* MimeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MimeType.swift; sourceTree = "<group>"; };
+		ACA5D99429A36A20000FF2BA /* OpenSans.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = OpenSans.ttf; sourceTree = "<group>"; };
+		ACA5D99529A36A20000FF2BA /* OpenSans-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Italic.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,6 +103,8 @@
 		AC2A6CA12993C55800D53410 /* ExaironFramework */ = {
 			isa = PBXGroup;
 			children = (
+				ACA5D99329A369DD000FF2BA /* CustomFonts */,
+				ACA5D990299F73C7000FF2BA /* Helpers */,
 				ACA5D978299C282F000FF2BA /* ViewController */,
 				AC8D45D629952B0800A13BF1 /* Info.plist */,
 				AC2A6CA22993C55800D53410 /* ViewModels */,
@@ -127,6 +143,7 @@
 				AC8B4D4029963DB0006DAB19 /* UserModel.swift */,
 				ACA5D96D299A20AE000FF2BA /* SurveyRequestModel.swift */,
 				ACA5D971299A6788000FF2BA /* MissingMessageModel.swift */,
+				ACA5D98A299E1224000FF2BA /* FileUploadResponseModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -161,6 +178,7 @@
 				AC2A6CBA2993C55900D53410 /* AudioMessageView.swift */,
 				AC2A6CBB2993C55900D53410 /* VimeoVideoMessageView.swift */,
 				AC2A6CBC2993C55900D53410 /* DocumentMessageView.swift */,
+				ACA5D98E299E86BF000FF2BA /* LocationMessageView.swift */,
 			);
 			path = Messages;
 			sourceTree = "<group>";
@@ -208,8 +226,27 @@
 			children = (
 				ACA5D979299C286D000FF2BA /* DocumentViewController.swift */,
 				ACA5D97B299C28F5000FF2BA /* CameraViewController.swift */,
+				ACA5D988299E0152000FF2BA /* GalleryViewController.swift */,
 			);
 			path = ViewController;
+			sourceTree = "<group>";
+		};
+		ACA5D990299F73C7000FF2BA /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				ACA5D98C299E1C25000FF2BA /* MultiPartRequest.swift */,
+				ACA5D991299F73E3000FF2BA /* MimeType.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		ACA5D99329A369DD000FF2BA /* CustomFonts */ = {
+			isa = PBXGroup;
+			children = (
+				ACA5D99529A36A20000FF2BA /* OpenSans-Italic.ttf */,
+				ACA5D99429A36A20000FF2BA /* OpenSans.ttf */,
+			);
+			path = CustomFonts;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -287,6 +324,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ACA5D99629A36A20000FF2BA /* OpenSans.ttf in Resources */,
+				ACA5D99729A36A20000FF2BA /* OpenSans-Italic.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -298,13 +337,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				ACA5D97C299C28F5000FF2BA /* CameraViewController.swift in Sources */,
+				ACA5D98B299E1224000FF2BA /* FileUploadResponseModel.swift in Sources */,
+				ACA5D98D299E1C25000FF2BA /* MultiPartRequest.swift in Sources */,
+				ACA5D98F299E86BF000FF2BA /* LocationMessageView.swift in Sources */,
 				ACA5D972299A6788000FF2BA /* MissingMessageModel.swift in Sources */,
 				ACA5D974299B9D95000FF2BA /* BottomSheetView.swift in Sources */,
 				ACA5D96E299A20AE000FF2BA /* SurveyRequestModel.swift in Sources */,
 				AC8B4D3F29963D12006DAB19 /* SocketMessageModel.swift in Sources */,
+				ACA5D992299F73E3000FF2BA /* MimeType.swift in Sources */,
 				AC8D45DA2996187900A13BF1 /* SessionRequest.swift in Sources */,
 				ACA5D97A299C286D000FF2BA /* DocumentViewController.swift in Sources */,
 				AC8B4D4129963DB0006DAB19 /* UserModel.swift in Sources */,
+				ACA5D989299E0152000FF2BA /* GalleryViewController.swift in Sources */,
 				AC2A6CEE2993E91500D53410 /* SocketService.swift in Sources */,
 				ACA5D977299BCB6F000FF2BA /* MapViewModel.swift in Sources */,
 			);

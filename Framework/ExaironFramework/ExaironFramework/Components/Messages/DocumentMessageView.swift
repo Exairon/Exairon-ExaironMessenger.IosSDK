@@ -20,6 +20,7 @@ struct DocumentMessageView: View {
                 HStack {
                     Image(systemName: "doc.fill")
                     Text(message.custom?.data?.attachment?.payload?.originalname ?? "empty")
+                        .font(.custom("OpenSans", size: 18))
                 }
                 .padding()
                 .foregroundColor(.white)

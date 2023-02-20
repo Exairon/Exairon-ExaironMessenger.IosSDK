@@ -21,7 +21,7 @@ struct VideoMessageView: View {
             case "vimeo":
                 VimeoVideoMessageView(src: message.attachment?.payload?.src ?? "")
             default:
-                Text("Unsupported Video Type")
+                Text("Unsupported Video Type").font(.custom("OpenSans", size: 18))
             }
             Spacer()
         }

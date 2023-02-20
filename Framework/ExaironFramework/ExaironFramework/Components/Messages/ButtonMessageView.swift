@@ -22,6 +22,7 @@ struct ButtonMessageView: View {
             HStack {
                 Text(message.text ?? "")
                     .padding()
+                    .font(.custom("OpenSans", size: 18))
                     .foregroundColor(Color(hex: widgetSettings.data.color.botMessageFontColor))
                     .background(Color(hex: widgetSettings.data.color.botMessageBackColor))
                     .cornerRadius(10)
@@ -31,7 +32,7 @@ struct ButtonMessageView: View {
             WrappingHStack {
                 WrappingHStack(message.quick_replies ?? [], id:\.self) {
                     let quickReply = $0
-                    LargeButton(title: AnyView(Text(quickReply.title ?? "")),
+                    LargeButton(title: AnyView(Text(quickReply.title ?? "").font(.custom("OpenSans", size: 18))),
                         backgroundColor: Color(hex: widgetSettings.data.color.buttonBackColor) ?? Color.black,
                         foregroundColor: Color(hex: widgetSettings.data.color.buttonFontColor) ?? Color.white) {
                             if quickReply.type == "postback" {

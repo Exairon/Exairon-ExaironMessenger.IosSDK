@@ -28,13 +28,13 @@ struct CarouselCardView: View {
                     ProgressView()
             })
             Text(element.title ?? "")
-                .font(.system(size: 26))
+                .font(.custom("OpenSans", size: 26))
                 .bold()
                 .padding()
-            Text(element.subtitle ?? "")
+            Text(element.subtitle ?? "").font(.custom("OpenSans", size: 18))
             VStack {
                 ForEach(element.buttons ?? [], id: \.self) {button in
-                    LargeButton(title:  AnyView(Text(button.title ?? "")),
+                    LargeButton(title:  AnyView(Text(button.title ?? "").font(.custom("OpenSans", size: 18))),
                         backgroundColor: Color(hex: widgetColor.buttonBackColor) ?? Color.black,
                         foregroundColor: Color(hex: widgetColor.buttonFontColor) ?? Color.white)  {
                             if button.type == "postback" {

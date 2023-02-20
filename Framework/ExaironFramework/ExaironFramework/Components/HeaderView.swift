@@ -38,9 +38,10 @@ struct HeaderView: View {
                 Text(chatViewModel.message?.headerTitle ?? "Chat")
                     .bold()
                     .foregroundColor(Color(hex: chatViewModel.widgetSettings?.data.color.headerFontColor ?? "000000"))
-                    .font(.system(size: 26))
+                    .font(.custom("OpenSans", size: 26))
                 Text(chatViewModel.message?.headerMessage ?? "Chat")
                     .foregroundColor(Color(hex: chatViewModel.widgetSettings?.data.color.headerFontColor ?? "000000"))
+                    .font(.custom("OpenSans", size: 18))
             }
             Spacer()
             if viewRouter.currentPage == .chatView {
@@ -59,6 +60,7 @@ struct HeaderView: View {
                         Button(Localization.init().locale(key: "cancel"), role: .cancel) { }
                     } message: {
                         Text(Localization.init().locale(key: "sessionFinishMessage"))
+                            .font(.custom("OpenSans", size: 18))
                     }
             }
         }

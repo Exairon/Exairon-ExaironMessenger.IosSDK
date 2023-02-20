@@ -17,6 +17,7 @@ struct FormFieldView: View {
         VStack {
             HStack {
                 Text(Localization.init().locale(key: title) + (required ? " *" : ""))
+                    .font(.custom("OpenSans", size: 18))
                 Spacer()
             }
             .padding(.top, 10)

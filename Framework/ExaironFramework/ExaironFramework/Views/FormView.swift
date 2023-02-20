@@ -18,7 +18,7 @@ struct FormView: View {
             HeaderView(chatViewModel: chatViewModel, viewRouter: viewRouter)
                 .padding(.bottom, 20)
             Text(Localization.init().locale(key: "formTitle"))
-                .font(.system(size: 10))
+                .font(.custom("OpenSans", size: 10))
             if getFormFields().showNameField {
                 FormFieldView(formViewModel: formViewModel, title: "name", placeholder: "namePlaceholder", required: getFormFields().nameFieldRequired)
             }
@@ -32,9 +32,9 @@ struct FormView: View {
                 FormFieldView(formViewModel: formViewModel, title: "phone", placeholder: "phonePlaceholder", required: getFormFields().phoneFieldRequired)
             }
             Text(Localization.init().locale(key: "formDesc"))
-                .font(.system(size: 10))
+                .font(.custom("OpenSans", size: 10))
                 .padding(10)
-            LargeButton(title: AnyView(Text(Localization.init().locale(key: "startSession"))),
+            LargeButton(title: AnyView(Text(Localization.init().locale(key: "startSession")).font(.custom("OpenSans", size: 18))),
                         backgroundColor: Color(hex: (chatViewModel.widgetSettings?.data.color.headerColor)!) ?? Color.black,
                         foregroundColor: Color(hex: (chatViewModel.widgetSettings?.data.color.headerFontColor)!) ?? Color.white) {
                 let isValid = formViewModel.isValid(formFields: getFormFields())

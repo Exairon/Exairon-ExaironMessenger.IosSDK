@@ -21,7 +21,7 @@ struct SurveyView: View {
         VStack {
             Text(Localization.init().locale(key: "howWasYourExp"))
                 .foregroundColor(.gray)
-                .font(.system(size: 20))
+                .font(.custom("OpenSans", size: 20))
             HStack {
                 Button {
                     value = 1
@@ -101,7 +101,7 @@ struct SurveyView: View {
                     }
             }
             
-            LargeButton(title: AnyView(Text(Localization.init().locale(key: "submit"))),
+            LargeButton(title: AnyView(Text(Localization.init().locale(key: "submit")).font(.custom("OpenSans", size: 18))),
                         disabled: disabled,
                 backgroundColor: Color(hex: widgetSettings.data.color.buttonBackColor) ?? Color.black,
                 foregroundColor: Color(hex: widgetSettings.data.color.buttonFontColor) ?? Color.white)  {

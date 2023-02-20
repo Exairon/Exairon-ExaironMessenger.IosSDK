@@ -19,7 +19,7 @@ struct MessageTimeView: View {
                 .padding(.horizontal, 16)
                 .padding(.bottom, 10)
                 .foregroundColor(Color(hex: "6C6D6F"))
-                .font(.system(size: 12))
+                .font(.custom("OpenSans", size: 12))
             if message.sender.contains("bot_uttered") {
                 Spacer()
             }
