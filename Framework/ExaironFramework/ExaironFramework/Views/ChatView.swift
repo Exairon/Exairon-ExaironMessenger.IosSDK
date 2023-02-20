@@ -76,15 +76,15 @@ struct ChatView: View {
                             }
                     }
                     TextField(chatViewModel.message?.placeholder ?? "Type a message",
-                              text: $chatViewModel.messageText)
-                        .padding()
-                        .background(.gray.opacity(0.1))
-                        .cornerRadius(10)
-                        .onSubmit {
-                            if chatViewModel.messageText.count > 0 {
-                                chatViewModel.sendMessage(message: chatViewModel.messageText)
-                            }
+                              text: $chatViewModel.messageText, onCommit: {
+                        if chatViewModel.messageText.count > 0 {
+                            chatViewModel.sendMessage(message: chatViewModel.messageText)
+                            chatViewModel.messageText = ""
                         }
+                    })
+                        .padding()
+                        .background(Color(hex: "#1E1E1E10"))
+                        .cornerRadius(10)
                     Button {
                         if chatViewModel.messageText.count > 0 {
                             chatViewModel.sendMessage(message: chatViewModel.messageText)

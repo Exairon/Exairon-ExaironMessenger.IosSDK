@@ -24,7 +24,7 @@ struct DocumentMessageView: View {
                 }
                 .padding()
                 .foregroundColor(.white)
-                .background(.gray)
+                .background(Color(hex: "#1E1E1E"))
                 .cornerRadius(10)
             }
             if !message.sender.contains("user_uttered") {

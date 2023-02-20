@@ -41,7 +41,7 @@ fileprivate class Exairon_en {
 fileprivate class Exairon_tr {
     func locale(key: String) -> String {
         switch key {
-        case "howWasYourExp": return "Deneyimin Nasıldı?"
+        case "howWasYourExp": return "Görüşme deneyimin nasıldı?"
         case "surveyHint": return "Lütfen bize görüşlerinizi bildirin..."
         case "submit": return "Gönder"
         case "name": return "Adınız"

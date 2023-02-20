@@ -160,7 +160,7 @@ struct BottomSheetElementView: View {
                                     .font(.system(size: 26))
                                     .padding(.horizontal, 10)
                                 .padding()
-                                .background(.black.opacity(0.75))
+                                .background(Color(hex: "#1E1E1E40"))
                                 .foregroundColor(.white)
                                 .font(.title)
                                 .clipShape(Circle())

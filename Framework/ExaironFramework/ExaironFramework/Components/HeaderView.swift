@@ -24,16 +24,12 @@ struct HeaderView: View {
                         .foregroundColor(.white)
                 }
             }
-            AsyncImage(url: URL(string: chatViewModel.avatarUrl ?? ""),
-                       content: { image in
-                image.resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(maxWidth: 40, maxHeight: 40)
-            },
-                placeholder: {
-                    ProgressView()
-                })
-            .padding(.trailing, 15)
+            AsyncImage(url: URL(string: chatViewModel.avatarUrl ?? "")!,
+                           placeholder: { ProgressView() },
+                           image: { Image(uiImage: $0).resizable() })
+                   .aspectRatio(contentMode: .fit)
+                   .frame(maxWidth: 40, maxHeight: 40)
+                   .padding(.trailing, 15)
             VStack(alignment: .leading) {
                 Text(chatViewModel.message?.headerTitle ?? "Chat")
                     .bold()
@@ -52,16 +48,20 @@ struct HeaderView: View {
                         .font(.system(size: 30))
                         .foregroundColor(Color(hex: chatViewModel.widgetSettings?.data.color.headerFontColor ?? "000000"))
                 }
-                .confirmationDialog(Localization.init().locale(key: "sessionFinishMessage"),
-                    isPresented: $isPresentingConfirm) {
-                        Button(Localization.init().locale(key: "yes"), role: .destructive) {
+                .alert(isPresented: $isPresentingConfirm) {
+                    Alert(
+                        title: Text(Localization.init().locale(key: "sessionFinishMessage"))
+                            .font(.custom("OpenSans", size: 18)),
+                        message: Text(""),
+                        primaryButton: .destructive(Text(Localization.init().locale(key: "yes")), action: {
                             chatViewModel.finishSession()
-                        }
-                        Button(Localization.init().locale(key: "cancel"), role: .cancel) { }
-                    } message: {
-                        Text(Localization.init().locale(key: "sessionFinishMessage"))
-                            .font(.custom("OpenSans", size: 18))
-                    }
+                        }),
+                        secondaryButton: .cancel(Text(Localization.init().locale(key: "cancel")), action: {
+                            //isPresentingConfirm.toggle()
+                        })
+                    )
+                }.padding()
+
             }
         }
             .padding()

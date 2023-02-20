@@ -24,7 +24,7 @@ struct FormFieldView: View {
             TextField(Localization.init().locale(key: placeholder),
                       text: title == "name" ? $formViewModel.customer.name : title == "surname" ? $formViewModel.customer.surname : title == "email" ? $formViewModel.customer.email : $formViewModel.customer.phone)
             .padding()
-            .background(.gray.opacity(0.1))
+            .background(Color(hex: "#1E1E1E20"))
             .border(formViewModel.invalidFormFields.contains(title) ? Color.red : .gray.opacity(0.1))
             .cornerRadius(10)
             .onChange(of: title == "name" ? formViewModel.customer.name : title == "surname" ? formViewModel.customer.surname : title == "email" ? formViewModel.customer.email : formViewModel.customer.phone) {

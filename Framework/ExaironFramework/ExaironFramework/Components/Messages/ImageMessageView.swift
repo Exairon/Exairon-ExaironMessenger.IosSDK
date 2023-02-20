@@ -15,17 +15,13 @@ struct ImageMessageView: View {
             if message.sender.contains("user_uttered") {
                 Spacer()
             }
-            AsyncImage(url: URL(string: message.attachment?.payload?.src ?? ""),
-                       content: { image in
-                image.resizable()
+            AsyncImage(url: URL(string: message.attachment?.payload?.src ?? "")!,
+                           placeholder: { ProgressView() },
+                           image: { Image(uiImage: $0).resizable() })
                     .aspectRatio(contentMode: .fit)
                     .frame(maxWidth: UIScreen.main.bounds.width * 0.6)
                     .cornerRadius(10)
-            },
-                placeholder: {
-                    ProgressView()
-            })
-                .padding(.horizontal, 16)
+                    .padding(.horizontal, 16)
             if message.sender.contains("bot_uttered") {
                 Spacer()
             }

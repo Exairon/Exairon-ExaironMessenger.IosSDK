@@ -14,19 +14,14 @@ struct CarouselCardView: View {
     
     var body: some View {
         VStack {
-            AsyncImage(url: URL(string: element.image_url ?? ""),
-                       content: { image in
-                image.resizable()
+            AsyncImage(url: URL(string: element.image_url ?? "")!,
+                           placeholder: { ProgressView() },
+                           image: { Image(uiImage: $0).resizable() })
                     .aspectRatio(contentMode: .fit)
                     .frame(maxWidth: UIScreen.main.bounds.width * 0.6)
                     .padding(10)
                     .border(Color.black, width: 2)
                     .cornerRadius(5)
-                    
-            },
-                placeholder: {
-                    ProgressView()
-            })
             Text(element.title ?? "")
                 .font(.custom("OpenSans", size: 26))
                 .bold()

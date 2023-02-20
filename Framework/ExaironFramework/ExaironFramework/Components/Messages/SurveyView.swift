@@ -87,17 +87,16 @@ struct SurveyView: View {
                     }
             } else {
                 TextField(Localization.init().locale(key: "surveyHint"),
-                          text: $comment)
+                          text: $comment, onCommit: {
+                    if value != nil {
+                        chatViewModel.sendSurvey(value: value!, comment: comment)
+                    }
+                })
                     .padding(.horizontal, 30)
                     .textFieldStyle(.roundedBorder)
                     .onChange(of: comment) {
                         print($0)
                         changeButtonDisabled()
-                    }
-                    .onSubmit {
-                        if value != nil {
-                            chatViewModel.sendSurvey(value: value!, comment: comment)
-                        }
                     }
             }
             

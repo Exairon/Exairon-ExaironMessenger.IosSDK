@@ -23,7 +23,7 @@ struct LocationMessageView: View {
                 Image(systemName: "location.north.circle")
                     .padding()
                     .font(.system(size: 48))
-                    .background(.blue)
+                    .background(Color(hex: "#0000FF"))
                     .cornerRadius(10)
                     .foregroundColor(.white)
             }

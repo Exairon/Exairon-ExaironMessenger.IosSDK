@@ -11,6 +11,7 @@
 		AC8B4D3F29963D12006DAB19 /* SocketMessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8B4D3E29963D12006DAB19 /* SocketMessageModel.swift */; };
 		AC8B4D4129963DB0006DAB19 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8B4D4029963DB0006DAB19 /* UserModel.swift */; };
 		AC8D45DA2996187900A13BF1 /* SessionRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8D45D92996187900A13BF1 /* SessionRequest.swift */; };
+		AC92EDD229A398C200DB37DB /* AsyncImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC92EDD129A398C200DB37DB /* AsyncImage.swift */; };
 		ACA5D96E299A20AE000FF2BA /* SurveyRequestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA5D96D299A20AE000FF2BA /* SurveyRequestModel.swift */; };
 		ACA5D972299A6788000FF2BA /* MissingMessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA5D971299A6788000FF2BA /* MissingMessageModel.swift */; };
 		ACA5D974299B9D95000FF2BA /* BottomSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA5D973299B9D95000FF2BA /* BottomSheetView.swift */; };
@@ -69,6 +70,7 @@
 		AC8B4D4029963DB0006DAB19 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		AC8D45D629952B0800A13BF1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		AC8D45D92996187900A13BF1 /* SessionRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionRequest.swift; sourceTree = "<group>"; };
+		AC92EDD129A398C200DB37DB /* AsyncImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncImage.swift; sourceTree = "<group>"; };
 		ACA5D96D299A20AE000FF2BA /* SurveyRequestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyRequestModel.swift; sourceTree = "<group>"; };
 		ACA5D971299A6788000FF2BA /* MissingMessageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MissingMessageModel.swift; sourceTree = "<group>"; };
 		ACA5D973299B9D95000FF2BA /* BottomSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetView.swift; sourceTree = "<group>"; };
@@ -236,6 +238,7 @@
 			children = (
 				ACA5D98C299E1C25000FF2BA /* MultiPartRequest.swift */,
 				ACA5D991299F73E3000FF2BA /* MimeType.swift */,
+				AC92EDD129A398C200DB37DB /* AsyncImage.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -348,6 +351,7 @@
 				AC8D45DA2996187900A13BF1 /* SessionRequest.swift in Sources */,
 				ACA5D97A299C286D000FF2BA /* DocumentViewController.swift in Sources */,
 				AC8B4D4129963DB0006DAB19 /* UserModel.swift in Sources */,
+				AC92EDD229A398C200DB37DB /* AsyncImage.swift in Sources */,
 				ACA5D989299E0152000FF2BA /* GalleryViewController.swift in Sources */,
 				AC2A6CEE2993E91500D53410 /* SocketService.swift in Sources */,
 				ACA5D977299BCB6F000FF2BA /* MapViewModel.swift in Sources */,
@@ -408,7 +412,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -465,7 +469,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -493,7 +497,7 @@
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "This app needs your location to show it on the map.";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -526,7 +530,7 @@
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "This app needs your location to show it on the map.";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
