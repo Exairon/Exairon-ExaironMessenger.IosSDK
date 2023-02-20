@@ -142,6 +142,7 @@ class ChatViewModel: ObservableObject {
                             User.shared.surname = Exairon.shared.surname
                             User.shared.email = Exairon.shared.email
                             User.shared.phone = Exairon.shared.phone
+                            User.shared.user_unique_id = Exairon.shared.user_unique_id
                             self.changePage(page: .chatView, viewRouter: viewRouter)
                         } else {
                             if (!data.data.showUserForm || self.checkCustomerValues(formFields: data.data.formFields)) {
@@ -151,6 +152,7 @@ class ChatViewModel: ObservableObject {
                                 User.shared.surname = Exairon.shared.surname
                                 User.shared.email = Exairon.shared.email
                                 User.shared.phone = Exairon.shared.phone
+                                User.shared.user_unique_id = Exairon.shared.user_unique_id
                                 self.writeMessage(messages: [])
                                 self.changePage(page: .chatView, viewRouter: viewRouter)
                             } else {
@@ -313,7 +315,8 @@ class ChatViewModel: ObservableObject {
         return ["name": User.shared.name ?? "",
                 "surname": User.shared.surname ?? "",
                 "email": User.shared.email ?? "",
-                "phone": User.shared.phone ?? ""]
+                "phone": User.shared.phone ?? "",
+                "user_unique_id": User.shared.user_unique_id ?? ""]
     }
     
     

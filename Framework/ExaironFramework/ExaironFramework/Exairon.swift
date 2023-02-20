@@ -16,4 +16,5 @@ public class Exairon {
     public var surname: String? = nil
     public var phone: String? = nil
     public var email: String? = nil
+    public var user_unique_id: String? = nil
 }

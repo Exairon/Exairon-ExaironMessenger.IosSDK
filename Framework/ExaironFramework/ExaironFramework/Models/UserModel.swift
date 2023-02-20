@@ -13,4 +13,5 @@ class User {
     var surname: String? = nil
     var email: String? = nil
     var phone: String? = nil
+    var user_unique_id: String? = nil
 }
