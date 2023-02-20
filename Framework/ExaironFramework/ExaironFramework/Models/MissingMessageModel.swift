@@ -9,5 +9,7 @@ import Foundation
 
 // MARK: - MissingMessage
 struct MissingMessageResponse: Codable {
+    let status: String
+    let results: Int
     let data: [Message]
 }

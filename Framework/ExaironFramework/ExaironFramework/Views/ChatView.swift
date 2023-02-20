@@ -35,9 +35,15 @@ struct ChatView: View {
                 HeaderView(chatViewModel: chatViewModel, viewRouter: viewRouter)
             }
             ScrollView {
-                ForEach(chatViewModel.messageArray, id: \.self) { message in
-                    MessageView(message: message, widgetSettings: chatViewModel.widgetSettings!, chatViewModel:     chatViewModel, viewRouter: viewRouter)
-                }.rotationEffect(.degrees(180))
+                ScrollViewReader { scrollView in
+                    ForEach(chatViewModel.messageArray, id: \.self) { message in
+                        MessageView(message: message, widgetSettings: chatViewModel.widgetSettings!, chatViewModel:     chatViewModel, viewRouter: viewRouter)
+                    }
+                    .onChange(of: chatViewModel.messageArray) { messages in
+                        scrollView.scrollTo(messages[messages.endIndex - 1])
+                    }
+                    .rotationEffect(.degrees(180))
+                }
             }.rotationEffect(.degrees(180))
             
             HStack {
