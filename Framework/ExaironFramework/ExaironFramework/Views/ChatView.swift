@@ -45,15 +45,16 @@ struct ChatView: View {
                     .rotationEffect(.degrees(180))
                 }
             }.rotationEffect(.degrees(180))
-            
-            HStack {
-                Image("exa_logo")
-                    .resizable()
-                    .frame(width: 30, height: 30)
-                Text("We run on Exairon")
-                    .font(.custom("OpenSans", size: 15))
+            if chatViewModel.widgetSettings?.data.whiteLabelWidget == false {
+                HStack {
+                    Image("exa_logo")
+                        .resizable()
+                        .frame(width: 30, height: 30)
+                    Text("We run on Exairon")
+                        .font(.custom("OpenSans", size: 15))
+                }
+                .padding(0)
             }
-            .padding(0)
             
             if chatViewModel.showInputArea {
                 HStack {
