@@ -52,24 +52,32 @@ class ChatViewModel: ObservableObject {
         UserDefaults.standard.set(value, forKey: key)
     }
     
+    func addMessageFromSocket(data: [Any]) {
+        do {
+            let dat = try JSONSerialization.data(withJSONObject:data)
+            let res = try JSONDecoder().decode([Message].self,from:dat)
+            var botMessage = res[0]
+            botMessage.timeStamp = Int64(NSDate().timeIntervalSince1970 * 1000)
+            botMessage.sender = "bot_uttered"
+            withAnimation {
+                self.messageArray.append(botMessage)
+                self.writeMessage(messages: self.messageArray)
+            }
+          }
+          catch {
+                print(error)
+          }
+    }
+    
     func listenNewMessages() {
         let socket = socketService.getSocket()
         socket?.off("bot_uttered")
+        socket?.off("system_uttered")
         socket?.on("bot_uttered") {data, ack in
-            do {
-                let dat = try JSONSerialization.data(withJSONObject:data)
-                let res = try JSONDecoder().decode([Message].self,from:dat)
-                var botMessage = res[0]
-                botMessage.timeStamp = Int64(NSDate().timeIntervalSince1970 * 1000)
-                botMessage.sender = "bot_uttered"
-                withAnimation {
-                    self.messageArray.append(botMessage)
-                    self.writeMessage(messages: self.messageArray)
-                }
-              }
-              catch {
-                    print(error)
-              }
+            self.addMessageFromSocket(data: data)
+        }
+        socket?.on("system_uttered") {data, ack in
+            self.addMessageFromSocket(data: data)
         }
     }
     
