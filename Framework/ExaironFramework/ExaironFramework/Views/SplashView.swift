@@ -13,13 +13,13 @@ struct SplashView: View {
     @State private var scale = 1.0
     @State private var scaleSize = 0.05
     @State private var scaleUp = true
-    let timer = Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()
+    //let timer = Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()
     
     var body: some View {
-        Image("exa_logo")
+        Image("exa_splash")
             .resizable()
-            .frame(width: 150, height: 150)
-            .scaleEffect(scale)
+            //.frame(width: 150, height: 150)
+            /*.scaleEffect(scale)
             .onReceive(timer) { input in
                 scale += scaleSize
                 if Double(round(100 * scale) / 100) == 2.0 {
@@ -27,7 +27,7 @@ struct SplashView: View {
                 } else if Double(round(100 * scale) / 100) == 1.0  {
                     scaleSize = 0.05
                 }
-            }
+            }*/
             .onAppear{
                 chatViewModel.socketConnection { data in
                     chatViewModel.getWidgetSettings(viewRouter: viewRouter){widgetSettings in }
