@@ -37,7 +37,11 @@ struct ChatView: View {
             ScrollView {
                 ScrollViewReader { scrollView in
                     ForEach(chatViewModel.messageArray, id: \.self) { message in
-                        MessageView(message: message, widgetSettings: chatViewModel.widgetSettings!, chatViewModel:     chatViewModel, viewRouter: viewRouter)
+                        if message.ruleMessage == false || message.ruleMessage == nil {
+                            MessageView(message: message, widgetSettings: chatViewModel.widgetSettings!, chatViewModel: chatViewModel, viewRouter: viewRouter)
+                        } else {
+                            EmptyView()
+                        }
                     }
                     .onChange(of: chatViewModel.messageArray) { messages in
                         scrollView.scrollTo(messages[messages.endIndex - 1])

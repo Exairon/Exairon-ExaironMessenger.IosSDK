@@ -22,6 +22,7 @@ struct Message: Codable, Hashable {
     var attachment: Attachment? = nil
     var custom: Custom? = nil
     var quick_replies: [QuickReply]? = nil
+    var ruleMessage: Bool? = false
 }
 
 // MARK: - Location

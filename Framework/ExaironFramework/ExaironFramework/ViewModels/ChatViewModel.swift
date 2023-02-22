@@ -309,6 +309,9 @@ class ChatViewModel: ObservableObject {
                 }
             }
         }
+        if messageArray.count == 0 && widgetSettings?.triggerRules[0].enabled == true {
+            sendMessage(message: widgetSettings?.triggerRules[0].text ?? "", ruleMessage: true)
+        }
     }
     
     func getUserMap() -> Dictionary<String, String> {
@@ -320,10 +323,10 @@ class ChatViewModel: ObservableObject {
     }
     
     
-    func sendMessage(message: String, payload: String? = nil) {
+    func sendMessage(message: String, payload: String? = nil, ruleMessage: Bool? = false) {
         withAnimation {
             self.messageText = ""
-            let newMessage = Message(sender: "user_uttered", type: "text", timeStamp: Int64(NSDate().timeIntervalSince1970 * 1000), text: message)
+            let newMessage = Message(sender: "user_uttered", type: "text", timeStamp: Int64(NSDate().timeIntervalSince1970 * 1000), text: message, ruleMessage: ruleMessage)
             self.messageArray.append(newMessage)
         }
         let user = getUserMap()

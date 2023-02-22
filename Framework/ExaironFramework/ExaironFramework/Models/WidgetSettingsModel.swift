@@ -11,7 +11,7 @@ import Foundation
 struct WidgetSettings: Codable {
     let status: String
     let data: DataClass
-    //let triggerRules: [TriggerRule]
+    let triggerRules: [TriggerRule]
     let geo: Geo
 }
 
@@ -78,15 +78,13 @@ struct Geo: Codable {
 
 // MARK: - TriggerRule
 struct TriggerRule: Codable {
-    let trigger: Trigger
     let enabled: Bool
-    let triggerType, id, name, text: String
-    let payload, description: String
+    let triggerType, text: String
+    let payload: String
 
     enum CodingKeys: String, CodingKey {
-        case trigger, enabled, triggerType
-        case id = "_id"
-        case name, text, payload, description
+        case enabled, triggerType
+        case text, payload
     }
 }
 
