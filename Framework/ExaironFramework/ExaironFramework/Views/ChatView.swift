@@ -44,7 +44,9 @@ struct ChatView: View {
                         }
                     }
                     .onChange(of: chatViewModel.messageArray) { messages in
-                        scrollView.scrollTo(messages[messages.endIndex - 1])
+                        if messages.count > 0 {
+                            scrollView.scrollTo(messages[messages.endIndex - 1])
+                        }
                     }
                     .rotationEffect(.degrees(180))
                 }
