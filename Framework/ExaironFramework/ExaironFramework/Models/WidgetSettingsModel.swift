@@ -11,7 +11,7 @@ import Foundation
 struct WidgetSettings: Codable {
     let status: String
     let data: DataClass
-    let triggerRules: [TriggerRule]
+    //let triggerRules: [TriggerRule]
     let geo: Geo
 }
 
