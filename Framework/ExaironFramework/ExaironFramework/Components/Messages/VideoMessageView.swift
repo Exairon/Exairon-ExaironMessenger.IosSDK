@@ -10,6 +10,7 @@ import AVKit
 
 struct VideoMessageView: View {
     @State var message: Message
+    @State var widgetSettings: WidgetSettings
 
     var body: some View {
         HStack {
@@ -21,7 +22,7 @@ struct VideoMessageView: View {
             case "vimeo":
                 VimeoVideoMessageView(src: message.attachment?.payload?.src ?? "")
             default:
-                Text("Unsupported Video Type").font(.custom("OpenSans", size: 18))
+                Text("Unsupported Video Type").font(.custom(widgetSettings.data.font, size: 18))
             }
             Spacer()
         }

@@ -23,13 +23,13 @@ struct CarouselCardView: View {
                     .border(Color.black, width: 2)
                     .cornerRadius(5)
             Text(element.title ?? "")
-                .font(.custom("OpenSans", size: 26))
+                .font(.custom(chatViewModel.widgetSettings?.data.font ?? "OpenSans", size: 26))
                 .bold()
                 .padding()
-            Text(element.subtitle ?? "").font(.custom("OpenSans", size: 18))
+            Text(element.subtitle ?? "").font(.custom(chatViewModel.widgetSettings?.data.font ?? "OpenSans", size: 18))
             VStack {
                 ForEach(element.buttons ?? [], id: \.self) {button in
-                    LargeButton(title:  AnyView(Text(button.title ?? "").font(.custom("OpenSans", size: 18))),
+                    LargeButton(title:  AnyView(Text(button.title ?? "").font(.custom(chatViewModel.widgetSettings?.data.font ?? "OpenSans", size: 18))),
                         backgroundColor: Color(hex: widgetColor.buttonBackColor) ?? Color.black,
                         foregroundColor: Color(hex: widgetColor.buttonFontColor) ?? Color.white)  {
                             if button.type == "postback" {

@@ -30,7 +30,7 @@ struct TextMessageView: View {
                 Spacer()
                 Text(htmlStringToSwiftString(text: message.text?.replacingOccurrences(of: "&lt;", with: "<") ?? ""))
                     .padding()
-                    .font(.custom("OpenSans", size: 18))
+                    .font(.custom(widgetSettings.data.font, size: 18))
                     .foregroundColor(Color(hex: widgetSettings.data.color.userMessageFontColor))
                     .background(Color(hex: widgetSettings.data.color.userMessageBackColor))
                     .cornerRadius(10)
@@ -40,7 +40,7 @@ struct TextMessageView: View {
             HStack {
                 Text(htmlStringToSwiftString(text: message.text?.replacingOccurrences(of: "&lt;", with: "<") ?? ""))
                     .padding()
-                    .font(.custom("OpenSans", size: 18))
+                    .font(.custom(widgetSettings.data.font, size: 18))
                     .foregroundColor(Color(hex: widgetSettings.data.color.botMessageFontColor))
                     .background(Color(hex: widgetSettings.data.color.botMessageBackColor))
                     .cornerRadius(10)

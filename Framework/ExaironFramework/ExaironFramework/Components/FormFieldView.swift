@@ -9,6 +9,7 @@ import SwiftUI
 
 struct FormFieldView: View {
     @ObservedObject var formViewModel: FormViewModel
+    @State var chatViewModel: ChatViewModel
     @State var title: String
     @State var placeholder: String
     @State var required: Bool
@@ -17,7 +18,7 @@ struct FormFieldView: View {
         VStack {
             HStack {
                 Text(Localization.init().locale(key: title) + (required ? " *" : ""))
-                    .font(.custom("OpenSans", size: 18))
+                    .font(.custom(chatViewModel.widgetSettings?.data.font ?? "OpenSans", size: 18))
                 Spacer()
             }
             .padding(.top, 10)

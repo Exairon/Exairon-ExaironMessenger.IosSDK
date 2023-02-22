@@ -63,7 +63,7 @@ struct BottomSheetElementView: View {
                 Button {
                     self.showImagePicker.toggle()
                 } label: {
-                    IconButtonView(text: "camera", icon: icon)
+                    IconButtonView(chatViewModel: chatViewModel, text: "camera", icon: icon)
                 }
                 .sheet(isPresented: $showImagePicker, onDismiss: {
                     Task {
@@ -78,7 +78,7 @@ struct BottomSheetElementView: View {
                 Button {
                     self.showGalleryPicker.toggle()
                 } label: {
-                    IconButtonView(text: "gallery", icon: icon)
+                    IconButtonView(chatViewModel: chatViewModel, text: "gallery", icon: icon)
                 }
                 .sheet(isPresented: $showGalleryPicker, onDismiss: {
                     Task {
@@ -93,7 +93,7 @@ struct BottomSheetElementView: View {
                 Button {
                     self.showDocumentSheet.toggle()
                 } label: {
-                    IconButtonView(text: "file", icon: icon)
+                    IconButtonView(chatViewModel: chatViewModel, text: "file", icon: icon)
                 }
                 .sheet(isPresented: $showDocumentSheet, onDismiss: {
                     Task {
@@ -114,7 +114,7 @@ struct BottomSheetElementView: View {
                 Button {
                     self.showMapSheet.toggle()
                 } label: {
-                    IconButtonView(text: "location", icon: icon)
+                    IconButtonView(chatViewModel: chatViewModel, text: "location", icon: icon)
                 }
                 .sheet(isPresented: $showMapSheet) {
                     ZStack {
@@ -131,7 +131,7 @@ struct BottomSheetElementView: View {
                                     Button {
                                         self.showMapSheet.toggle()
                                     } label: {
-                                        LargeButton(title: AnyView(Text(Localization.init().locale(key: "cancel")).font(.custom("OpenSans", size: 18))),
+                                        LargeButton(title: AnyView(Text(Localization.init().locale(key: "cancel")).font(.custom(chatViewModel.widgetSettings?.data.font ?? "OpenSans", size: 18))),
                                             backgroundColor: Color.white,
                                             foregroundColor: Color.blue) {
                                                 self.showMapSheet.toggle()
@@ -177,6 +177,7 @@ struct BottomSheetElementView: View {
 }
 
 struct IconButtonView: View {
+    @State var chatViewModel: ChatViewModel
     var text: String
     var icon: String
     var body: some View {
@@ -185,7 +186,7 @@ struct IconButtonView: View {
                 .font(.system(size: 26))
                 .foregroundColor(Color(hex: "#2A516F"))
             Text(Localization.init().locale(key: text))
-                .font(.custom("OpenSans", size: 24))
+                .font(.custom(chatViewModel.widgetSettings?.data.font ?? "OpenSans", size: 24))
                 .foregroundColor(Color(hex: "#2A516F"))
         }
         .frame(

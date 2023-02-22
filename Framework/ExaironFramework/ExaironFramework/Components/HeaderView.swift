@@ -34,10 +34,10 @@ struct HeaderView: View {
                 Text(chatViewModel.message?.headerTitle ?? "Chat")
                     .bold()
                     .foregroundColor(Color(hex: chatViewModel.widgetSettings?.data.color.headerFontColor ?? "000000"))
-                    .font(.custom("OpenSans", size: 26))
+                    .font(.custom(chatViewModel.widgetSettings?.data.font ?? "OpenSans", size: 26))
                 Text(chatViewModel.message?.headerMessage ?? "Chat")
                     .foregroundColor(Color(hex: chatViewModel.widgetSettings?.data.color.headerFontColor ?? "000000"))
-                    .font(.custom("OpenSans", size: 18))
+                    .font(.custom(chatViewModel.widgetSettings?.data.font ?? "OpenSans", size: 18))
             }
             Spacer()
             if viewRouter.currentPage == .chatView {
@@ -51,7 +51,7 @@ struct HeaderView: View {
                 .alert(isPresented: $isPresentingConfirm) {
                     Alert(
                         title: Text(Localization.init().locale(key: "sessionFinishMessage"))
-                            .font(.custom("OpenSans", size: 18)),
+                            .font(.custom(chatViewModel.widgetSettings?.data.font ?? "OpenSans", size: 18)),
                         message: Text(""),
                         primaryButton: .destructive(Text(Localization.init().locale(key: "yes")), action: {
                             chatViewModel.finishSession()

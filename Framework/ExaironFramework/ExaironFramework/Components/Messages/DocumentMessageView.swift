@@ -10,6 +10,7 @@ import Foundation
 
 struct DocumentMessageView: View {
     @State var message: Message
+    @State var widgetSettings: WidgetSettings
     
     var body: some View {
         HStack {
@@ -20,7 +21,7 @@ struct DocumentMessageView: View {
                 HStack {
                     Image(systemName: "doc.fill")
                     Text(message.custom?.data?.attachment?.payload?.originalname ?? "empty")
-                        .font(.custom("OpenSans", size: 18))
+                        .font(.custom(widgetSettings.data.font, size: 18))
                 }
                 .padding()
                 .foregroundColor(.white)

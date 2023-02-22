@@ -9,6 +9,7 @@ import SwiftUI
 
 struct MessageTimeView: View {
     @State var message: Message
+    @State var widgetSettings: WidgetSettings
     
     var body: some View {
         HStack {
@@ -19,7 +20,7 @@ struct MessageTimeView: View {
                 .padding(.horizontal, 16)
                 .padding(.bottom, 10)
                 .foregroundColor(Color(hex: "6C6D6F"))
-                .font(.custom("OpenSans", size: 12))
+                .font(.custom(widgetSettings.data.font, size: 12))
             if message.sender.contains("bot_uttered") {
                 Spacer()
             }

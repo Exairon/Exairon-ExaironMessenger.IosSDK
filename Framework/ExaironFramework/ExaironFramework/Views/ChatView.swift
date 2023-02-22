@@ -23,7 +23,7 @@ struct ChatView: View {
                             Image(systemName: "arrow.backward")
                                 .font(.system(size: 20))
                             Text(Localization.init().locale(key: "back"))
-                                .font(.custom("OpenSans", size: 20))
+                                .font(.custom(chatViewModel.widgetSettings?.data.font ?? "OpenSans", size: 20))
                         }
                     }
                     Spacer()
@@ -51,7 +51,7 @@ struct ChatView: View {
                         .resizable()
                         .frame(width: 30, height: 30)
                     Text("We run on Exairon")
-                        .font(.custom("OpenSans", size: 15))
+                        .font(.custom(chatViewModel.widgetSettings?.data.font ?? "OpenSans", size: 15))
                 }
                 .padding(0)
             }

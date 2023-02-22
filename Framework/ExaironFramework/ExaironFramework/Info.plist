@@ -7,10 +7,5 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
-	<key>UIAppFonts</key>
-	<array>
-		<string>OpenSans.ttf</string>
-		<string>OpenSans-Italic.ttf</string>
-	</array>
 </dict>
 </plist>

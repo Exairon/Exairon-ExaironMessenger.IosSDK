@@ -26,6 +26,7 @@ struct AudioMessageView: View {
     @State var currentTime: Double = 0
     @State var currentDurationString: String = "0:00"
     @State var message: Message
+    @State var chatViewModel: ChatViewModel
     @State var duration: Float = 0.00
     @State var durationString: String = "0:00"
     @State var song1 = false
@@ -65,11 +66,11 @@ struct AudioMessageView: View {
                 }
             }
             HStack {
-                Text(currentDurationString).font(.custom("OpenSans", size: 18))
+                Text(currentDurationString).font(.custom(chatViewModel.widgetSettings?.data.font ?? "OpenSans", size: 18))
                 Slider(value: $currentTime, in: 0...Double(Int(duration))) { didChange in
                     soundManager.audioPlayer?.seek(to: CMTime(seconds: currentTime, preferredTimescale: CMTimeScale(NSEC_PER_SEC)))
                 }
-                Text(durationString).font(.custom("OpenSans", size: 18))
+                Text(durationString).font(.custom(chatViewModel.widgetSettings?.data.font ?? "OpenSans", size: 18))
             }
             Spacer()
         }

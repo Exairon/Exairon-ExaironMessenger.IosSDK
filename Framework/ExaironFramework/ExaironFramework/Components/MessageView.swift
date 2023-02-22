@@ -23,11 +23,11 @@ struct MessageView: View {
             case "button":
                 ButtonMessageView(message: message, widgetSettings: widgetSettings, chatViewModel: chatViewModel)
             case "video":
-                VideoMessageView(message: message)
+                VideoMessageView(message: message, widgetSettings: widgetSettings)
             case "audio":
-                AudioMessageView(message: message)
+                AudioMessageView(message: message, chatViewModel: chatViewModel)
             case "document":
-                DocumentMessageView(message: message)
+                DocumentMessageView(message: message, widgetSettings: widgetSettings)
             case "carousel":
                 CarouselMessageView(message: message, widgetSettings: widgetSettings, chatViewModel: chatViewModel)
             case "location":
@@ -36,9 +36,9 @@ struct MessageView: View {
                 SurveyView(message: message, widgetSettings: widgetSettings, chatViewModel: chatViewModel, viewRouter: viewRouter)
             default:
                 Text("Unsupported Message")
-                    .font(.custom("OpenSans", size: 18))
+                    .font(.custom(widgetSettings.data.font, size: 18))
             }
-            MessageTimeView(message: message)
+            MessageTimeView(message: message, widgetSettings: widgetSettings)
         }
     }    
 }
