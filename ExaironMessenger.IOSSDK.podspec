@@ -1,7 +1,7 @@
 Pod::Spec.new do |spec|
 
   spec.name         = "ExaironMessenger.IOSSDK"
-  spec.version      = "1.0.2"
+  spec.version      = "1.0.3"
   spec.summary      = "This is ExaironMessenger.IOSSDK."
   spec.description  = "This is ExaironMessenger.IOSSDK framework."
 
