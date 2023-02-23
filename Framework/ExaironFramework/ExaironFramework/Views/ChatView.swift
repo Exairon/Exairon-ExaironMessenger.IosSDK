@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ChatView: View {
     @ObservedObject var chatViewModel: ChatViewModel
-    @StateObject var viewRouter: ViewRouter
+    @ObservedObject var viewRouter: ViewRouter
     @Environment(\.presentationMode) var mode: Binding<PresentationMode>
 
     var body: some View {
@@ -35,17 +35,28 @@ struct ChatView: View {
                 HeaderView(chatViewModel: chatViewModel, viewRouter: viewRouter)
             }
             ScrollView {
-                ScrollViewReader { scrollView in
+                if #available(iOS 14.0, *) {
+                    ScrollViewReader { scrollView in
+                        ForEach(chatViewModel.messageArray, id: \.self) { message in
+                            if message.ruleMessage == false || message.ruleMessage == nil {
+                                MessageView(message: message, widgetSettings: chatViewModel.widgetSettings!, chatViewModel: chatViewModel, viewRouter: viewRouter)
+                            } else {
+                                EmptyView()
+                            }
+                        }
+                        .onChange(of: chatViewModel.messageArray) { messages in
+                            if messages.count > 0 {
+                                scrollView.scrollTo(messages[messages.endIndex - 1])
+                            }
+                        }
+                        .rotationEffect(.degrees(180))
+                    }
+                } else {
                     ForEach(chatViewModel.messageArray, id: \.self) { message in
                         if message.ruleMessage == false || message.ruleMessage == nil {
                             MessageView(message: message, widgetSettings: chatViewModel.widgetSettings!, chatViewModel: chatViewModel, viewRouter: viewRouter)
                         } else {
                             EmptyView()
-                        }
-                    }
-                    .onChange(of: chatViewModel.messageArray) { messages in
-                        if messages.count > 0 {
-                            scrollView.scrollTo(messages[messages.endIndex - 1])
                         }
                     }
                     .rotationEffect(.degrees(180))

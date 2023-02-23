@@ -38,7 +38,7 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
     private func checkLocationAuthorization() {
         guard let locationManager = locationManager else {return }
         
-        switch locationManager.authorizationStatus {
+        /*switch locationManager.authorizationStatus {
             
         case .notDetermined:
             locationManager.requestWhenInUseAuthorization()
@@ -50,7 +50,7 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
             region = MKCoordinateRegion(center: locationManager.location!.coordinate, span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05))
         @unknown default:
             break
-        }
+        }*/
     }
     
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {

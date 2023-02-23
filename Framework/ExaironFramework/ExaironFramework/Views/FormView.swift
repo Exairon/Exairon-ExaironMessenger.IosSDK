@@ -9,7 +9,7 @@ import SwiftUI
 
 struct FormView: View {
     @ObservedObject var chatViewModel: ChatViewModel
-    @StateObject var viewRouter: ViewRouter
+    @ObservedObject var viewRouter: ViewRouter
     @ObservedObject var formViewModel =  FormViewModel()
     //@State var formFields: FormFields
     

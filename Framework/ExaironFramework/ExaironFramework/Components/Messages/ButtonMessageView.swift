@@ -13,10 +13,6 @@ struct ButtonMessageView: View {
     @State var widgetSettings: WidgetSettings
     @State var chatViewModel: ChatViewModel
     
-    private let adaptiveColumns = [
-        GridItem(.adaptive(minimum: 170))
-    ]
-    
     var body: some View {
         VStack {
             HStack {

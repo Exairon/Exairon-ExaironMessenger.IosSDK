@@ -9,10 +9,9 @@ import SwiftUI
 
 struct HeaderView: View {
     @ObservedObject var chatViewModel: ChatViewModel
-    @StateObject var viewRouter: ViewRouter
+    @ObservedObject var viewRouter: ViewRouter
     @State private var isPresentingConfirm: Bool = false
     @Environment(\.presentationMode) var mode: Binding<PresentationMode>
-
     var body: some View {
         HStack {
             if #unavailable(iOS 16.0) {
@@ -25,7 +24,7 @@ struct HeaderView: View {
                 }
             }
             AsyncImage(url: URL(string: chatViewModel.avatarUrl ?? "")!,
-                           placeholder: { ProgressView() },
+                           placeholder: { CustomSpinner(frameSize: 90) },
                            image: { Image(uiImage: $0).resizable() })
                    .aspectRatio(contentMode: .fit)
                    .frame(maxWidth: 40, maxHeight: 40)
@@ -64,7 +63,7 @@ struct HeaderView: View {
 
             }
         }
-            .padding()
-            .background(Color(hex: chatViewModel.widgetSettings?.data.color.headerColor ?? "#FFFFFF"))
+        .padding()
+        .background(Color(hex: chatViewModel.widgetSettings?.data.color.headerColor ?? "#FFFFFF"))
     }
 }

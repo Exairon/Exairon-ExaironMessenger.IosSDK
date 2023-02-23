@@ -15,7 +15,7 @@ struct CarouselCardView: View {
     var body: some View {
         VStack {
             AsyncImage(url: URL(string: element.image_url ?? "")!,
-                           placeholder: { ProgressView() },
+                           placeholder: { CustomSpinner(frameSize: 90) },
                            image: { Image(uiImage: $0).resizable() })
                     .aspectRatio(contentMode: .fit)
                     .frame(maxWidth: UIScreen.main.bounds.width * 0.6)

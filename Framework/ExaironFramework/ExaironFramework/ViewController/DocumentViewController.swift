@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import SwiftUI
 
-struct DocumentPicker: UIViewControllerRepresentable {
+/*struct DocumentPicker: UIViewControllerRepresentable {
     @Binding var fileUrl: URL?
     
     func makeCoordinator() -> Coordinator {
@@ -37,4 +37,4 @@ struct DocumentPicker: UIViewControllerRepresentable {
             parent.fileUrl = urls.first
         }
     }
-}
+}*/

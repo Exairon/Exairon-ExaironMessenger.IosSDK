@@ -108,7 +108,7 @@ struct BottomSheetElementView: View {
                         }
                     }
                 }) {
-                    DocumentPicker(fileUrl: $fileUrl)
+                    //DocumentPicker(fileUrl: $fileUrl)
                 }
             case .location:
                 Button {
@@ -139,10 +139,10 @@ struct BottomSheetElementView: View {
                                     }
                                     Spacer()
                                 }.padding()
-                                Map(coordinateRegion: $mapViewModel.region, showsUserLocation: true)
+                                /*Map(coordinateRegion: $mapViewModel.region, showsUserLocation: true)
                                     .onAppear {
                                         mapViewModel.checkIfLocationServicesIsEnabled()
-                                    }
+                                    }*/
                             }
                         }
                         VStack {

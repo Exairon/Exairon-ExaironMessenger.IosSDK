@@ -12,8 +12,9 @@ struct LocalVideoMessageView: View {
     @State var src: String
     
     var body: some View {
-        VideoPlayer(player: AVPlayer(url: URL(string: src)!))
+        /*VideoPlayer(player: AVPlayer(url: URL(string: src)!))
             .frame(width: UIScreen.main.bounds.width * 0.8, height: 200)
-            .cornerRadius(10)
+            .cornerRadius(10)*/
+        Text("video")
     }
 }

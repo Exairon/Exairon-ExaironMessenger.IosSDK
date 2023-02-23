@@ -86,18 +86,25 @@ struct SurveyView: View {
                         }
                     }
             } else {
+                let binding = Binding<String>(get: {
+                    self.comment
+                }, set: {
+                    changeButtonDisabled()
+                    self.comment = $0
+                    // do whatever you want here
+                })
                 TextField(Localization.init().locale(key: "surveyHint"),
-                          text: $comment, onCommit: {
+                          text: binding, onCommit: {
                     if value != nil {
                         chatViewModel.sendSurvey(value: value!, comment: comment)
                     }
                 })
                     .padding(.horizontal, 30)
                     .textFieldStyle(.roundedBorder)
-                    .onChange(of: comment) {
+                    /*.onChange(of: comment) {
                         print($0)
                         changeButtonDisabled()
-                    }
+                    }*/
             }
             
             LargeButton(title: AnyView(Text(Localization.init().locale(key: "submit")).font(.custom(widgetSettings.data.font, size: 18))),

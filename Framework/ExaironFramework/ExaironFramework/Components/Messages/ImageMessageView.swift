@@ -16,7 +16,7 @@ struct ImageMessageView: View {
                 Spacer()
             }
             AsyncImage(url: URL(string: message.attachment?.payload?.src ?? "")!,
-                           placeholder: { ProgressView() },
+                           placeholder: { CustomSpinner(frameSize: 90) },
                            image: { Image(uiImage: $0).resizable() })
                     .aspectRatio(contentMode: .fit)
                     .frame(maxWidth: UIScreen.main.bounds.width * 0.6)

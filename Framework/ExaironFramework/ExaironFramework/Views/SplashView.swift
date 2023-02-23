@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SplashView: View {
     @ObservedObject var chatViewModel: ChatViewModel
-    @StateObject var viewRouter: ViewRouter
+    @ObservedObject var viewRouter: ViewRouter
     @State private var scale = 1.0
     @State private var scaleSize = 0.05
     @State private var scaleUp = true
