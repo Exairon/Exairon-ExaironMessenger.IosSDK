@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import SwiftUI
 
-/*struct DocumentPicker: UIViewControllerRepresentable {
+struct DocumentPicker: UIViewControllerRepresentable {
     @Binding var fileUrl: URL?
     
     func makeCoordinator() -> Coordinator {
@@ -17,7 +17,7 @@ import SwiftUI
     }
     
     func makeUIViewController(context: UIViewControllerRepresentableContext<DocumentPicker>) -> UIDocumentPickerViewController {
-        let picker = UIDocumentPickerViewController(forOpeningContentTypes: [.pdf])
+        let picker = UIDocumentPickerViewController(documentTypes: ["com.microsoft.word.doc","org.openxmlformats.wordprocessingml.document", "com.adobe.pdf"], in: .import)
         picker.allowsMultipleSelection = false
         picker.delegate = context.coordinator
         return picker
@@ -37,4 +37,4 @@ import SwiftUI
             parent.fileUrl = urls.first
         }
     }
-}*/
+}

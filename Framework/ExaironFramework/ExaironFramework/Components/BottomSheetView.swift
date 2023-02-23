@@ -108,7 +108,7 @@ struct BottomSheetElementView: View {
                         }
                     }
                 }) {
-                    //DocumentPicker(fileUrl: $fileUrl)
+                    DocumentPicker(fileUrl: $fileUrl)
                 }
             case .location:
                 Button {
