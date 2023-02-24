@@ -7,13 +7,10 @@
 
 import SwiftUI
 import AVKit
-import BackgroundTasks
 
-@available(iOS 14.0, *)
 public struct MainView: View {
     @StateObject var viewRouter = ViewRouter()
     @ObservedObject var chatViewModel = ChatViewModel()
-    @Environment(\.scenePhase) var phase
     
     public var body: some View {
         ZStack {
@@ -25,13 +22,10 @@ public struct MainView: View {
             case .chatView:
                 ChatView(chatViewModel: chatViewModel, viewRouter: viewRouter)
             }
-        }.onChange(of: phase) { newPhase in
-            print("enes")
-            switch newPhase {
-            case .background: scheduleAppRefresh()
-            default: break
-            }
         }.navigationBarHidden(true)
+        .onAppCameToForeground {
+            scheduleAppRefresh()
+        }
     }
             
     func scheduleAppRefresh() {

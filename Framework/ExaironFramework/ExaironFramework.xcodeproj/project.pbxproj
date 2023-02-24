@@ -26,6 +26,7 @@
 		ACA5D98D299E1C25000FF2BA /* MultiPartRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA5D98C299E1C25000FF2BA /* MultiPartRequest.swift */; };
 		ACA5D98F299E86BF000FF2BA /* LocationMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA5D98E299E86BF000FF2BA /* LocationMessageView.swift */; };
 		ACA5D992299F73E3000FF2BA /* MimeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA5D991299F73E3000FF2BA /* MimeType.swift */; };
+		ACB8F4C429A8B6A6007B02EA /* ViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACB8F4C329A8B6A6007B02EA /* ViewExtension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -85,6 +86,7 @@
 		ACA5D98C299E1C25000FF2BA /* MultiPartRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiPartRequest.swift; sourceTree = "<group>"; };
 		ACA5D98E299E86BF000FF2BA /* LocationMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationMessageView.swift; sourceTree = "<group>"; };
 		ACA5D991299F73E3000FF2BA /* MimeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MimeType.swift; sourceTree = "<group>"; };
+		ACB8F4C329A8B6A6007B02EA /* ViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -241,6 +243,7 @@
 				ACA5D991299F73E3000FF2BA /* MimeType.swift */,
 				AC92EDD129A398C200DB37DB /* AsyncImage.swift */,
 				AC9D525729A7A6AB00D34A48 /* MapView.swift */,
+				ACB8F4C329A8B6A6007B02EA /* ViewExtension.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -344,6 +347,7 @@
 				ACA5D992299F73E3000FF2BA /* MimeType.swift in Sources */,
 				AC8D45DA2996187900A13BF1 /* SessionRequest.swift in Sources */,
 				ACA5D97A299C286D000FF2BA /* DocumentViewController.swift in Sources */,
+				ACB8F4C429A8B6A6007B02EA /* ViewExtension.swift in Sources */,
 				AC8B4D4129963DB0006DAB19 /* UserModel.swift in Sources */,
 				AC92EDD229A398C200DB37DB /* AsyncImage.swift in Sources */,
 				ACA5D989299E0152000FF2BA /* GalleryViewController.swift in Sources */,
