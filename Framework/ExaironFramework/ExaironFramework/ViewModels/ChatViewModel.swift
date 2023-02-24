@@ -309,8 +309,10 @@ class ChatViewModel: ObservableObject {
                 }
             }
         }
-        if messageArray.count == 0 && widgetSettings?.triggerRules[0].enabled == true {
-            sendMessage(message: widgetSettings?.triggerRules[0].text ?? "", ruleMessage: true)
+        if widgetSettings?.triggerRules.count ?? 0 > 0 {
+            if messageArray.count == 0 && widgetSettings?.triggerRules[0].enabled == true {
+                sendMessage(message: widgetSettings?.triggerRules[0].text ?? "", ruleMessage: true)
+            }
         }
     }
     

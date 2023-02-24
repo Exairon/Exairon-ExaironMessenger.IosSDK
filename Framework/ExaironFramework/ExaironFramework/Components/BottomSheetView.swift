@@ -29,12 +29,22 @@ struct BottomSheetView: View {
                 BottomSheetElementView(element: .gallery, icon: "photo", chatViewModel: chatViewModel)
                 Divider()
                 BottomSheetElementView(element: .file, icon: "doc", chatViewModel: chatViewModel)
-                Divider()
-                BottomSheetElementView(element: .location, icon: "location", chatViewModel: chatViewModel)
+                //Divider()
+                //BottomSheetElementView(element: .location, icon: "location", chatViewModel: chatViewModel)
             }
         }
         .padding()
     }
+}
+
+struct Landmark: Equatable {
+    static func ==(lhs: Landmark, rhs: Landmark) -> Bool {
+        lhs.id == rhs.id
+    }
+    
+    let id = UUID().uuidString
+    let name: String
+    let location: CLLocationCoordinate2D
 }
 
 struct BottomSheetElementView: View {
@@ -54,8 +64,13 @@ struct BottomSheetElementView: View {
     @State var fileUrl: URL? = nil
     //Location
     @State var showMapSheet = false
-    @StateObject private var mapViewModel = MapViewModel()
-    
+    //@StateObject private var mapViewModel = MapViewModel()
+    @State var selectedLandmark: Landmark? = nil
+    @State var landmarks: [Landmark] = [
+            Landmark(name: "Sydney Harbour Bridge", location: .init(latitude: -33.852222, longitude: 151.210556)),
+            Landmark(name: "Brooklyn Bridge", location: .init(latitude: 40.706, longitude: -73.997)),
+            Landmark(name: "Golden Gate Bridge", location: .init(latitude: 37.819722, longitude: -122.478611))
+        ]
     var body: some View {
         VStack {
             switch(element) {
@@ -118,53 +133,24 @@ struct BottomSheetElementView: View {
                 }
                 .sheet(isPresented: $showMapSheet) {
                     ZStack {
-                        if #available(iOS 16.0, *) {
-                            Map(coordinateRegion: $mapViewModel.region, showsUserLocation: true)
-                                .ignoresSafeArea()
-                                .presentationDetents([.height(UIScreen.main.bounds.height * 0.7)])
-                                .onAppear {
-                                    mapViewModel.checkIfLocationServicesIsEnabled()
-                                }
-                        } else {
-                            VStack {
-                                HStack {
-                                    Button {
-                                        self.showMapSheet.toggle()
-                                    } label: {
-                                        LargeButton(title: AnyView(Text(Localization.init().locale(key: "cancel")).font(.custom(chatViewModel.widgetSettings?.data.font ?? "OpenSans", size: 18))),
-                                            backgroundColor: Color.white,
-                                            foregroundColor: Color.blue) {
-                                                self.showMapSheet.toggle()
-                                            }
-                                    }
-                                    Spacer()
-                                }.padding()
-                                /*Map(coordinateRegion: $mapViewModel.region, showsUserLocation: true)
-                                    .onAppear {
-                                        mapViewModel.checkIfLocationServicesIsEnabled()
-                                    }*/
-                            }
+                        MapView(landmarks: $landmarks,
+                                selectedLandmark: $selectedLandmark)
+                        .onTapGesture{
+                            print("enes")
                         }
+                            .edgesIgnoringSafeArea(.vertical)
                         VStack {
                             Spacer()
-                            HStack {
-                                Spacer()
-                                Button {
-                                    showMapSheet.toggle()
-                                    let latitude = Double(mapViewModel.region.center.latitude)
-                                    let longitude = Double(mapViewModel.region.center.longitude)
-                                    chatViewModel.sendLocationMessage(latitude: latitude, longitude: longitude)
-                                } label: {
-                                    Image(systemName: "arrow.up.circle.fill").font(.system(size: 40))
-                                }
-                                    .font(.system(size: 26))
-                                    .padding(.horizontal, 10)
-                                .padding()
-                                .background(Color(hex: "#1E1E1E40"))
-                                .foregroundColor(.white)
-                                .font(.title)
-                                .clipShape(Circle())
-                                .padding(.trailing)
+                            Button(action: {
+                                self.selectNextLandmark()
+                            }) {
+                                Text("Next")
+                                    .foregroundColor(.black)
+                                    .padding()
+                                    .background(Color.white)
+                                    .cornerRadius(8)
+                                    .shadow(radius: 3)
+                                    .padding(.bottom)
                             }
                         }
                     }
@@ -173,6 +159,14 @@ struct BottomSheetElementView: View {
             }
         }
         .padding(.vertical, 10)
+    }
+
+    private func selectNextLandmark() {
+        if let selectedLandmark = selectedLandmark, let currentIndex = landmarks.firstIndex(where: { $0 == selectedLandmark }), currentIndex + 1 < landmarks.endIndex {
+            self.selectedLandmark = landmarks[currentIndex + 1]
+        } else {
+            selectedLandmark = landmarks.first
+        }
     }
 }
 
