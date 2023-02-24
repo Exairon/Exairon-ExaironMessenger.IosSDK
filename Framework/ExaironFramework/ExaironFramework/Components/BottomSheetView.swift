@@ -62,6 +62,7 @@ struct BottomSheetElementView: View {
     //Document
     @State var showDocumentSheet = false
     @State var fileUrl: URL? = nil
+    @State private var showingFileAlert = false
     //Location
     @State var showMapSheet = false
     //@StateObject private var mapViewModel = MapViewModel()
@@ -114,9 +115,15 @@ struct BottomSheetElementView: View {
                     Task {
                         if fileUrl != nil {
                             do {
-                                let fileData = try Data(contentsOf: fileUrl ?? URL(fileURLWithPath: ""))
-                                let mimeType = fileUrl?.relativeString.mimeType()
-                                chatViewModel.sendFileMessage(filename: fileUrl?.lastPathComponent ?? "", mimeType: mimeType ?? "", fileData: fileData)
+                                let resources = try fileUrl!.resourceValues(forKeys:[.fileSizeKey])
+                                if resources.fileSize ?? 0 <= 1000000 {
+                                    let fileData = try Data(contentsOf: fileUrl ?? URL(fileURLWithPath: ""))
+                                    let mimeType = fileUrl?.relativeString.mimeType()
+                                    chatViewModel.sendFileMessage(filename: fileUrl?.lastPathComponent ?? "", mimeType: mimeType ?? "", fileData: fileData)
+                                } else {
+                                    showingFileAlert.toggle()
+                                }
+                                
                             } catch {
                                 print(error)
                             }
@@ -124,6 +131,9 @@ struct BottomSheetElementView: View {
                     }
                 }) {
                     DocumentPicker(fileUrl: $fileUrl)
+                }
+                .alert(isPresented: $showingFileAlert) {
+                    Alert(title: Text("File Size Error"), message: Text("Max file size 1MB"), dismissButton: .cancel())
                 }
             case .location:
                 Button {

@@ -33,6 +33,8 @@ fileprivate class Exairon_en {
         case "location": return "Location"
         case "cancel": return "Cancel"
         case "back": return "Back"
+        case "fileSizeErrorTitle": return "File size error!"
+        case "fileSizeErrorDescription": return "You can upload files up to 1MB in size."
         default: return ""
         }
     }
@@ -64,6 +66,8 @@ fileprivate class Exairon_tr {
         case "location": return "Konum"
         case "cancel": return "İptal"
         case "back": return "Geri"
+        case "fileSizeErrorTitle": return "Dosya boyutu hatası!"
+        case "fileSizeErrorDescription": return "En fazla 1MB boyutunda dosya yükleyebilirsiniz."
         default: return ""
         }
     }
