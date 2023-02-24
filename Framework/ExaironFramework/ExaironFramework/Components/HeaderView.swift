@@ -6,12 +6,14 @@
 //
 
 import SwiftUI
+import URLImage
 
 struct HeaderView: View {
     @ObservedObject var chatViewModel: ChatViewModel
     @ObservedObject var viewRouter: ViewRouter
     @State private var isPresentingConfirm: Bool = false
     @Environment(\.presentationMode) var mode: Binding<PresentationMode>
+
     var body: some View {
         HStack {
             if #unavailable(iOS 16.0) {
@@ -23,12 +25,27 @@ struct HeaderView: View {
                         .foregroundColor(.white)
                 }
             }
-            AsyncImage(url: URL(string: chatViewModel.avatarUrl ?? "")!,
-                           placeholder: { CustomSpinner(frameSize: 90) },
-                           image: { Image(uiImage: $0).resizable() })
-                   .aspectRatio(contentMode: .fit)
-                   .frame(maxWidth: 40, maxHeight: 40)
-                   .padding(.trailing, 15)
+            URLImage(url: URL(string: chatViewModel.avatarUrl ?? "")!,
+            empty: {
+                Text("Nothing here")
+             },
+            inProgress: { progress -> CustomSpinner in
+                CustomSpinner(frameSize: 90)
+            },
+            failure: { error, retry in
+                VStack {
+                    Text(error.localizedDescription)
+                    Button("Retry", action: retry)
+                }
+            },
+            content: { image in
+                image
+                    .resizable()
+                    .cornerRadius(5)
+                    .aspectRatio(contentMode: .fit)
+                    .frame(maxWidth: 40, maxHeight: 40)
+                    .padding(.trailing, 15)
+            })
             VStack(alignment: .leading) {
                 Text(chatViewModel.message?.headerTitle ?? "Chat")
                     .bold()

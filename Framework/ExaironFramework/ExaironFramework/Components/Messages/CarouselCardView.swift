@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import URLImage
 
 struct CarouselCardView: View {
     @State var element: Element
@@ -14,14 +15,28 @@ struct CarouselCardView: View {
     
     var body: some View {
         VStack {
-            AsyncImage(url: URL(string: element.image_url ?? "")!,
-                           placeholder: { CustomSpinner(frameSize: 90) },
-                           image: { Image(uiImage: $0).resizable() })
+            URLImage(url: URL(string: element.image_url ?? "")!,
+            empty: {
+                Text("Nothing here")
+             },
+            inProgress: { progress -> CustomSpinner in
+                CustomSpinner(frameSize: 90)
+            },
+            failure: { error, retry in
+                VStack {
+                    Text(error.localizedDescription)
+                    Button("Retry", action: retry)
+                }
+            },
+            content: { image in
+                image
+                    .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(maxWidth: UIScreen.main.bounds.width * 0.6)
                     .padding(10)
                     .border(Color.black, width: 2)
                     .cornerRadius(5)
+            })
             Text(element.title ?? "")
                 .font(.custom(chatViewModel.widgetSettings?.data.font ?? "OpenSans", size: 26))
                 .bold()

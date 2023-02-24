@@ -145,9 +145,6 @@ struct BottomSheetElementView: View {
                     ZStack {
                         MapView(landmarks: $landmarks,
                                 selectedLandmark: $selectedLandmark)
-                        .onTapGesture{
-                            print("enes")
-                        }
                             .edgesIgnoringSafeArea(.vertical)
                         VStack {
                             Spacer()

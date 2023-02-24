@@ -213,6 +213,7 @@
 				AC2A6C9D2993C55800D53410 /* ExaironFramework.xcodeproj */,
 				AC2A6CCD2993C55900D53410 /* Podfile.lock */,
 				AC8B24B3297EA1F80068AB80 /* Products */,
+				ACB8F4D329A8F74E007B02EA /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -246,6 +247,13 @@
 				ACB8F4C329A8B6A6007B02EA /* ViewExtension.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		ACB8F4D329A8F74E007B02EA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

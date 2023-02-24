@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import URLImage
 
 struct ImageMessageView: View {
     @State var message: Message
@@ -15,13 +16,27 @@ struct ImageMessageView: View {
             if message.sender.contains("user_uttered") {
                 Spacer()
             }
-            AsyncImage(url: URL(string: message.attachment?.payload?.src ?? "")!,
-                           placeholder: { CustomSpinner(frameSize: 90) },
-                           image: { Image(uiImage: $0).resizable() })
+            URLImage(url: URL(string: message.attachment?.payload?.src ?? "")!,
+            empty: {
+                Text("Nothing here")
+             },
+            inProgress: { progress -> CustomSpinner in
+                CustomSpinner(frameSize: 90)
+            },
+            failure: { error, retry in
+                VStack {
+                    Text(error.localizedDescription)
+                    Button("Retry", action: retry)
+                }
+            },
+            content: { image in
+                image
+                    .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(maxWidth: UIScreen.main.bounds.width * 0.6)
                     .cornerRadius(10)
                     .padding(.horizontal, 16)
+            })
             if message.sender.contains("bot_uttered") {
                 Spacer()
             }
