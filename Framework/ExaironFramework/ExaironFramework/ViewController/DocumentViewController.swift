@@ -17,7 +17,7 @@ struct DocumentPicker: UIViewControllerRepresentable {
     }
     
     func makeUIViewController(context: UIViewControllerRepresentableContext<DocumentPicker>) -> UIDocumentPickerViewController {
-        let picker = UIDocumentPickerViewController(documentTypes: ["com.microsoft.word.doc","org.openxmlformats.wordprocessingml.document", "com.adobe.pdf"], in: .import)
+        let picker = UIDocumentPickerViewController(documentTypes: ["com.microsoft.word.doc","org.openxmlformats.wordprocessingml.document", "com.adobe.pdf", "com.microsoft.excel.xls", "org.openxmlformats.spreadsheetml.sheet"], in: .import)
         picker.allowsMultipleSelection = false
         picker.delegate = context.coordinator
         return picker
