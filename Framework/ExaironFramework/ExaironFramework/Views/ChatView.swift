@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import URLImage
 
 struct ChatView: View {
     @ObservedObject var chatViewModel: ChatViewModel
@@ -64,9 +65,24 @@ struct ChatView: View {
             }.rotationEffect(.degrees(180))
             if chatViewModel.widgetSettings?.data.whiteLabelWidget == false {
                 HStack {
-                    Image("exa_logo")
-                        .resizable()
-                        .frame(width: 30, height: 30)
+                    URLImage(url: URL(string: "\(Exairon.shared.src)/assets/images/logo-sm.png")!,
+                    empty: {
+                        Text("Nothing here")
+                     },
+                    inProgress: { progress -> CustomSpinner in
+                        CustomSpinner(frameSize: 20)
+                    },
+                    failure: { error, retry in
+                        VStack {
+                            Text(error.localizedDescription)
+                            Button("Retry", action: retry)
+                        }
+                    },
+                    content: { image in
+                        image
+                            .resizable()
+                            .frame(width: 20, height: 20)
+                    })
                     Text("We run on Exairon")
                         .font(.custom(chatViewModel.widgetSettings?.data.font ?? "OpenSans", size: 15))
                 }
