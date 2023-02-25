@@ -374,6 +374,7 @@ class ChatViewModel: ObservableObject {
                 withAnimation {
                     self.messageArray.append(newMessage)
                 }
+                self.writeMessage(messages: self.messageArray)
             }
         }
     }
