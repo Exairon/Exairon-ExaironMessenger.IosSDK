@@ -11,7 +11,6 @@
 		AC8B4D3F29963D12006DAB19 /* SocketMessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8B4D3E29963D12006DAB19 /* SocketMessageModel.swift */; };
 		AC8B4D4129963DB0006DAB19 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8B4D4029963DB0006DAB19 /* UserModel.swift */; };
 		AC8D45DA2996187900A13BF1 /* SessionRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8D45D92996187900A13BF1 /* SessionRequest.swift */; };
-		AC92EDD229A398C200DB37DB /* AsyncImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC92EDD129A398C200DB37DB /* AsyncImage.swift */; };
 		AC9D525229A7838F00D34A48 /* CustomSpinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9D525129A7838F00D34A48 /* CustomSpinner.swift */; };
 		AC9D525429A792C600D34A48 /* VideoPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9D525329A792C600D34A48 /* VideoPlayer.swift */; };
 		AC9D525629A7980500D34A48 /* PlayersControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9D525529A7980500D34A48 /* PlayersControlView.swift */; };
@@ -71,7 +70,6 @@
 		AC8B4D3E29963D12006DAB19 /* SocketMessageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketMessageModel.swift; sourceTree = "<group>"; };
 		AC8B4D4029963DB0006DAB19 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		AC8D45D92996187900A13BF1 /* SessionRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionRequest.swift; sourceTree = "<group>"; };
-		AC92EDD129A398C200DB37DB /* AsyncImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncImage.swift; sourceTree = "<group>"; };
 		AC9D525129A7838F00D34A48 /* CustomSpinner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSpinner.swift; sourceTree = "<group>"; };
 		AC9D525329A792C600D34A48 /* VideoPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayer.swift; sourceTree = "<group>"; };
 		AC9D525529A7980500D34A48 /* PlayersControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayersControlView.swift; sourceTree = "<group>"; };
@@ -242,7 +240,6 @@
 			children = (
 				ACA5D98C299E1C25000FF2BA /* MultiPartRequest.swift */,
 				ACA5D991299F73E3000FF2BA /* MimeType.swift */,
-				AC92EDD129A398C200DB37DB /* AsyncImage.swift */,
 				AC9D525729A7A6AB00D34A48 /* MapView.swift */,
 				ACB8F4C329A8B6A6007B02EA /* ViewExtension.swift */,
 			);
@@ -357,7 +354,6 @@
 				ACA5D97A299C286D000FF2BA /* DocumentViewController.swift in Sources */,
 				ACB8F4C429A8B6A6007B02EA /* ViewExtension.swift in Sources */,
 				AC8B4D4129963DB0006DAB19 /* UserModel.swift in Sources */,
-				AC92EDD229A398C200DB37DB /* AsyncImage.swift in Sources */,
 				ACA5D989299E0152000FF2BA /* GalleryViewController.swift in Sources */,
 				AC9D525829A7A6AB00D34A48 /* MapView.swift in Sources */,
 				AC2A6CEE2993E91500D53410 /* SocketService.swift in Sources */,
