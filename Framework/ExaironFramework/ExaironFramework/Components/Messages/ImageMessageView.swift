@@ -10,6 +10,8 @@ import URLImage
 
 struct ImageMessageView: View {
     @State var message: Message
+    @State var chatViewModel: ChatViewModel
+    @State var viewRouter: ViewRouter
 
     var body: some View {
         HStack {
@@ -36,7 +38,12 @@ struct ImageMessageView: View {
                     .frame(maxWidth: UIScreen.main.bounds.width * 0.6)
                     .cornerRadius(10)
                     .padding(.horizontal, 16)
-            })
+                    .onTapGesture {
+                        chatViewModel.fullScreenImageUrl = message.attachment?.payload?.src ?? ""
+                        chatViewModel.fullScreenImageName = message.attachment?.payload?.originalname ?? ""
+                        viewRouter.currentPage = .imageView
+                    }
+            }).padding(.horizontal, 16)
             if message.sender.contains("bot_uttered") {
                 Spacer()
             }

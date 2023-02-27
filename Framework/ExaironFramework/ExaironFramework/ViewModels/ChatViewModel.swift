@@ -19,6 +19,7 @@ class ChatViewModel: ObservableObject {
     @Published var showInputArea: Bool = true
     @Published var showingCredits = false
     @Published var fullScreenImageUrl: String? = nil
+    @Published var fullScreenImageName: String? = nil
 
     func socketConnection(completion: @escaping (_ success: Bool) -> Void) {
         socketService.connect() { result in
@@ -361,7 +362,7 @@ class ChatViewModel: ObservableObject {
                 let timeStamp = Int64(NSDate().timeIntervalSince1970 * 1000)
                 
                 if mimeType.contains("image") {
-                    let payload = Payload(src: data.data.url)
+                    let payload = Payload(src: data.data.url, originalname: data.data.originalname)
                     attachment = Attachment(payload: payload)
                 } else {
                     let payload = Payload(src: data.data.url, originalname: data.data.originalname)

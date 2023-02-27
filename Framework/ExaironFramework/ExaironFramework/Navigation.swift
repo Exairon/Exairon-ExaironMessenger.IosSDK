@@ -11,4 +11,5 @@ enum Page {
     case splashView
     case formView
     case chatView
+    case imageView
 }

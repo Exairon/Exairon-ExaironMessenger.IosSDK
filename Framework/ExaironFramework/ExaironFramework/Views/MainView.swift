@@ -21,6 +21,8 @@ public struct MainView: View {
                 FormView(chatViewModel: chatViewModel, viewRouter: viewRouter)
             case .chatView:
                 ChatView(chatViewModel: chatViewModel, viewRouter: viewRouter)
+            case .imageView:
+                ImageView(chatViewModel: chatViewModel, viewRouter: viewRouter)
             }
         }.navigationBarHidden(true)
         .onAppCameToForeground {

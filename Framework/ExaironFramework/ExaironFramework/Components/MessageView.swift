@@ -19,7 +19,7 @@ struct MessageView: View {
             case "text":
                 TextMessageView(message: message, widgetSettings: widgetSettings)
             case "image":
-                ImageMessageView(message: message)
+                ImageMessageView(message: message, chatViewModel: chatViewModel, viewRouter: viewRouter)
             case "button":
                 ButtonMessageView(message: message, widgetSettings: widgetSettings, chatViewModel: chatViewModel)
             case "video":
