@@ -50,7 +50,7 @@ struct Landmark: Equatable {
 struct BottomSheetElementView: View {
     var element: MenuElement
     var icon: String
-    let chatViewModel: ChatViewModel
+    @ObservedObject var chatViewModel: ChatViewModel
 
     //Image
     @State private var showImagePicker: Bool = false
@@ -142,26 +142,7 @@ struct BottomSheetElementView: View {
                         chatViewModel.selectedLocationLongitude = nil
                     }
                 }) {
-                    ZStack {
-                        MapView(chatViewModel: chatViewModel)
-                            .edgesIgnoringSafeArea(.vertical)
-                        VStack {
-                            Spacer()
-                            HStack {
-                                Spacer()
-                                Button(action: {
-                                    if chatViewModel.selectedLocationLatitude != nil {
-                                        chatViewModel.sendLocationMessage(latitude: chatViewModel.selectedLocationLatitude ?? 0, longitude: chatViewModel.selectedLocationLongitude ?? 0)
-                                        self.showMapSheet.toggle()
-                                    }
-                                }) {
-                                    Image(systemName: "arrow.up.circle.fill").font(.system(size: 40))
-                                }
-                            }
-                            .padding()
-                        }
-                    }
-                    
+                    MapView(chatViewModel: chatViewModel, showMapSheet: showMapSheet)
                 }
             }
         }

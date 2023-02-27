@@ -1,18 +1,23 @@
 import MapKit
 import SwiftUI
 
-struct MapView: UIViewRepresentable {
+import Foundation
+import CoreLocation
+import Combine
+
+struct CustomMapView: UIViewRepresentable {
 
     typealias UIViewType = MKMapView
     @State private var myMapView: MKMapView?
     let chatViewModel: ChatViewModel
+    @StateObject var locationManager = LocationManager()
 
     class Coordinator: NSObject, MKMapViewDelegate {
-        var control: MapView
+        var control: CustomMapView
 
         let sfCoord = CLLocationCoordinate2D(latitude: 37.7749, longitude: -122.4194)
 
-        init(_ control: MapView) {
+        init(_ control: CustomMapView) {
             self.control = control
         }
 
@@ -21,6 +26,14 @@ struct MapView: UIViewRepresentable {
                 if let annotation = annotationView.annotation {
                     if annotation is MKUserLocation {
                         let region = MKCoordinateRegion(center: annotation.coordinate, latitudinalMeters: 2000, longitudinalMeters: 2000)
+                        control.chatViewModel.selectedLocationLatitude = Double(region.center.latitude)
+                        control.chatViewModel.selectedLocationLongitude = Double(region.center.longitude)
+                        let annotation = MKPointAnnotation()
+                        annotation.coordinate = region.center
+                        annotation.title = "Current Location"
+                        let previousAnnotions = control.myMapView?.annotations ?? []
+                        control.myMapView?.removeAnnotations(previousAnnotions)
+                        control.myMapView?.addAnnotation(annotation)
                         mapView.setRegion(region, animated: true)
                     }
                 }
@@ -68,29 +81,44 @@ struct MapView: UIViewRepresentable {
     }
 }
 
-class LocationManager: NSObject, ObservableObject {
+
+class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
+
     private let locationManager = CLLocationManager()
-    @Published var location: CLLocation? = nil
+    @Published var locationStatus: CLAuthorizationStatus?
+    @Published var lastLocation: CLLocation?
 
     override init() {
         super.init()
-        self.locationManager.delegate = self
-        self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        self.locationManager.distanceFilter = kCLDistanceFilterNone
-        self.locationManager.requestWhenInUseAuthorization()
-        self.locationManager.startUpdatingLocation()
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.startUpdatingLocation()
     }
-}
 
-extension LocationManager: CLLocationManagerDelegate {
+   
     
+    var statusString: String {
+        guard let status = locationStatus else {
+            return "unknown"
+        }
+        
+        switch status {
+        case .notDetermined: return "notDetermined"
+        case .authorizedWhenInUse: return "authorizedWhenInUse"
+        case .authorizedAlways: return "authorizedAlways"
+        case .restricted: return "restricted"
+        case .denied: return "denied"
+        default: return "unknown"
+        }
+    }
+
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        print(status)
+        locationStatus = status
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last else { return }
-    
-        self.location = location
+        lastLocation = location
     }
 }
