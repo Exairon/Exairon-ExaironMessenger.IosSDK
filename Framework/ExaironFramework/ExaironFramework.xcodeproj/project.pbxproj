@@ -11,6 +11,9 @@
 		AC3C8FF129AA0CD1009D3461 /* ImageModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3C8FF029AA0CD1009D3461 /* ImageModifier.swift */; };
 		AC3C8FF529AA0EBD009D3461 /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3C8FF429AA0EBD009D3461 /* ImageView.swift */; };
 		AC3C901529ACCF1A009D3461 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3C901429ACCF1A009D3461 /* MapView.swift */; };
+		AC3C901729ACF578009D3461 /* BannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3C901629ACF578009D3461 /* BannerView.swift */; };
+		AC3C901929ACF6E2009D3461 /* ChatSenderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3C901829ACF6E2009D3461 /* ChatSenderView.swift */; };
+		AC3C901B29ACF7BF009D3461 /* MessageListContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3C901A29ACF7BF009D3461 /* MessageListContainerView.swift */; };
 		AC8B4D3F29963D12006DAB19 /* SocketMessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8B4D3E29963D12006DAB19 /* SocketMessageModel.swift */; };
 		AC8B4D4129963DB0006DAB19 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8B4D4029963DB0006DAB19 /* UserModel.swift */; };
 		AC8D45DA2996187900A13BF1 /* SessionRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8D45D92996187900A13BF1 /* SessionRequest.swift */; };
@@ -72,6 +75,9 @@
 		AC3C8FF029AA0CD1009D3461 /* ImageModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageModifier.swift; sourceTree = "<group>"; };
 		AC3C8FF429AA0EBD009D3461 /* ImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
 		AC3C901429ACCF1A009D3461 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		AC3C901629ACF578009D3461 /* BannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerView.swift; sourceTree = "<group>"; };
+		AC3C901829ACF6E2009D3461 /* ChatSenderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatSenderView.swift; sourceTree = "<group>"; };
+		AC3C901A29ACF7BF009D3461 /* MessageListContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageListContainerView.swift; sourceTree = "<group>"; };
 		AC8B24B2297EA1F80068AB80 /* ExaironFramework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ExaironFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC8B4D3E29963D12006DAB19 /* SocketMessageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketMessageModel.swift; sourceTree = "<group>"; };
 		AC8B4D4029963DB0006DAB19 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
@@ -166,6 +172,9 @@
 				ACA5D973299B9D95000FF2BA /* BottomSheetView.swift */,
 				AC9D525129A7838F00D34A48 /* CustomSpinner.swift */,
 				AC3C901429ACCF1A009D3461 /* MapView.swift */,
+				AC3C901629ACF578009D3461 /* BannerView.swift */,
+				AC3C901829ACF6E2009D3461 /* ChatSenderView.swift */,
+				AC3C901A29ACF7BF009D3461 /* MessageListContainerView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -350,7 +359,9 @@
 				ACA5D97C299C28F5000FF2BA /* CameraViewController.swift in Sources */,
 				ACA5D98B299E1224000FF2BA /* FileUploadResponseModel.swift in Sources */,
 				ACA5D98D299E1C25000FF2BA /* MultiPartRequest.swift in Sources */,
+				AC3C901929ACF6E2009D3461 /* ChatSenderView.swift in Sources */,
 				AC3C901529ACCF1A009D3461 /* MapView.swift in Sources */,
+				AC3C901729ACF578009D3461 /* BannerView.swift in Sources */,
 				AC9D525629A7980500D34A48 /* PlayersControlView.swift in Sources */,
 				ACA5D98F299E86BF000FF2BA /* LocationMessageView.swift in Sources */,
 				ACA5D972299A6788000FF2BA /* MissingMessageModel.swift in Sources */,
@@ -365,6 +376,7 @@
 				ACA5D97A299C286D000FF2BA /* DocumentViewController.swift in Sources */,
 				ACB8F4C429A8B6A6007B02EA /* ViewExtension.swift in Sources */,
 				AC8B4D4129963DB0006DAB19 /* UserModel.swift in Sources */,
+				AC3C901B29ACF7BF009D3461 /* MessageListContainerView.swift in Sources */,
 				AC3C8FF129AA0CD1009D3461 /* ImageModifier.swift in Sources */,
 				ACA5D989299E0152000FF2BA /* GalleryViewController.swift in Sources */,
 				AC9D525829A7A6AB00D34A48 /* CustomMapView.swift in Sources */,
