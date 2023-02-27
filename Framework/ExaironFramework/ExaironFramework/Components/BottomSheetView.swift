@@ -29,8 +29,8 @@ struct BottomSheetView: View {
                 BottomSheetElementView(element: .gallery, icon: "photo", chatViewModel: chatViewModel)
                 Divider()
                 BottomSheetElementView(element: .file, icon: "doc", chatViewModel: chatViewModel)
-                //Divider()
-                //BottomSheetElementView(element: .location, icon: "location", chatViewModel: chatViewModel)
+                Divider()
+                BottomSheetElementView(element: .location, icon: "location", chatViewModel: chatViewModel)
             }
         }
         .padding()
@@ -65,13 +65,7 @@ struct BottomSheetElementView: View {
     @State private var showingFileAlert = false
     //Location
     @State var showMapSheet = false
-    //@StateObject private var mapViewModel = MapViewModel()
-    @State var selectedLandmark: Landmark? = nil
-    @State var landmarks: [Landmark] = [
-            Landmark(name: "Sydney Harbour Bridge", location: .init(latitude: -33.852222, longitude: 151.210556)),
-            Landmark(name: "Brooklyn Bridge", location: .init(latitude: 40.706, longitude: -73.997)),
-            Landmark(name: "Golden Gate Bridge", location: .init(latitude: 37.819722, longitude: -122.478611))
-        ]
+
     var body: some View {
         VStack {
             switch(element) {
@@ -141,24 +135,30 @@ struct BottomSheetElementView: View {
                 } label: {
                     IconButtonView(chatViewModel: chatViewModel, text: "location", icon: icon)
                 }
-                .sheet(isPresented: $showMapSheet) {
+                .sheet(isPresented: $showMapSheet, onDismiss: {
+                    Task {
+                        chatViewModel.showingCredits.toggle()
+                        chatViewModel.selectedLocationLatitude = nil
+                        chatViewModel.selectedLocationLongitude = nil
+                    }
+                }) {
                     ZStack {
-                        MapView(landmarks: $landmarks,
-                                selectedLandmark: $selectedLandmark)
+                        MapView(chatViewModel: chatViewModel)
                             .edgesIgnoringSafeArea(.vertical)
                         VStack {
                             Spacer()
-                            Button(action: {
-                                self.selectNextLandmark()
-                            }) {
-                                Text("Next")
-                                    .foregroundColor(.black)
-                                    .padding()
-                                    .background(Color.white)
-                                    .cornerRadius(8)
-                                    .shadow(radius: 3)
-                                    .padding(.bottom)
+                            HStack {
+                                Spacer()
+                                Button(action: {
+                                    if chatViewModel.selectedLocationLatitude != nil {
+                                        chatViewModel.sendLocationMessage(latitude: chatViewModel.selectedLocationLatitude ?? 0, longitude: chatViewModel.selectedLocationLongitude ?? 0)
+                                        self.showMapSheet.toggle()
+                                    }
+                                }) {
+                                    Image(systemName: "arrow.up.circle.fill").font(.system(size: 40))
+                                }
                             }
+                            .padding()
                         }
                     }
                     
@@ -166,14 +166,6 @@ struct BottomSheetElementView: View {
             }
         }
         .padding(.vertical, 10)
-    }
-
-    private func selectNextLandmark() {
-        if let selectedLandmark = selectedLandmark, let currentIndex = landmarks.firstIndex(where: { $0 == selectedLandmark }), currentIndex + 1 < landmarks.endIndex {
-            self.selectedLandmark = landmarks[currentIndex + 1]
-        } else {
-            selectedLandmark = landmarks.first
-        }
     }
 }
 

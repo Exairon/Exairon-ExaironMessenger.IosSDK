@@ -1,78 +1,96 @@
-//
-//  MapView.swift
-//  ExaironFramework
-//
-//  Created by Exairon on 23.02.2023.
-//
-
-import SwiftUI
 import MapKit
-
-final class LandmarkAnnotation: NSObject, MKAnnotation {
-    let id: String
-    let title: String?
-    let coordinate: CLLocationCoordinate2D
-
-    init(landmark: Landmark) {
-        self.id = landmark.id
-        self.title = landmark.name
-        self.coordinate = landmark.location
-    }
-}
+import SwiftUI
 
 struct MapView: UIViewRepresentable {
-    @Binding var landmarks: [Landmark]
-    @Binding var selectedLandmark: Landmark?
-    
-    func makeUIView(context: Context) -> MKMapView {
-        let map = MKMapView()
-        map.delegate = context.coordinator
-        return map
-    }
-    
-    func updateUIView(_ uiView: MKMapView, context: Context) {
-        updateAnnotations(from: uiView)
-    }
-    
-    func makeCoordinator() -> Coordinator {
-        Coordinator(self)
-    }
-    
-    final class Coordinator: NSObject, MKMapViewDelegate {
+
+    typealias UIViewType = MKMapView
+    @State private var myMapView: MKMapView?
+    let chatViewModel: ChatViewModel
+
+    class Coordinator: NSObject, MKMapViewDelegate {
         var control: MapView
+
+        let sfCoord = CLLocationCoordinate2D(latitude: 37.7749, longitude: -122.4194)
 
         init(_ control: MapView) {
             self.control = control
         }
-        
-        func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-            guard let coordinates = view.annotation?.coordinate else { return }
-            let span = mapView.region.span
-            let region = MKCoordinateRegion(center: coordinates, span: span)
-            mapView.setRegion(region, animated: true)
-        }
-        
-        func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-            guard let annotation = annotation as? LandmarkAnnotation else { return nil }
-            let identifier = "Annotation"
-            var annotationView: MKMarkerAnnotationView? = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? MKMarkerAnnotationView
-            if annotationView == nil {
-                annotationView = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: identifier)
-                annotationView?.canShowCallout = true
-                annotationView?.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
-            } else {
-                annotationView?.annotation = annotation
+
+        func mapView(_ mapView: MKMapView, didAdd views: [MKAnnotationView]) {
+            if let annotationView = views.first {
+                if let annotation = annotationView.annotation {
+                    if annotation is MKUserLocation {
+                        let region = MKCoordinateRegion(center: annotation.coordinate, latitudinalMeters: 2000, longitudinalMeters: 2000)
+                        mapView.setRegion(region, animated: true)
+                    }
+                }
             }
-            return annotationView
+        }//did add
+
+        @objc func addAnnotationOnTapGesture(sender: UITapGestureRecognizer) {
+            if sender.state == .ended {
+                let point = sender.location(in: control.myMapView)
+                let coordinate = control.myMapView?.convert(point, toCoordinateFrom: control.myMapView)
+                let annotation = MKPointAnnotation()
+                //control.selectedLocation = Double(coordinate?.longitude ?? 0)
+                control.chatViewModel.selectedLocationLatitude = Double(coordinate?.latitude ?? 0)
+                control.chatViewModel.selectedLocationLongitude = Double(coordinate?.longitude ?? 0)
+                annotation.coordinate = coordinate ?? sfCoord
+                annotation.title = "Selected Location"
+                let previousAnnotions = control.myMapView?.annotations ?? []
+                control.myMapView?.removeAnnotations(previousAnnotions)
+                control.myMapView?.addAnnotation(annotation)
+            }
         }
     }
+
+    func makeUIView(context: Context) -> MKMapView {
+        let map = MKMapView()
+        map.showsUserLocation = true
+        map.delegate = context.coordinator
     
-    private func updateAnnotations(from mapView: MKMapView) {
-        mapView.removeAnnotations(mapView.annotations)
-        let newAnnotations = landmarks.map { LandmarkAnnotation(landmark: $0) }
-        mapView.addAnnotations(newAnnotations)
-        if let selectedAnnotation = newAnnotations.filter({ $0.id == selectedLandmark?.id }).first {
-            mapView.selectAnnotation(selectedAnnotation, animated: true)
+        DispatchQueue.main.async {
+            self.myMapView = map
         }
+    
+        let gRecognizer = UITapGestureRecognizer(target: context.coordinator, action: #selector(Coordinator.addAnnotationOnTapGesture(sender:)))
+        map.addGestureRecognizer(gRecognizer)
+
+        return map
+    }
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator(self)
+    }
+
+    func updateUIView(_ uiView: MKMapView, context: Context) {
+
+    }
+}
+
+class LocationManager: NSObject, ObservableObject {
+    private let locationManager = CLLocationManager()
+    @Published var location: CLLocation? = nil
+
+    override init() {
+        super.init()
+        self.locationManager.delegate = self
+        self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        self.locationManager.distanceFilter = kCLDistanceFilterNone
+        self.locationManager.requestWhenInUseAuthorization()
+        self.locationManager.startUpdatingLocation()
+    }
+}
+
+extension LocationManager: CLLocationManagerDelegate {
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        print(status)
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let location = locations.last else { return }
+    
+        self.location = location
     }
 }

@@ -20,6 +20,8 @@ class ChatViewModel: ObservableObject {
     @Published var showingCredits = false
     @Published var fullScreenImageUrl: String? = nil
     @Published var fullScreenImageName: String? = nil
+    @Published var selectedLocationLongitude: Double? = nil
+    @Published var selectedLocationLatitude: Double? = nil
 
     func socketConnection(completion: @escaping (_ success: Bool) -> Void) {
         socketService.connect() { result in
