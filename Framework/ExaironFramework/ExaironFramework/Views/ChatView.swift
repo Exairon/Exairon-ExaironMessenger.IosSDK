@@ -110,12 +110,7 @@ struct ChatView: View {
                             }
                     }
                     TextField(chatViewModel.message?.placeholder ?? "Type a message",
-                              text: $chatViewModel.messageText, onCommit: {
-                        if chatViewModel.messageText.count > 0 {
-                            chatViewModel.sendMessage(message: chatViewModel.messageText)
-                            chatViewModel.messageText = ""
-                        }
-                    })
+                              text: $chatViewModel.messageText)
                         .padding()
                         .background(Color(hex: "#1E1E1E10"))
                         .cornerRadius(10)

@@ -18,6 +18,7 @@ class ChatViewModel: ObservableObject {
     @Published var message: WidgetMessage? = nil
     @Published var showInputArea: Bool = true
     @Published var showingCredits = false
+    @Published var fullScreenImageUrl: String? = nil
 
     func socketConnection(completion: @escaping (_ success: Bool) -> Void) {
         socketService.connect() { result in
@@ -35,6 +36,9 @@ class ChatViewModel: ObservableObject {
         socket?.once("session_confirm") {data, ack in
             guard let socketResponse = data[0] as? String else {
                 return
+            }
+            if socketResponse != conversationId {
+                self.writeMessage(messages: [])
             }
             completion(socketResponse)
         }
