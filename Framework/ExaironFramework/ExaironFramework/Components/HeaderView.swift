@@ -45,6 +45,7 @@ struct HeaderView: View {
                     .aspectRatio(contentMode: .fit)
                     .frame(maxWidth: 40, maxHeight: 40)
                     .padding(.trailing, 15)
+                    .padding(.leading, 10)
             })
             VStack(alignment: .leading) {
                 Text(chatViewModel.message?.headerTitle ?? "Chat")
@@ -80,7 +81,7 @@ struct HeaderView: View {
 
             }
         }
-        .padding()
+        .padding(5)
         .background(Color(hex: chatViewModel.widgetSettings?.data.color.headerColor ?? "#FFFFFF"))
     }
 }
